@@ -5,4 +5,6 @@ class User < ApplicationRecord
                         :state, :zip
   validates_uniqueness_of :email
   validates_numericality_of :role
+
+  has_many :items
 end
