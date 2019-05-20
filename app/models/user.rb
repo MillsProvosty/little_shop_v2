@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates_numericality_of :role
 
   has_many :items
+  has_many :orders
 end

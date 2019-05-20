@@ -3,4 +3,5 @@ class Item < ApplicationRecord
   validates_numericality_of :price, :inventory
 
   belongs_to :user
+  
 end
