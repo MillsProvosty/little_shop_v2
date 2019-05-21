@@ -21,7 +21,6 @@ RSpec.describe "As a visitor on the index page" do
         fill_in "State", with: "Arizona"
         fill_in "Zip", with: "84029"
         fill_in "Password", with: "pass123"
-# save_and_open_page
         fill_in "Password confirmation", with: "pass123"
         click_on "Create User"
 
