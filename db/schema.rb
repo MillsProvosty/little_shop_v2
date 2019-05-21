@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 2019_05_20_233230) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
-    t.integer "role"
-    t.boolean "active"
+    t.integer "role", default: 0
+    t.boolean "active", default: true
     t.string "name"
     t.string "address"
     t.string "city"
