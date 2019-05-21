@@ -5,8 +5,11 @@ class UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
-    user.save
-    redirect_to user_profile_path(user)
+      if user.save
+        session[:user_id] = user.id
+        flash[:welcome] = "Congratulations #{user.name}! You are now registered and logged in."
+        redirect_to user_profile_path(user)
+      end 
   end
 
   def index;end

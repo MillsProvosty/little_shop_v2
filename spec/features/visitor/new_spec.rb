@@ -28,7 +28,7 @@ RSpec.describe "As a visitor on the index page" do
         new_user = User.last
 
         expect(current_path).to eq(user_profile_path(new_user))
-        expect(page).to have_content("Welcome #{new_user.name}!")
+        expect(page).to have_content("Congratulations #{new_user.name}! You are now registered and logged in.")
       end
 
     end
