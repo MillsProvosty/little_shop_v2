@@ -8,4 +8,11 @@ Rails.application.routes.draw do
 
   get '/user/profile/:id', to: 'users#show', as: :user_profile
 
+  get '/login', to: "sessions#new", as: :login
+  post '/login', to: "sessions#create"
+  # user_paths
+  get '/profile/:id', to: "users#show", as: :user_profile
+
+  # merchant_paths
+  resources :merchants, only: [:show], as: :merchant_dashboard
 end
