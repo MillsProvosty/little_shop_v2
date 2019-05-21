@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
 
+  get '/login', to: "sessions#new", as: :login
+  post '/login', to: "sessions#create"
+
+  get '/profile/:id', to: "users#show", as: :user_profile
 end
