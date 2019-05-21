@@ -16,4 +16,13 @@ RSpec.describe Item, type: :model do
     it {should have_many(:orders).through(:order_items)}
   end
 
+  describe "class methods" do
+
+    Item.active_items.each do |item|
+      create_list(:item, 5)
+      create_list(:inactive_item, 5)
+
+      assert item.active
+    end
+  end
 end
