@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   validates_inclusion_of :active, in: [true, false]
   validates_uniqueness_of :email
-  
+
 #  validates_numericality_of :role
   enum role: %w[user admin merchant]
   has_many :items

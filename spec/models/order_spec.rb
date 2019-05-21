@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   describe "validations" do
-    #it {should validate_numericality_of :status}
+    #it {should validate_presence_of :status}
   end
 
   describe "relationships" do
@@ -13,9 +13,7 @@ RSpec.describe Order, type: :model do
 
   describe "status" do
     it "can be ceated with a pending status" do
-      
       order = create(:order)
-      binding.pry
     end
   end
 end
