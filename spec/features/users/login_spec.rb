@@ -25,5 +25,16 @@ RSpec.describe "User log in" do
 
       expect(current_path).to eq(merchant_dashboard_path(user))
     end
+
+    it "as a admin user" do
+      user = create(:user, role: "admin")
+      visit login_path
+
+      fill_in "email",  with: user.email
+      fill_in "password", with: user.password
+      click_on "Log In"
+
+      expect(current_path).to eq(items_path)
+    end
   end
 end

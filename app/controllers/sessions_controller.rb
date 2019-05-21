@@ -13,6 +13,9 @@ class SessionsController < ApplicationController
     elsif user.authenticate(params[:password]) && user.role == "merchant"
       session[:user_id] = user.id
       redirect_to merchant_dashboard_path(user)
+    elsif user.authenticate(params[:password]) && user.role == "admin"
+      session[:user_id] = user.id
+      redirect_to items_path
     else
       render :new
     end
