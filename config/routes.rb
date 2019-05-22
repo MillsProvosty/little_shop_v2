@@ -15,6 +15,6 @@ Rails.application.routes.draw do
 
   # admin_paths
   namespace :admin do
-    get '/dashboard', to: 'users#show'
+    get '/dashboard', to: 'admin#show'
   end
 end
