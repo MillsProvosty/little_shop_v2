@@ -22,7 +22,6 @@ class SessionsController < ApplicationController
     else
       session[:user_id] = user.id
       flash[:login] = "Welcome back #{user.name}, you are logged in."
-
       if current_user?
         redirect_to user_profile_path(user)
       elsif current_merchant?
@@ -31,5 +30,11 @@ class SessionsController < ApplicationController
         redirect_to items_path
       end
     end
+  end
+
+  def destroy
+    session.clear
+    flash[:message] = "You are now logged out."
+    redirect_to root_path
   end
 end
