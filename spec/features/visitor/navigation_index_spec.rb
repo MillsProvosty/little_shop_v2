@@ -69,5 +69,35 @@ RSpec.describe 'As a visitor', type: :feature do
         expect(page).to_not have_link("Logout")
       end
     end
+
+    describe 'as an merchant user' do
+      it 'shows same links as visitor, plus a merchant dashboard, minus shopping cart' do
+        merchant = create(:merchant)
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+        visit root_path
+
+        expect(page).to have_link("My Profile")
+        expect(page).to have_link("Logout")
+        expect(page).to_not have_link("Register as User")
+        expect(page).to_not have_link("User Log In")
+        expect(page).to have_link("Dashboard")
+      end
+    end
+
+    describe 'as an admin user' do
+      it 'shows same links as visitor, plus a admin dashboard, minus shopping cart' do
+        admin = create(:admin)
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+
+        visit root_path
+
+        expect(page).to have_link("My Profile")
+        expect(page).to have_link("Logout")
+        expect(page).to_not have_link("Register as User")
+        expect(page).to_not have_link("User Log In")
+        expect(page).to have_link("Admin Dashboard")
+      end
+    end
   end
 end
