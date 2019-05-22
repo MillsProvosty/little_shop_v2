@@ -10,4 +10,12 @@ class Item < ApplicationRecord
   def self.active_items
     Item.where(active: true)
   end
+
+  def self.top_five
+    joins(:order_items).order(quantity: :desc).limit(5)
+  end
+
+  def quantity_bought
+    order_items.sum(:quantity)
+  end
 end
