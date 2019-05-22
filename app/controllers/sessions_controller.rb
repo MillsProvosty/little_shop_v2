@@ -1,13 +1,13 @@
 class SessionsController < ApplicationController
 
   def new
-    if current_user && current_user.role == "user"
+    if current_user?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
       redirect_to user_profile_path(current_user)
-    elsif current_user && current_user.role == "merchant"
+    elsif current_merchant?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
       redirect_to merchant_dashboard_path(current_user)
-    elsif current_user && current_user.role == "admin"
+    elsif current_admin?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
       redirect_to items_path
     end
