@@ -12,4 +12,9 @@ Rails.application.routes.draw do
 
   # merchant_paths
   resources :merchants, only: [:show], as: :merchant_dashboard
+
+  # admin_paths
+  namespace :admin do
+    get '/dashboard', to: 'admin#show'
+  end
 end

@@ -19,11 +19,14 @@
     <%= link_to "Items for Sale", items_path %>
     <%= link_to "Merchants", merchants_path %>
 
-    <% if current_user.role == "merchant" %>
+    <% if current_merchant? %>
       <%= link_to "Dashboard", merchant_dashboard_path(current_user)%>
     <%end%>
 
-    <% unless current_user.role == "merchant" %>
+    <% if current_admin? %>
+      <%= link_to "Admin Dashboard", admin_dashboard_path(current_user)%>
+      <% end %>
+    <% unless current_merchant? or current_admin? %>
       <%= link_to "My Cart" %>
     <% end%>
 
