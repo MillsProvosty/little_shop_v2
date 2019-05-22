@@ -5,9 +5,6 @@ Rails.application.routes.draw do
   resources :merchants, only: [:index]
   resources :users, only: [:new, :index, :create]
 
-
-  get '/user/profile/:id', to: 'users#show', as: :user_profile
-
   get '/login', to: "sessions#new", as: :login
   post '/login', to: "sessions#create"
   # user_paths
