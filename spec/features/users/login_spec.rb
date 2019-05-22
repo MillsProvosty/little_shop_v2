@@ -13,6 +13,7 @@ RSpec.describe "User log in" do
       click_on "Log In"
 
       expect(current_path).to eq(user_profile_path(user))
+      expect(page).to have_content("Welcome back #{user.name}, you are logged in.")
     end
 
     it "as a merchant user" do
@@ -24,6 +25,7 @@ RSpec.describe "User log in" do
       click_on "Log In"
 
       expect(current_path).to eq(merchant_dashboard_path(user))
+      expect(page).to have_content("Welcome back #{user.name}, you are logged in.")
     end
 
     it "as a admin user" do
@@ -35,6 +37,45 @@ RSpec.describe "User log in" do
       click_on "Log In"
 
       expect(current_path).to eq(items_path)
+      expect(page).to have_content("Welcome back #{user.name}, you are logged in.")
+    end
+  end
+  describe "As a registered user, when I visit the login path" do
+    it "As a regular user, I am redirected to my profile page" do
+      user = create(:user, role: "user")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit root_path
+
+      click_on "User Log In"
+
+      expect(current_path).to eq(user_profile_path(user))
+      expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
+    end
+    it "As a merchant, I am redirected to my dashboard" do
+      user = create(:user, role: "merchant")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit root_path
+
+      click_on "User Log In"
+
+      expect(current_path).to eq(merchant_dashboard_path(user))
+      expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
+    end
+    it "As an admin, I am redirected to the home page" do
+      user = create(:user, role: "admin")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit root_path
+
+      click_on "User Log In"
+
+      expect(current_path).to eq(items_path)
+      expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
     end
   end
 end
