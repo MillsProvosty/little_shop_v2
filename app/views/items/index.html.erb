@@ -1,3 +1,10 @@
+<div class="item-stats">
+  <% @top_five.each do |item| %>
+  <p><%= item.name %>, bought <%= item.quantity_bought %></p>
+  <% end %>
+</div>
+
+
 <% @items.each do |item| %>
   <div id="item-<%=item.id%>">
     <%= link_to item.name, item_path(item) %>
@@ -9,4 +16,3 @@
     <p>Price: <%=item.price.to_f%></p>
   </div>
 <% end %>
-
