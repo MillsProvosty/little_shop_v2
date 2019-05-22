@@ -19,21 +19,17 @@ class SessionsController < ApplicationController
     if !user || !user.authenticate(params[:password])
       flash[:message] = "Your credentials were incorrect."
       redirect_to login_path
-    elsif user.authenticate(params[:password]) && user.role == "user"
-      session[:user_id] = user.id
-      flash[:login] = "Welcome back #{user.name}, you are logged in."
-      redirect_to user_profile_path(user)
-    elsif user.authenticate(params[:password]) && user.role == "merchant"
-      session[:user_id] = user.id
-      flash[:login] = "Welcome back #{user.name}, you are logged in."
-      redirect_to merchant_dashboard_path(user)
-    elsif user.authenticate(params[:password]) && user.role == "admin"
-      session[:user_id] = user.id
-      flash[:login] = "Welcome back #{user.name}, you are logged in."
-      redirect_to items_path
     else
-      render :new
+      session[:user_id] = user.id
+      flash[:login] = "Welcome back #{user.name}, you are logged in."
+
+      if current_user?
+        redirect_to user_profile_path(user)
+      elsif current_merchant?
+        redirect_to merchant_dashboard_path(user)
+      elsif current_admin?
+        redirect_to items_path
+      end
     end
   end
-
 end
