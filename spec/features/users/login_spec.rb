@@ -40,6 +40,7 @@ RSpec.describe "User log in" do
       expect(page).to have_content("Welcome back #{user.name}, you are logged in.")
     end
   end
+
   describe "As a registered user, when I visit the login path" do
     it "As a regular user, I am redirected to my profile page" do
       user = create(:user, role: "user")
@@ -51,6 +52,7 @@ RSpec.describe "User log in" do
       expect(current_path).to eq(user_profile_path(user))
       expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
     end
+
     it "As a merchant, I am redirected to my dashboard" do
       user = create(:user, role: "merchant")
 
@@ -61,6 +63,7 @@ RSpec.describe "User log in" do
       expect(current_path).to eq(merchant_dashboard_path(user))
       expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
     end
+
     it "As an admin, I am redirected to the home page" do
       user = create(:user, role: "admin")
 
@@ -85,6 +88,7 @@ RSpec.describe "User log in" do
       fill_in "password", with: @user.password
 
       click_on "Log In"
+
 
       expect(current_path).to eq(login_path)
       expect(page).to have_content("Your credentials were incorrect.")
