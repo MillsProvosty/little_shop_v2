@@ -9,7 +9,10 @@ class UsersController < ApplicationController
         session[:user_id] = user.id
         flash[:welcome] = "Congratulations #{user.name}! You are now registered and logged in."
         redirect_to user_profile_path(user)
-      end 
+      else
+        flash[:message] = "Unable to register user. Missing required fields"
+        redirect_to new_user_path
+      end
   end
 
   def index;end
