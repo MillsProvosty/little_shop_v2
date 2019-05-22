@@ -15,7 +15,11 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password]) && user.role == "user"
+
+    if !user || !user.authenticate(params[:password])
+      flash[:message] = "Your credentials were incorrect."
+      redirect_to login_path
+    elsif user.authenticate(params[:password]) && user.role == "user"
       session[:user_id] = user.id
       flash[:login] = "Welcome back #{user.name}, you are logged in."
       redirect_to user_profile_path(user)
