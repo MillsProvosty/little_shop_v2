@@ -15,13 +15,26 @@ class UsersController < ApplicationController
       end
   end
 
-
   def show
-    @user = User.find(params[:id])
+
+  end
+
+  def edit
+
+  end
+
+  def update
+    @user = User.find(current_user.id)
+    @user.update!(user_update_params)
+    redirect_to user_profile_path(@user)
   end
 
   private
     def user_params
       params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password)
+    end
+
+    def user_update_params
+      params.require(:user).permit(:name, :email, :address, :city, :state, :zip).merge(password: params[:user][:password].empty? ? current_user.password_digest : params[:user][:password])
     end
 end
