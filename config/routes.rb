@@ -10,8 +10,9 @@ Rails.application.routes.draw do
   get 'logout', to: "sessions#destroy", as: :logout
 
   # user_paths
+  get '/profile/edit', to: "users#edit", as: :user_edit
   get '/profile/:id', to: "users#show", as: :user_profile
-
+  patch '/profile/:id', to: "users#update", as: :user_update
   # merchant_paths
   resources :merchants, only: [:show], as: :merchant_dashboard
 
