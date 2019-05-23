@@ -3,10 +3,14 @@ require 'rails_helper'
 RSpec.describe 'As a registered user' do
 
   before :each do
-    @user = create(:user)
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
+    @user = create(:user, role: "user")
     visit login_path
+
+    fill_in "email",  with: @user.email
+    fill_in "password", with: @user.password
+    click_on "Log In"
+
 
     visit user_profile_path(@user)
   end
@@ -32,26 +36,21 @@ RSpec.describe 'As a registered user' do
 
       expect(current_path).to eq(user_edit_path)
 
-
-
-
         expect(find_field("Name").value).to eq(@user.name)
-        find_field("Name").set("Butterfly")
-
         expect(find_field("Email").value).to eq(@user.email)
         expect(find_field("Address").value).to eq(@user.address)
         expect(find_field("City").value).to eq(@user.city)
         expect(find_field("State").value).to eq(@user.state)
         expect(find_field("Zip").value).to eq(@user.zip)
         expect(find_field("Password").value).to eq("")
+# binding.pry
         find_field("Password").set("Nar")
 
+        find_field("Name").set("Butterfly")
+# binding.pryr
 
-        save_and_open_page
         click_button "Submit Edits"
-
-
-
+# binding.pry
         expect(current_path).to eq(user_profile_path(@user))
 
         expect(page).to have_content("Butterfly")
