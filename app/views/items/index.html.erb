@@ -1,9 +1,11 @@
 <div class="item-stats">
+  <li>Most popular items</li>
   <% @top_five.each do |item| %>
-  <p><%= item.name %>, bought <%= item.quantity_bought %></p>
+  <p><%= item.name %>, bought <%= item.quantity_bought %> times</p>
   <% end %>
-  <%= @bottom_five.each do |item| %>
-  <p><%= item.name %>, bought <%= item.quantity_bought %></p>
+  <li>Least popular items</li>
+  <% @bottom_five.each do |item| %>
+  <p><%= item.name %>, bought <%= item.quantity_bought %> times</p>
   <% end %>
 </div>
 

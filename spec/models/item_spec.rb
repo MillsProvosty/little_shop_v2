@@ -40,6 +40,16 @@ RSpec.describe Item, type: :model do
       @oi_9 = create(:order_item, item: @item_9, quantity: 10, fulfilled: true)
       @oi_10 = create(:order_item, item: @item_10, quantity: 9, fulfilled: true)
 
+      @oi_n1 = create(:order_item, item: @item_1, quantity: 11, fulfilled: false)
+      @oi_n2 = create(:order_item, item: @item_2, quantity: 1, fulfilled: false)
+      @oi_n3 = create(:order_item, item: @item_3, quantity: 2, fulfilled: false)
+      @oi_n4 = create(:order_item, item: @item_4, quantity: 1, fulfilled: false)
+      @oi_n5 = create(:order_item, item: @item_5, quantity: 4, fulfilled: false)
+      @oi_n6 = create(:order_item, item: @item_6, quantity: 6, fulfilled: false)
+      @oi_n7 = create(:order_item, item: @item_7, quantity: 11, fulfilled: false)
+      @oi_n8 = create(:order_item, item: @item_8, quantity: 12, fulfilled: false)
+      @oi_n9 = create(:order_item, item: @item_9, quantity: 3, fulfilled: false)
+      @oi_n10 = create(:order_item, item: @item_10, quantity: 8, fulfilled: false)
     end
     Item.active_items.each do |item|
       create_list(:item, 5)
@@ -50,6 +60,10 @@ RSpec.describe Item, type: :model do
     it ".top_five" do
       expected = [@item_9, @item_10, @item_1, @item_8, @item_4]
       expect(Item.top_five).to eq(expected)
+    end
+    it ".bottom_five" do
+      expected = [@item_2, @item_7, @item_5, @item_3, @item_6]
+      expect(Item.bottom_five).to eq(expected)
     end
   end
   describe "Instance methods" do
