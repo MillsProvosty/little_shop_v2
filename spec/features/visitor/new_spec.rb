@@ -140,7 +140,7 @@ RSpec.describe "As a visitor on the index page" do
         expect(current_path).to eq(users_path)
         expect(page).to have_content("Unable to register user. Missing required fields")
       end
-      it "If I register with an email already in use, I am returned to form and the form has all data expect email and password" do
+      it "If I register with an email already in use, I am returned to form and the form has all data expect email and password and see flash message saying email is in use" do
         user = create(:user, email: "email1@gmail.com")
 
         visit new_user_path
@@ -156,12 +156,13 @@ RSpec.describe "As a visitor on the index page" do
         click_on "Create User"
 
         expect(current_path).to eq(users_path)
+        expect(page).to have_content("Email address is already in use")
 
         fill_in "Email", with: "new_email@gmail.com"
         fill_in "Password", with: "pass123"
         fill_in "Password confirmation", with: "pass123"
         click_on "Create User"
-        
+
         new_user = User.last
 
         expect(current_path).to eq(user_profile_path(new_user))

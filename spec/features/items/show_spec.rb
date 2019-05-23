@@ -23,5 +23,13 @@ RSpec.describe "As any user" do
       expect(page).to have_content(@item.price)
       expect(page).to have_content("Average Fulfilled Time: #{@item.avg_fulfill_time} hours")
     end
+
+    it "from the item show page theres a link to add to my cart, as visitor or reg user" do
+
+
+      visit item_path(@item)
+
+      expect(page).to have_link("Add Item to Cart")
+    end
   end
 end

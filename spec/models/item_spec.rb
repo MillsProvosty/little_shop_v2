@@ -37,8 +37,11 @@ RSpec.describe Item, type: :model do
       @oi_6 = create(:order_item, item: @item_6, quantity: 5, fulfilled: true)
       @oi_7 = create(:order_item, item: @item_7, quantity: 2, fulfilled: true)
       @oi_8 = create(:order_item, item: @item_8, quantity: 7, fulfilled: true)
+      @oi_13 = create(:order_item, item: @item_8, quantity: 7, fulfilled: true)
       @oi_9 = create(:order_item, item: @item_9, quantity: 10, fulfilled: true)
-      @oi_10 = create(:order_item, item: @item_10, quantity: 9, fulfilled: true)
+      @oi_10 = create(:order_item, item: @item_9, quantity: 5, fulfilled: true)
+      @oi_11 = create(:order_item, item: @item_10, quantity: 9, fulfilled: true)
+      @oi_12 = create(:order_item, item: @item_10, quantity: 9, fulfilled: true)
 
       @oi_n1 = create(:order_item, item: @item_1, quantity: 11, fulfilled: false)
       @oi_n2 = create(:order_item, item: @item_2, quantity: 1, fulfilled: false)
@@ -51,33 +54,40 @@ RSpec.describe Item, type: :model do
       @oi_n9 = create(:order_item, item: @item_9, quantity: 3, fulfilled: false)
       @oi_n10 = create(:order_item, item: @item_10, quantity: 8, fulfilled: false)
     end
+
     Item.active_items.each do |item|
       create_list(:item, 5)
       create_list(:inactive_item, 5)
 
       assert item.active
     end
+
     it ".top_five" do
-      expected = [@item_9, @item_10, @item_1, @item_8, @item_4]
+      expected = [@item_10, @item_9, @item_8, @item_1, @item_4]
       expect(Item.top_five).to eq(expected)
     end
+
     it ".bottom_five" do
       expected = [@item_2, @item_7, @item_5, @item_3, @item_6]
       expect(Item.bottom_five).to eq(expected)
     end
   end
+
   describe "Instance methods" do
     before :each do
       @item_10 = create(:item)
       @oi_10 = create(:order_item, item: @item_10, quantity: 9, fulfilled: true)
+      @oi_11 = create(:order_item, item: @item_10, quantity: 9, fulfilled: true)
       @item_4 = create(:item)
       @oi_4 = create(:order_item, item: @item_4, quantity: 6, fulfilled: true)
     end
+
     it ".quantity_bought" do
 
-      expect(@item_10.quantity_bought).to eq(9)
+      expect(@item_10.quantity_bought).to eq(18)
       expect(@item_4.quantity_bought).to eq(6)
     end
+
     it ".avg_fulfill_time" do
       merchant = create(:merchant)
       item = create(:item, user: merchant)

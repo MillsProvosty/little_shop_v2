@@ -1,3 +1,8 @@
+<div>
+  <%= link_to "Add Item to Cart" %>
+</div>
+
+
 
 <div>
   <p><img src="<%= @item.image %>"></p>
@@ -6,5 +11,5 @@
   <p><%= @item.description %></p>
   <p><%= @item.user.name %></p>
   <p><%= @item.inventory %></p>
-  <p>Average Fulfilled Time: <%= @item.avg_fulfill_time %> hours</p> 
+  <p>Average Fulfilled Time: <%= @item.avg_fulfill_time %> hours</p>
 </div>

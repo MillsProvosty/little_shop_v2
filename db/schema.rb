@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_233230) do
     t.text "description"
     t.string "image"
     t.integer "inventory"
-    t.bigint "user_id" 
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_items_on_user_id"
