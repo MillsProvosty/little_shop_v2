@@ -12,6 +12,13 @@ class User < ApplicationRecord
   has_many :items
   has_many :orders
 
-
-
+  def top_items_for_merchant
+    items
+    .joins(:orders)
+    .select("items.*, sum(order_items.quantity) AS total_sold")
+    .where("orders.status = 2")
+    .group("items.id")
+    .order("total_sold desc")
+    .limit(5)
+  end
 end

@@ -12,11 +12,17 @@ class Item < ApplicationRecord
   end
 
   def self.top_five
-    joins(:order_items).where("order_items.fulfilled IS true").order(quantity: :desc).limit(5)
+    joins(:order_items)
+    .where("order_items.fulfilled IS true")
+    .select("Items.*, sum(order_items.quantity) AS total_quantity")
+    .group(:id).order("total_quantity desc").limit(5)
   end
 
   def self.bottom_five
-    joins(:order_items).where("order_items.fulfilled IS true").order(quantity: :asc).limit(5)
+    joins(:order_items)
+    .where("order_items.fulfilled IS true")
+    .select("Items.*, sum(order_items.quantity) AS total_quantity")
+    .group(:id).order("total_quantity asc").limit(5)
   end
 
   def quantity_bought

@@ -103,6 +103,5 @@ RSpec.describe "User log in" do
       expect(page).to have_content("Your credentials were incorrect.")
       expect(page).to_not have_content("Your password was incorrect.")
     end
-
   end
 end

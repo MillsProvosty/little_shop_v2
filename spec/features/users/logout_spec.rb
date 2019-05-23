@@ -4,9 +4,11 @@ RSpec.describe 'User, Merchant, Admin logout' do
 
   before :each do
     user = create(:user, role: "admin")
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+    visit login_path
 
-    visit user_profile_path(user)
+    fill_in "email",  with: user.email
+    fill_in "password", with: user.password
+    click_on "Log In"
   end
 
   describe 'I am redirected home page and see message that I am logged out' do
@@ -18,5 +20,4 @@ RSpec.describe 'User, Merchant, Admin logout' do
       expect(current_path).to eq(root_path)
     end
   end
-
 end

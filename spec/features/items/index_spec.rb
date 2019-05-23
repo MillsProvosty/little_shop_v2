@@ -17,7 +17,7 @@ RSpec.describe 'as any user', Item do
       expect(page).to have_content("In Stock: #{item.inventory}")
       expect(page).to have_content("Price: #{item.price.to_f}")
       end
-      end
+    end
   end
 
   it 'cannot view inactive item in the system' do

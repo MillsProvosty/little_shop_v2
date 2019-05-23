@@ -9,6 +9,10 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         flash[:welcome] = "Congratulations #{@user.name}! You are now registered and logged in."
         redirect_to user_profile_path(@user)
+      elsif User.find_by(email: user_params[:email])
+        flash[:message] = "Email address is already in use"
+        @user.email = ""
+        render :new
       else
         flash[:message] = "Unable to register user. Missing required fields"
         render :new

@@ -20,7 +20,7 @@
     <%= link_to "Merchants", merchants_path %>
 
     <% if current_merchant? %>
-      <%= link_to "Dashboard", merchant_dashboard_path(current_user)%>
+      <%= link_to "Dashboard", merchant_dashboard_path(current_user) %>
     <%end%>
 
     <% if current_admin? %>
@@ -35,10 +35,14 @@
       <%= link_to "Register as User", new_user_path %>
     <% end %>
 
+    <% unless current_merchant? || current_admin? %>
     <p>Cart: 0</p>
+    <% end %>
+
     <% flash.each do |key, value| %>
       <%= value %>
     <% end %>
+
     <%= yield %>
   </body>
 </html>
