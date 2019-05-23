@@ -12,7 +12,7 @@ RSpec.describe "User log in" do
       fill_in "password", with: user.password
       click_on "Log In"
 
-      expect(current_path).to eq(user_profile_path(user))
+      expect(current_path).to eq(user_profile_path)
       expect(page).to have_content("Welcome back #{user.name}, you are logged in.")
     end
 
@@ -24,7 +24,7 @@ RSpec.describe "User log in" do
       fill_in "password", with: user.password
       click_on "Log In"
 
-      expect(current_path).to eq(merchant_dashboard_path(user))
+      expect(current_path).to eq(merchant_dashboard_path)
       expect(page).to have_content("Welcome back #{user.name}, you are logged in.")
     end
 
@@ -49,7 +49,7 @@ RSpec.describe "User log in" do
 
       visit login_path
 
-      expect(current_path).to eq(user_profile_path(user))
+      expect(current_path).to eq(user_profile_path)
       expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
     end
 
@@ -60,7 +60,7 @@ RSpec.describe "User log in" do
 
       visit login_path
 
-      expect(current_path).to eq(merchant_dashboard_path(user))
+      expect(current_path).to eq(merchant_dashboard_path)
       expect(page).to have_content("Welcome #{user.name}, you are already logged in.")
     end
 

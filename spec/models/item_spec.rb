@@ -55,11 +55,13 @@ RSpec.describe Item, type: :model do
       @oi_n10 = create(:order_item, item: @item_10, quantity: 8, fulfilled: false)
     end
 
-    Item.active_items.each do |item|
-      create_list(:item, 5)
-      create_list(:inactive_item, 5)
+    it ".active_items" do
+      Item.active_items.each do |item|
+        create_list(:item, 5)
+        create_list(:inactive_item, 5)
 
-      assert item.active
+        assert item.active
+      end
     end
 
     it ".top_five" do

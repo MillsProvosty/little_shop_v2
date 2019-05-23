@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       if @user.save
         session[:user_id] = @user.id
         flash[:welcome] = "Congratulations #{@user.name}! You are now registered and logged in."
-        redirect_to user_profile_path(@user)
+        redirect_to user_profile_path
       elsif User.find_by(email: user_params[:email])
         flash[:message] = "Email address is already in use"
         @user.email = ""
@@ -29,8 +29,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(current_user.id)
-    @user.update!(user_update_params)
-    redirect_to user_profile_path(@user)
+    @user.update(user_update_params)
+    if @user.save
+      redirect_to user_profile_path
+    else
+      flash[:notice] = "This email is already in use"
+      render :edit
+    end
   end
 
   private
