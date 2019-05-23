@@ -18,4 +18,5 @@ RSpec.describe 'User, Merchant, Admin logout' do
       expect(current_path).to eq(root_path)
     end
   end
+
 end

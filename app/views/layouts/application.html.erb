@@ -12,7 +12,7 @@
   <body>
     <%= link_to "Welcome Page", root_path %>
     <% if current_user %>
-      <%= link_to "My Profile" %>
+      <%= link_to "My Profile", user_profile_path(current_user) %>
       <%= link_to "Logout", logout_path %>
     <% end %>
 
