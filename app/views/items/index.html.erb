@@ -1,3 +1,15 @@
+<div class="item-stats">
+  <li>Most popular items</li>
+  <% @top_five.each do |item| %>
+  <p><%= item.name %>, bought <%= item.quantity_bought %> times</p>
+  <% end %>
+  <li>Least popular items</li>
+  <% @bottom_five.each do |item| %>
+  <p><%= item.name %>, bought <%= item.quantity_bought %> times</p>
+  <% end %>
+</div>
+
+
 <% @items.each do |item| %>
   <div id="item-<%=item.id%>">
     <%= link_to item.name, item_path(item) %>
@@ -9,4 +21,3 @@
     <p>Price: <%=item.price.to_f%></p>
   </div>
 <% end %>
-
