@@ -78,5 +78,17 @@ RSpec.describe Item, type: :model do
       expect(@item_10.quantity_bought).to eq(9)
       expect(@item_4.quantity_bought).to eq(6)
     end
+    it ".avg_fulfill_time" do
+      merchant = create(:merchant)
+      item = create(:item, user: merchant)
+      io_1 = create(:order_item, item: item, created_at: 3.days.ago)
+      io_1.fulfilled = true
+      io_2 = create(:order_item, item: item, created_at: 5.days.ago)
+      io_2.fulfilled = true
+      io_3 = create(:order_item, item: item, created_at: 7.days.ago)
+      io_3.fulfilled = true
+
+      expect(item.avg_fulfill_time).to eq(120)
+    end
   end
 end
