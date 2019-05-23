@@ -22,4 +22,11 @@ class Item < ApplicationRecord
   def quantity_bought
     order_items.where(fulfilled: :true).sum(:quantity)
   end
+
+
+  def avg_fulfill_time
+    order_items.average("order_items.updated_at - order_items.created_at").to_i * 24
+  end
+
+
 end
