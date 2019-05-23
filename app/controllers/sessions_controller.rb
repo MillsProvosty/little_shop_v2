@@ -3,10 +3,10 @@ class SessionsController < ApplicationController
   def new
     if current_user?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
-      redirect_to user_profile_path(current_user)
+      redirect_to user_profile_path
     elsif current_merchant?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
-      redirect_to merchant_dashboard_path(current_user)
+      redirect_to merchant_dashboard_path
     elsif current_admin?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
       redirect_to items_path
@@ -23,9 +23,9 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       flash[:login] = "Welcome back #{user.name}, you are logged in."
       if current_user?
-        redirect_to user_profile_path(user)
+        redirect_to user_profile_path
       elsif current_merchant?
-        redirect_to merchant_dashboard_path(user)
+        redirect_to merchant_dashboard_path
       elsif current_admin?
         redirect_to items_path
       end

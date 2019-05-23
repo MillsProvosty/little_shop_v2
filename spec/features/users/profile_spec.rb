@@ -12,7 +12,7 @@ RSpec.describe 'As a registered user' do
     click_on "Log In"
 
 
-    visit user_profile_path(@user)
+    visit user_profile_path
   end
 
   describe 'when I visit my profile page' do
@@ -32,7 +32,7 @@ RSpec.describe 'As a registered user' do
 
   describe 'when I click on the edit profile link' do
     it 'I see a form like the registration page that contains my info without password,' do
-      click_on "Edit Profile"
+      click_link "Edit Profile"
 
       expect(current_path).to eq(user_edit_path)
 
@@ -43,18 +43,44 @@ RSpec.describe 'As a registered user' do
         expect(find_field("State").value).to eq(@user.state)
         expect(find_field("Zip").value).to eq(@user.zip)
         expect(find_field("Password").value).to eq("")
-# binding.pry
+
         find_field("Password").set("Nar")
 
         find_field("Name").set("Butterfly")
-# binding.pryr
+
 
         click_button "Submit Edits"
-# binding.pry
-        expect(current_path).to eq(user_profile_path(@user))
+
+        expect(current_path).to eq(user_profile_path)
 
         expect(page).to have_content("Butterfly")
+    end
 
+    it "cannot edit profile with an email already in use" do
+      user = create(:user, email: "k_log@gmail.com")
+      user_1 = create(:user)
+
+      click_link "Logout"
+
+      visit login_path
+
+
+      fill_in "email",  with: user_1.email
+      fill_in "password", with: user_1.password
+      click_on "Log In"
+
+      expect(current_path).to eq(user_profile_path)
+
+      click_link "Edit Profile"
+
+      expect(current_path).to eq(user_edit_path)
+
+      find_field("Email").set(user.email)
+
+      click_button "Submit Edits"
+
+      expect(current_path).to eq(user_update_path)
+      expect(page).to have_content("This email is already in use")
     end
   end
 end
