@@ -6,3 +6,11 @@
   <%= current_user.state%>
   <%= current_user.zip%>
 </div>
+<div id="order-info">
+  <%current_user.all_orders.each do |order| %>
+
+    <%=link_to order.id%>
+    <p><%= order.created_at.strftime("%B %d, %Y")%></p>
+  <%end%>
+
+</div>

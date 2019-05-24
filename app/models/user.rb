@@ -21,4 +21,9 @@ class User < ApplicationRecord
     .order("total_sold desc")
     .limit(5)
   end
+
+  def all_orders
+    items.joins(:orders).select("orders.*").distinct
+  end
+
 end
