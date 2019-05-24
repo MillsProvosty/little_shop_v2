@@ -23,7 +23,7 @@ class User < ApplicationRecord
   end
 
   def all_orders
-    items.joins(:orders).select("orders.*").distinct
+    Order.joins(:items).where("items.user_id =#{id} and orders.status =0").distinct
   end
 
 end

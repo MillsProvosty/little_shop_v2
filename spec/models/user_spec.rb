@@ -61,7 +61,7 @@ RSpec.describe User, type: :model do
     end
 
     it '.all_orders' do
-      expect(@user.all_orders).to eq([@order_1, @order_2,@order_3, @order_4])
+      expect(@user.all_orders).to eq([@order_2])
     end
 
 

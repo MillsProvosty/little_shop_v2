@@ -9,8 +9,10 @@
 <div id="order-info">
   <%current_user.all_orders.each do |order| %>
 
-    <%=link_to order.id%>
+    <%=link_to order.id, merchant_orders_path(order)%>
     <p><%= order.created_at.strftime("%B %d, %Y")%></p>
+    <p><%= order.item_quantity%></p>
+    <p><%= order.items_total_value.to_f%>
   <%end%>
 
 </div>

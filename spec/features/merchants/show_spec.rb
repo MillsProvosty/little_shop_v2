@@ -5,11 +5,12 @@ RSpec.describe 'Merchant Show page' do
   describe 'when I visit my dashboard' do
 
     before :each do
-      @user = create(:user)
       @merchant = create(:merchant)
-      @i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9 = create_list(:item, 9, user: @merchant)
+      @i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9 = create_list(:item, 10, user: @merchant)
+      @i10,@i11 = create_list(:item, 2, user: @merchant)
 
-      @o1,@o2,@o3 = create_list(:order, 3, user: @user)
+      @o1,@o2,@o3 = create_list(:order, 3)
+      @o4,@o5 = create_list(:order, 2, status: 'shipped')
 
       create(:order_item, item: @i1, order: @o1)
       create(:order_item, item: @i2, order: @o1)
@@ -20,6 +21,9 @@ RSpec.describe 'Merchant Show page' do
       create(:order_item, item: @i7, order: @o3)
       create(:order_item, item: @i8, order: @o3)
       create(:order_item, item: @i9, order: @o3)
+      create(:order_item, item: @i2, order: @o4)
+      create(:order_item, item: @i2, order: @o5)
+      create_list(:order_item, 15)
 
       visit login_path
 
@@ -45,24 +49,26 @@ RSpec.describe 'Merchant Show page' do
     end
 
 
-    xit 'I see a list of orders and their information' do
+    it 'I see a list of orders and their information' do
 
       within '#order-info' do
-        expect(page).to have_link(@o1.id)
-        expect(page).to have_link(@o2.id)
-        expect(page).to have_link(@o3.id)
+        expect(page).to have_link(@o1.id.to_s)
+        expect(page).to have_link(@o2.id.to_s)
+        expect(page).to have_link(@o3.id.to_s)
+        expect(page).to_not have_link(@o4.id.to_s)
+        expect(page).to_not have_link(@o5.id.to_s)
 
         expect(page).to have_content(@o1.created_at.strftime("%B %d, %Y"))
         expect(page).to have_content(@o2.created_at.strftime("%B %d, %Y"))
         expect(page).to have_content(@o3.created_at.strftime("%B %d, %Y"))
 
         expect(page).to have_content(@o1.item_quantity)
-        expect(page).to have_content(@o1.item_quantity)
-        expect(page).to have_content(@o1.item_quantity)
+        expect(page).to have_content(@o2.item_quantity)
+        expect(page).to have_content(@o3.item_quantity)
 
-        expect(page).to have_content(@o1.items_total_value)
-        expect(page).to have_content(@o1.items_total_value)
-        expect(page).to have_content(@o1.items_total_value)
+        expect(page).to have_content(@o1.items_total_value.to_f)
+        expect(page).to have_content(@o2.items_total_value.to_f)
+        expect(page).to have_content(@o3.items_total_value.to_f)
 
       end
     end
