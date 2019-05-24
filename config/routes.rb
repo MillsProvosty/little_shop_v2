@@ -15,9 +15,12 @@ Rails.application.routes.draw do
   get '/profile/edit', to: "users#edit", as: :user_edit
   get '/profile', to: "users#show", as: :user_profile
   patch '/profile', to: "users#update", as: :user_update
+
   # merchant_paths
   # resources :merchants, only: [:show], as: :merchant_dashboard
   get '/dashboard', to: "merchants#show", as: :merchant_dashboard
+  get '/dashboard/orders/:id', to: "order#show", as: :merchant_orders
+
   # admin_paths
   namespace :admin do
     get '/dashboard', to: 'admin#show'

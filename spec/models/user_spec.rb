@@ -19,6 +19,7 @@ RSpec.describe User, type: :model do
 
   describe "instance methods" do
     before :each do
+      #orders are for users not merchants...maybe?
       @user = create(:merchant)
       @user_2 = create(:merchant)
 
@@ -55,8 +56,14 @@ RSpec.describe User, type: :model do
     it ".top_items_for_merchant" do
 
       expected = [@item_3, @item_6, @item_4, @item_2, @item_5]
-      
+
       expect(@user.top_items_for_merchant).to eq(expected)
     end
+
+    it '.all_orders' do
+      expect(@user.all_orders).to eq([@order_2])
+    end
+
+
   end
 end
