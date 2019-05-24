@@ -29,7 +29,21 @@ RSpec.describe "As any user" do
 
       visit item_path(@item)
 
-      expect(page).to have_link("Add Item to Cart")
+      expect(page).to have_button("Add Item to Cart")
+    end
+
+    it "When I click Add Item to Cart, I am returned to items index, and there is a flash message for an added item and the nav bar increment number of items in cart" do
+
+      visit item_path(@item)
+
+      click_button "Add Item to Cart"
+
+      expect(current_path).to eq(items_path)
+      expect(page).to have_content("You now have 1 #{@item.name} added to cart.")
+
+      within(".nav-cart") do
+        expect(page).to have_content("Cart: 1")
+      end
     end
   end
 end

@@ -10,6 +10,7 @@
   </head>
 
   <body>
+
     <%= link_to "Welcome Page", root_path %>
     <% if current_user %>
       <%= link_to "My Profile", user_profile_path(current_user) %>
@@ -36,7 +37,9 @@
     <% end %>
 
     <% unless current_merchant? || current_admin? %>
-    <p>Cart: 0</p>
+
+    <p class="nav-cart">Cart: <%= cart.total_count %></p>
+
     <% end %>
 
     <% flash.each do |key, value| %>
