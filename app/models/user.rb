@@ -22,7 +22,7 @@ class User < ApplicationRecord
     .limit(5)
   end
 
-  def all_orders
+  def pending_orders
     Order.joins(:items).where("items.user_id =#{id} and orders.status =0").distinct
   end
 

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Show page' do
-
   describe 'when I visit my dashboard' do
 
     before :each do
@@ -49,7 +48,7 @@ RSpec.describe 'Merchant Show page' do
     end
 
 
-    it 'I see a list of orders and their information' do
+    it 'I see a list of pending orders and their information' do
 
       within '#order-info' do
         expect(page).to have_link(@o1.id.to_s)
@@ -69,9 +68,7 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content(@o1.items_total_value.to_f)
         expect(page).to have_content(@o2.items_total_value.to_f)
         expect(page).to have_content(@o3.items_total_value.to_f)
-
       end
     end
-
   end
 end
