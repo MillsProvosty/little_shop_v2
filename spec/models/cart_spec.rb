@@ -65,4 +65,20 @@ RSpec.describe Cart do
       expect(@cart.contents).to eq(Hash.new)
     end
   end
+
+  describe '#asssociate_items' do
+    it 'associates items to an order' do
+      items = [@item_1, @item_2]
+      order = create(:order)
+      @cart.associate_items(order)
+
+      items.each do |item|
+        order_item = OrderItem.find_by(item_id: item.id, order_id: order.id)
+        quantity = @cart.contents[item.id.to_s]
+        expect(order_item).to be_truthy
+        expect(order_item.price).to eq(item.price)
+        expect(order_item.quantity).to eq(quantity)
+      end
+    end
+  end
 end
