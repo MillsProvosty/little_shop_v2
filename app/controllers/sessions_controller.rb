@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       redirect_to merchant_dashboard_path
     elsif current_admin?
       flash[:message] = "Welcome #{current_user.name}, you are already logged in."
-      redirect_to items_path
+      redirect_to root_path
     end
   end
 
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
       elsif current_merchant?
         redirect_to merchant_dashboard_path
       elsif current_admin?
-        redirect_to items_path
+        redirect_to root_path
       end
     end
   end
