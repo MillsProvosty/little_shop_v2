@@ -1,0 +1,15 @@
+<h1>Your Cart!</h1>
+<div class="cart">
+  <%= link_to "Empty My Cart" %>
+<% cart.cart_items.each do |item, quantity| %>
+  <ul>
+    <h3><%= item.name %></h3>
+    <img id='image-<%= item.id %>' src="<%= item.image %>" width="125">
+    <li>Merchant: <%= item.user.name %></li>
+    <li>Price: <%= number_to_currency(item.price) %></li>
+    <li>Desired quantity: <%= quantity %></li>
+    <p>Subtotal: <%= number_to_currency(cart.sub_total(item)) %></p>
+  </ul>
+<% end %>
+  <p>Grand total: <%= number_to_currency(cart.grand_total) %></p>
+</div>

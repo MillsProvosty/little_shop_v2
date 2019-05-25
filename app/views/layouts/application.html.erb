@@ -28,7 +28,7 @@
       <%= link_to "Admin Dashboard", admin_dashboard_path(current_user)%>
       <% end %>
     <% unless current_merchant? or current_admin? %>
-      <%= link_to "My Cart" %>
+      <%= link_to "My Cart", cart_path %>
     <% end%>
 
     <% if current_user == nil %>

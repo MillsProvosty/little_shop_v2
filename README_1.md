@@ -58,3 +58,64 @@ Each team will have a rubric uploaded to [https://github.com/turingschool/ruby-s
 
 
 View the [Little Shop Rubric](LittleShopRubric.pdf)
+
+## Explicit
+
+GET    /                                                      welcome#index
+GET    /login(.:format)                                       sessions#new
+GET    /logout(.:format)                                      sessions#destroy
+GET    /register(.:format)                                    users#new
+GET    /profile(.:format)                                     users#show
+GET    /profile/edit(.:format)                                users#edit
+GET    /profile/orders(.:format)                              profile/orders#index
+GET    /profile/orders/:id(.:format)                          profile/orders#show
+GET    /cart(.:format)                                        cart#show
+GET    /items(.:format)                                       items#index
+GET    /items/:id(.:format)                                   items#show
+GET    /dashboard(.:format)                                   merchants#show
+GET    /dashboard/items(.:format)                             merchants/items#index
+GET    /dashboard/items/new(.:format)                         merchants/items#new
+GET    /dashboard/items/:id/edit(.:format)                    merchants/items#edit
+GET    /dashboard/items/:id(.:format)                         merchants/items#show
+GET    /dashboard/orders/:id(.:format)                        merchants/orders#show
+GET    /merchants(.:format)                                   merchants#index
+GET    /merchants/:id(.:format)                               merchants#show
+GET    /admin/users/:user_id/orders(.:format)                 admin/orders#index
+GET    /admin/users/:user_id/orders/:id(.:format)             admin/orders#show
+GET    /admin/users(.:format)                                 admin/users#index
+GET    /admin/users/:id/edit(.:format)                        admin/users#edit
+GET    /admin/users/:id(.:format)                             admin/users#show
+GET    /admin/merchants/:merchant_id/orders/:id(.:format)     admin/orders#merchant_show
+GET    /admin/merchants/:merchant_id/items(.:format)          admin/items#index
+GET    /admin/merchants/:merchant_id/items/new(.:format)      admin/items#new
+GET    /admin/merchants/:merchant_id/items/:id/edit(.:format) admin/items#edit
+GET    /admin/merchants/:id(.:format)                         admin/merchants#show
+GET    /admin/dashboard(.:format)                             admin/dashboard#index
+
+## Implicit
+
+A request that will:
+    - Create a user when the registration form is submitted
+    - Update a user when the user edit form is submitted
+    - Create a session when a user logs in
+    - Create an order when a user 'checks out' their cart
+    - Destroy an order from a user's profile page
+    - Add an item to a cart
+    - Add one more of an item that is already in a cart
+    - Destroy a cart
+    - Remove one of an item that is already in a cart
+    - Remove all of an item that is already in a cart
+    - Create an item when the merchant's new item form is submitted
+    - Update an item when the merchant's edit item form is submitted
+    - Destroy an item from the merchant's item dashboard
+    - Enable an item from the merchant's item dashboard
+    - Disable an item from the merchant's item dashboard
+    - Create an item for a merchant, as an admin
+    - Update an item for a merchant, as an admin
+    - Enable a user, as an admin
+    - Disable a user, as an admin
+    - Upgrade a user, as an admin
+    - Downgrade a merchant, as an admin
+    - Enable a merchant, as an admin
+    - Disable a merchant, as an admin
+    - Update an order_item's status

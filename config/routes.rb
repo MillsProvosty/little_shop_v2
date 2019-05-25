@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   end
 
   resources :carts, only: [:create]
-  
+  get '/cart', to: 'carts#show'
+
+
 
 end
