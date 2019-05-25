@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   get '/profile/edit', to: "users#edit", as: :user_edit
   get '/profile', to: "users#show", as: :user_profile
   patch '/profile', to: "users#update", as: :user_update
-  get '/profile/orders', to: "users#checkout", as: :profile_orders
+  post '/profile/orders', to: "users#checkout", as: :profile_orders
+  get '/profile/orders', to: "users#orders", as: :user_orders
 
   # merchant_paths
   # resources :merchants, only: [:show], as: :merchant_dashboard

@@ -1,6 +1,6 @@
 class Cart
   include ActionView::Helpers::NumberHelper
-  attr_reader :contents
+  attr_reader :contents, :associate_items
 
   def initialize(contents)
     @contents = contents || Hash.new(0)
@@ -35,6 +35,13 @@ class Cart
 
   def clear_cart
     @contents.clear
+  end
+
+  def associate_items(order)
+    @contents.each do |item_id, quantity|
+      item = Item.find(item_id)
+      OrderItem.create(item: item, order: order, quantity: quantity, price: item.price, fulfilled: false)
+    end
   end
 
 end
