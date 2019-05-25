@@ -1,6 +1,6 @@
 class Cart
   include ActionView::Helpers::NumberHelper
-  attr_reader :contents, :associate_items
+  attr_reader :contents
 
   def initialize(contents)
     @contents = contents || Hash.new(0)
