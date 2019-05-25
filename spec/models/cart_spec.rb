@@ -39,8 +39,8 @@ RSpec.describe Cart do
 
   describe '#grand_total' do
     it 'returns grandtotal of all items in cart' do
-      binding.pry
-      expected = @cart.cart_items.keys.sum(&:price).to_f 
+
+      expected = @cart.cart_items.sum { |item, quantity| item.price.to_f * quantity }
 
       expect(@cart.grand_total).to eq(expected)
     end
