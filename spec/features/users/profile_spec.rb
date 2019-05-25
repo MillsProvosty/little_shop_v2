@@ -82,5 +82,27 @@ RSpec.describe 'As a registered user' do
       expect(current_path).to eq(user_update_path)
       expect(page).to have_content("This email is already in use")
     end
+    describe "User orders page from profile" do
+      before :each do
+        @user = create(:user)
+
+        @order_1 = create(:order, user: @user)
+        @order_2 = create(:packaged_order, user: @user)
+        @order_3 = create(:shipped_order, user: @user)
+        @order_4 = create(:cancelled_order, user: @user)
+
+      end
+      it "from profile I see a link called 'My Orders', click it and and my uri path is /profile/orders" do
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit user_profile_path
+
+      within(".user-links") do
+        click_link "My Orders"
+      end
+      expect(current_path).to eq(profile_orders_path)
+      end
+    end
   end
 end

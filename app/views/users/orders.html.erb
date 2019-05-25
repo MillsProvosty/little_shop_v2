@@ -1,0 +1,11 @@
+<% @orders.each do |order| %>
+
+<div id="order-<%= order.id %>">
+  <h1>Order: <%= order.id %></h1>
+  <p><%= order.status %></p>
+  <p><%= order.created_at %></p>
+  <p><%= order.updated_at %></p>
+  <p><%= number_to_currency(order.item_quantity) %></p>
+  <p><%= number_to_currency(order.items_total_value) %></p>
+</div>
+<% end %>

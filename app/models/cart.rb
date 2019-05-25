@@ -37,4 +37,11 @@ class Cart
     @contents.clear
   end
 
+  def associate_items(order)
+    @contents.each do |item_id, quantity|
+      item = Item.find(item_id)
+      OrderItem.create(item: item, order: order, quantity: quantity, price: item.price, fulfilled: false)
+    end
+  end
+
 end

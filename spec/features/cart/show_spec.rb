@@ -295,7 +295,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           expect(page).to have_link("register")
           expect(page).to have_link("log in")
         end
-        it "I see a message telling me i must register or log in to checkout" do
+        it "I see a message telling me I must register or log in to checkout" do
           user = create(:user)
           order = create(:order, user: user)
 
