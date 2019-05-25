@@ -7,7 +7,7 @@
   <%= current_user.zip%>
 </div>
 <div id="order-info">
-  <%current_user.all_orders.each do |order| %>
+  <%current_user.pending_orders.each do |order| %>
 
     <%=link_to order.id, merchant_orders_path(order)%>
     <p><%= order.created_at.strftime("%B %d, %Y")%></p>
