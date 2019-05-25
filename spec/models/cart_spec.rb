@@ -45,4 +45,16 @@ RSpec.describe Cart do
       expect(@cart.grand_total).to eq(expected)
     end
   end
+
+  describe '#delete_item' do
+    it 'deletes an item' do
+
+      expected = {
+        @item_2.id.to_s => 3
+      }
+      @cart.delete_item(@item_1.id.to_s)
+
+      expect(@cart.contents).to eq(expected)
+    end
+  end
 end
