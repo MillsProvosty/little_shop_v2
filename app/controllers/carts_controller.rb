@@ -18,4 +18,11 @@ class CartsController < ApplicationController
     end
   end
 
+  def destroy
+
+    session.delete(:cart)
+
+    redirect_to cart_path
+  end
+
 end

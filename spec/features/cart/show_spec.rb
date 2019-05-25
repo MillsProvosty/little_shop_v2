@@ -12,6 +12,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
     @io4 = create(:order_item, item: @i4, order: @o1)
     @io5 = create(:order_item, item: @i5, order: @o1)
   end
+
   describe 'I visit my cart and see a link to empty my cart' do
     it 'shows item name, small image of item, merchant, price, desired quantity and sub total' do
 
@@ -66,5 +67,57 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
         expect(page).to_not have_link("Empty My Cart")
       end
     end
+  end
+
+  describe 'I can empty a cart that has items' do
+
+    it 'vistor empties cart' do
+      visit item_path(@i1)
+      click_button "Add Item"
+
+      visit item_path(@i1)
+      click_button "Add Item"
+
+      visit item_path(@i2)
+      click_button "Add Item"
+
+      visit cart_path
+
+      expect(page).to have_content("Cart: 3")
+      click_link "Empty My Cart"
+
+      expect(current_path).to eq(cart_path)
+      expect(page).to have_content("Cart: 0")
+    end
+
+    it 'registered user empties cart' do
+
+      user = create(:user)
+
+      visit login_path
+
+      fill_in "email", with: user.email
+      fill_in "password", with: user.password
+
+      click_on "Log In"
+
+      visit item_path(@i1)
+      click_button "Add Item"
+
+      visit item_path(@i1)
+      click_button "Add Item"
+
+      visit item_path(@i2)
+      click_button "Add Item"
+
+      visit cart_path
+
+      expect(page).to have_content("Cart: 3")
+      click_link "Empty My Cart"
+
+      expect(current_path).to eq(cart_path)
+      expect(page).to have_content("Cart: 0")
+    end
+
   end
 end
