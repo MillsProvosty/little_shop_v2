@@ -44,6 +44,8 @@ class CartsController < ApplicationController
     redirect_to cart_path
   end
 
+  helpers 
+
   def delete_item
     session[:cart].delete(params[:id])
 
@@ -51,10 +53,10 @@ class CartsController < ApplicationController
   end
 
   def increment_item_in_cart
-    session[:cart][params[:id].to_s] += 1 
+    session[:cart][params[:id].to_s] += 1
   end
 
   def eliminate_item_in_cart
-    session[:cart][params[:id].to_s] -= 1 
+    session[:cart][params[:id].to_s] -= 1
   end
 end
