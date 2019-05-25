@@ -39,7 +39,31 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
         end
         expect(page).to have_content("Grand total: $10.50")
         expect(page).to have_link("Empty My Cart")
-        save_and_open_page
+      end
+    end
+
+    describe "When I add no items and I visit cart " do
+      it "I see a message that Cart is Empty and no link to empty the cart" do
+        user = create(:user, role: "user")
+
+        visit login_path
+
+        fill_in "email",  with: user.email
+        fill_in "password", with: user.password
+        click_on "Log In"
+
+        visit cart_path
+
+        expect(page).to have_content("Cart is Empty")
+        expect(page).to_not have_link("Empty My Cart")
+      end
+
+      it "I see a message that Cart is Empty and no link to empty the cart" do
+        
+        visit cart_path
+
+        expect(page).to have_content("Cart is Empty")
+        expect(page).to_not have_link("Empty My Cart")
       end
     end
   end
