@@ -2,15 +2,47 @@ require 'rails_helper'
 
 RSpec.describe Cart do
 
+  before :each do
+    @item_1, @item_2 = create_list(:item, 2)
+
+    @cart = Cart.new(
+      {
+        @item_1.id.to_s => 2,
+        @item_2.id.to_s => 3
+      })
+
+  end
   describe '#total_count' do
     it 'calculates number item in cart' do
-      cart = Cart.new(
-        {
-          "1": 2,
-          "2": 3
-          })
+      expect(@cart.total_count).to eq(5)
+    end
+  end
 
-      expect(cart.total_count).to eq(5)
+  describe '#cart_items' do
+    it 'returns has with items as key and quantity as value' do
+      expected = {
+        @item_1 => 2,
+        @item_2 => 3
+      }
+
+      expect(@cart.cart_items).to eq(expected)
+    end
+  end
+
+  describe '#sub_total' do
+    it 'returns subtotals of a particular item depending on quantity of that item' do
+      quantity = @cart.contents[@item_1.id.to_s]
+
+      expect(@cart.sub_total(@item_1)).to eq(quantity * @item_1.price)
+    end
+  end
+
+  describe '#grand_total' do
+    it 'returns grandtotal of all items in cart' do
+      binding.pry
+      expected = @cart.cart_items.keys.sum(&:price).to_f 
+
+      expect(@cart.grand_total).to eq(expected)
     end
   end
 end
