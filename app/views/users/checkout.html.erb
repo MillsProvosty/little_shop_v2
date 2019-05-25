@@ -1,4 +1,11 @@
-<h1>Order: <%= @order.id %></h1>
-<p><%= @order.status %></p>
-<p><%= @order.created_at %></p>
-<p><%= @order.updated_at %></p>
+<% @orders.each do |order| %>
+
+<div id="order-<%= order.id %>">
+  <h1>Order: <%= order.id %></h1>
+  <p><%= order.status %></p>
+  <p><%= order.created_at %></p>
+  <p><%= order.updated_at %></p>
+  <p><%= order.item_quantity %></p>
+  <p><%= order.items_total_value %></p>
+</div>
+<% end %>

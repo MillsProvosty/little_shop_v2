@@ -39,9 +39,9 @@ class UsersController < ApplicationController
   end
 
   def checkout
-
+    Order.create(status: "pending", user: current_user)
     cart.clear_cart
-    @order = current_user.orders[0]
+    @orders = current_user.orders
     flash[:message] = "Your order was created."
   end
 
