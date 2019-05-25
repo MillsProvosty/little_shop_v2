@@ -18,6 +18,25 @@ class CartsController < ApplicationController
     end
   end
 
+  def add_item
+    whats_available = Item.find(params[:id]).inventory
+    whats_in_cart = session[:cart][params[:id]]
+
+    increment_item_in_cart if whats_in_cart < whats_available
+    redirect_to cart_path
+  end
+
+  def eliminate_item
+    eliminate_item_in_cart
+    whats_in_cart = session[:cart][params[:id]]
+
+    if whats_in_cart < 1
+      cart.delete_item(params[:id])
+    end
+
+    redirect_to cart_path
+  end
+
   def destroy
 
     session.delete(:cart)
@@ -25,4 +44,17 @@ class CartsController < ApplicationController
     redirect_to cart_path
   end
 
+  def delete_item
+    session[:cart].delete(params[:id])
+
+    redirect_to cart_path
+  end
+
+  def increment_item_in_cart
+    session[:cart][params[:id].to_s] += 1 
+  end
+
+  def eliminate_item_in_cart
+    session[:cart][params[:id].to_s] -= 1 
+  end
 end

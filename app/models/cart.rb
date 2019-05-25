@@ -29,4 +29,8 @@ class Cart
     end.to_f
   end
 
+  def delete_item(item_id)
+   @contents.delete(item_id)
+  end
+
 end
