@@ -49,25 +49,24 @@ RSpec.describe 'Merchant Show page' do
 
 
     it 'I see a list of pending orders and their information' do
-
       within '#order-info' do
-        expect(page).to have_link(@o1.id.to_s)
-        expect(page).to have_link(@o2.id.to_s)
-        expect(page).to have_link(@o3.id.to_s)
-        expect(page).to_not have_link(@o4.id.to_s)
-        expect(page).to_not have_link(@o5.id.to_s)
+        expect(page).to have_link("Order# " << @o1.id.to_s)
+        expect(page).to have_link("Order# " << @o2.id.to_s)
+        expect(page).to have_link("Order# " << @o3.id.to_s)
+        expect(page).to_not have_link("Order# " << @o4.id.to_s)
+        expect(page).to_not have_link("Order# " << @o5.id.to_s)
 
-        expect(page).to have_content(@o1.created_at.strftime("%B %d, %Y"))
-        expect(page).to have_content(@o2.created_at.strftime("%B %d, %Y"))
-        expect(page).to have_content(@o3.created_at.strftime("%B %d, %Y"))
+        expect(page).to have_content("Date Ordered: " << @o1.created_at.strftime("%B %d, %Y"))
+        expect(page).to have_content("Date Ordered: " << @o2.created_at.strftime("%B %d, %Y"))
+        expect(page).to have_content("Date Ordered: " << @o3.created_at.strftime("%B %d, %Y"))
 
-        expect(page).to have_content(@o1.item_quantity)
-        expect(page).to have_content(@o2.item_quantity)
-        expect(page).to have_content(@o3.item_quantity)
+        expect(page).to have_content("Quantity: " << @o1.item_quantity.to_s)
+        expect(page).to have_content("Quantity: " << @o2.item_quantity.to_s)
+        expect(page).to have_content("Quantity: " << @o3.item_quantity.to_s)
 
-        expect(page).to have_content(@o1.items_total_value.to_f)
-        expect(page).to have_content(@o2.items_total_value.to_f)
-        expect(page).to have_content(@o3.items_total_value.to_f)
+        expect(page).to have_content("Grand Total: $" << @o1.items_total_value.to_f.to_s)
+        expect(page).to have_content("Grand Total: $" << @o2.items_total_value.to_f.to_s)
+        expect(page).to have_content("Grand Total: $" << @o3.items_total_value.to_f.to_s)
       end
     end
   end
