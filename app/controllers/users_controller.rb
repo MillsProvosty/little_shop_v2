@@ -38,6 +38,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def checkout
+
+    cart.clear_cart
+    @order = current_user.orders[0]
+    flash[:message] = "Your order was created."
+  end
+
   private
     def user_params
       params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password)

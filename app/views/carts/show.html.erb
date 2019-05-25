@@ -1,5 +1,10 @@
 <h1>Your Cart!</h1>
 <div class="cart">
+  <% unless current_user   %>
+<p>You must <%= link_to "register", new_user_path %> or <%= link_to "log in", login_path %> to checkout.</p>
+  <% else %>
+  <%= link_to "Checkout", profile_orders_path %>
+  <% end %>
 
   <% if cart.contents != {} %>
     <%= link_to "Empty My Cart", cart_path, method: :delete  %>

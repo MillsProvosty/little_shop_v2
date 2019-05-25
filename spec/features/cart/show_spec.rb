@@ -267,6 +267,62 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
         expect(page).to have_content("Cart: 2")
         expect(page).to_not have_content(@i2.name)
       end
+      end
+    describe "as a visitor with items in my cart" do
+      before :each do
+        merchant = create(:merchant)
+        @i1,@i3,@i4,@i5 = create_list(:item,5, user: merchant)
+        @i2 = create(:item, user: merchant, inventory: 3)
+
+        visit item_path(@i1)
+        click_button "Add Item"
+
+        visit item_path(@i1)
+        click_button "Add Item"
+
+        visit item_path(@i2)
+        click_button "Add Item"
+
+        visit item_path(@i2)
+        click_button "Add Item"
+
+      end
+
+        it "I see a message telling me i must register or log in to checkout" do
+          visit cart_path
+
+          expect(page).to have_content("You must register or log in to checkout.")
+          expect(page).to have_link("register")
+          expect(page).to have_link("log in")
+        end
+        it "I see a message telling me i must register or log in to checkout" do
+          user = create(:user)
+          order = create(:order, user: user)
+
+          visit login_path
+
+          fill_in "email", with: user.email
+          fill_in "password", with: user.password
+
+          click_on "Log In"
+
+          visit cart_path
+
+          expect(page).to_not have_content("You must register or log in to checkout.")
+          expect(page).to_not have_link("register")
+          expect(page).to_not have_link("log in")
+          expect(page).to have_link("Checkout")
+          click_link "Checkout"
+
+
+          expect(current_path).to eq(profile_orders_path)
+          expect(page).to have_content("Your order was created.")
+          expect(page).to have_content("Order: #{order.id}")
+          expect(page).to have_content(order.status)
+          expect(page).to have_content(order.created_at)
+          expect(page).to have_content(order.created_at)
+          expect(page).to have_content("Cart: 0")
+      end
     end
   end
 end
