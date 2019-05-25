@@ -54,6 +54,7 @@ RSpec.describe 'As a registered user' do
         expect(current_path).to eq(user_profile_path)
 
         expect(page).to have_content("Butterfly")
+        expect(page).to have_content("Your profile has been updated")
     end
 
     it "cannot edit profile with an email already in use" do
