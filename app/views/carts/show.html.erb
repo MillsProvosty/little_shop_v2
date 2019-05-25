@@ -1,6 +1,10 @@
 <h1>Your Cart!</h1>
 <div class="cart">
-  <%= link_to "Empty My Cart", cart_path, method: :delete %>
+  
+  <% if cart.contents != {} %>
+    <%= link_to "Empty My Cart", cart_path, method: :delete  %>
+  <% end %>
+  
 <% cart.cart_items.each do |item, quantity| %>
   <ul>
     <h3><%= item.name %></h3>
