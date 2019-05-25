@@ -138,6 +138,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
       expect(current_path).to eq(cart_path)
 
       expect(page).to_not have_content(@i2.name)
+      expect(page).to have_content(@i1.name)
 
       expect(page).to have_content("Cart: 2")
     end
@@ -170,8 +171,102 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
       expect(current_path).to eq(cart_path)
 
       expect(page).to_not have_content(@i1.name)
+      expect(page).to have_content(@i2.name)
 
       expect(page).to have_content("Cart: 1")
+    end
+
+    describe 'decrement and increment items in cart' do
+
+
+      before :each do
+        merchant = create(:merchant)
+        @i1,@i3,@i4,@i5 = create_list(:item,5, user: merchant)
+        @i2 = create(:item, user: merchant, inventory: 3)
+
+        visit item_path(@i1)
+        click_button "Add Item"
+
+        visit item_path(@i1)
+        click_button "Add Item"
+
+        visit item_path(@i2)
+        click_button "Add Item"
+
+        visit item_path(@i2)
+        click_button "Add Item"
+
+        visit cart_path
+
+      end
+
+      it 'vistor increments items in cart' do
+        within("#add-item-#{@i2.id}") do
+
+          click_button "Add one"
+        end
+
+        within("#add-item-#{@i2.id}") do
+          click_on "Add one"
+        end
+
+        expect(current_path).to eq(cart_path)
+
+        expect(page).to have_content("Cart: 5")
+
+        within("#item-#{@i2.id}") do
+          expect(page).to have_content("Desired Quantity: 3")
+        end
+      end
+
+      it 'vistor decrements items in cart' do
+        within("#eliminate-item-#{@i2.id}") do
+          click_button "Eliminate one"
+        end
+
+        within("#item-#{@i2.id}") do
+          expect(page).to have_content("Desired Quantity: 1")
+        end
+
+        within("#eliminate-item-#{@i2.id}") do
+          click_on "Eliminate one"
+        end
+
+        expect(current_path).to eq(cart_path)
+
+        expect(page).to have_content("Cart: 2")
+        expect(page).to_not have_content(@i2.name)
+      end
+
+      it 'registered user decrements items in cart' do
+        user = create(:user)
+
+        visit login_path
+
+        fill_in "email", with: user.email
+        fill_in "password", with: user.password
+
+        click_on "Log In"
+
+        visit cart_path
+
+        within("#eliminate-item-#{@i2.id}") do
+          click_button "Eliminate one"
+        end
+
+        within("#item-#{@i2.id}") do
+          expect(page).to have_content("Desired Quantity: 1")
+        end
+
+        within("#eliminate-item-#{@i2.id}") do
+          click_on "Eliminate one"
+        end
+
+        expect(current_path).to eq(cart_path)
+
+        expect(page).to have_content("Cart: 2")
+        expect(page).to_not have_content(@i2.name)
+      end
     end
   end
 end

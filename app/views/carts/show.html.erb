@@ -4,7 +4,6 @@
   <% if cart.contents != {} %>
     <%= link_to "Empty My Cart", cart_path, method: :delete  %>
   <% end %>
-
   <% cart.cart_items.each do |item, quantity| %>
     <div id="item-<%=item.id%>">
       <ul>
@@ -12,9 +11,15 @@
         <img id='image-<%= item.id %>' src="<%= item.image %>" width="125">
         <li>Merchant: <%= item.user.name %></li>
         <li>Price: <%= number_to_currency(item.price) %></li>
-        <li>Desired quantity: <%= quantity %></li>
+        <li>Desired Quantity: <%= quantity %></li>
         <p>Subtotal: <%= number_to_currency(cart.sub_total(item)) %></p>
       </ul>
+      <div id="add-item-<%=item.id%>">
+        <%= button_to "Add one", cart_add_item_path(item)%>
+      </div>
+      <div id="eliminate-item-<%=item.id%>">
+        <%= button_to "Eliminate one", cart_eliminate_item_path(item), method: :patch%>
+      </div>
       <%= button_to "Remove Item", cart_delete_item_path(item), method: :delete%>
     </div>
   <% end %>
