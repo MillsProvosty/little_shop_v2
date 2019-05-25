@@ -13,7 +13,9 @@ class CartsController < ApplicationController
   end
 
   def show
-
+    if cart.contents == {}
+      flash[:message] = "Cart is Empty"
+    end
   end
 
 end
