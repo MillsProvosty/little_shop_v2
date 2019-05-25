@@ -1,5 +1,7 @@
 <div>
-  <%= button_to "Add Item to Cart", carts_path(item_id: @item.id) %>
+  <% unless current_admin? or current_merchant? %>
+    <%= button_to "Add Item to Cart", carts_path(item_id: @item.id) %>
+  <%end%>
 </div>
 
 

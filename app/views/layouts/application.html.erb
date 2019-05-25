@@ -12,21 +12,26 @@
   <body>
 
     <%= link_to "Welcome Page", root_path %>
-    <% if current_user %>
-      <%= link_to "My Profile", user_profile_path(current_user) %>
-      <%= link_to "Logout", logout_path %>
+
+    <% if current_user? %>
+      <%= link_to "My Profile", user_profile_path %>
     <% end %>
+
+    <% if current_user %>
+      <%= link_to "Logout", logout_path %>
+    <%end%>
 
     <%= link_to "Items for Sale", items_path %>
     <%= link_to "Merchants", merchants_path %>
 
     <% if current_merchant? %>
-      <%= link_to "Dashboard", merchant_dashboard_path(current_user) %>
+      <%= link_to "Dashboard", merchant_dashboard_path %>
     <%end%>
 
     <% if current_admin? %>
-      <%= link_to "Admin Dashboard", admin_dashboard_path(current_user)%>
-      <% end %>
+      <%= link_to "Admin Dashboard", admin_dashboard_path%>
+    <% end %>
+
     <% unless current_merchant? or current_admin? %>
       <%= link_to "My Cart", cart_path %>
     <% end%>
@@ -37,9 +42,7 @@
     <% end %>
 
     <% unless current_merchant? || current_admin? %>
-
-    <p class="nav-cart">Cart: <%= cart.total_count %></p>
-
+      <p class="nav-cart">Cart: <%= cart.total_count %></p>
     <% end %>
 
     <% flash.each do |key, value| %>
