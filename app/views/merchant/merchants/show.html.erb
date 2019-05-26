@@ -8,6 +8,7 @@
 </div>
 <div>
   <%=link_to "View my items", merchant_items_path%>
+
 <div id="order-info">
   <%current_user.pending_orders.each do |order| %>
     <div>

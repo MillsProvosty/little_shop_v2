@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password 
   validates_presence_of :role, :email, :password, :name, :address, :city,
                         :state, :zip
 
@@ -25,6 +25,14 @@ class User < ApplicationRecord
   def pending_orders
     Order.joins(:items).where("items.user_id =#{id} and orders.status =0").distinct
   end
+
+  def date_registered
+    created_at.strftime("%B %d, %Y")
+  end
+
+  def self.active_merchants
+    where(role: :merchant, active: true).order(name: :asc)
+  end 
 
   def self.reg_users
     where(role: "user")
