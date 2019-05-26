@@ -3,6 +3,6 @@ class User::BaseController < ApplicationController
 
   private
   def confirm_user
-    render file: '/public/404', status: 404 unless current_user?
+    redirect_to('/404') unless current_user?
   end
 end
