@@ -29,7 +29,10 @@
     <%end%>
 
     <% if current_admin? %>
+    <div id="admin-links">
       <%= link_to "Admin Dashboard", admin_dashboard_path%>
+      <%= link_to "Users", admin_users_path %>
+    </div>
     <% end %>
 
     <% unless current_merchant? or current_admin? %>
