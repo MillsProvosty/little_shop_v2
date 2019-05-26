@@ -20,7 +20,9 @@ class Cart
   end
 
   def sub_total(item)
-    cart_items[item] * item.price.to_f
+    quantity = cart_items[item]
+
+    quantity * item.price.to_f
   end
 
   def grand_total

@@ -31,6 +31,7 @@ class UsersController < ApplicationController
     @user = User.find(current_user.id)
     @user.update(user_update_params)
     if @user.save
+      flash[:message] = "Your profile has been updated"
       redirect_to user_profile_path
     else
       flash[:notice] = "This email is already in use"
@@ -52,7 +53,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password)
+      params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password, :password_confirmation)
     end
 
     def user_update_params

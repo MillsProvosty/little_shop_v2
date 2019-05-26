@@ -77,7 +77,6 @@ RSpec.describe 'As a visitor', type: :feature do
 
         visit root_path
 
-        expect(page).to have_link("My Profile")
         expect(page).to have_link("Logout")
         expect(page).to_not have_link("Register as User")
         expect(page).to_not have_link("User Log In")
@@ -92,7 +91,6 @@ RSpec.describe 'As a visitor', type: :feature do
 
         visit root_path
 
-        expect(page).to have_link("My Profile")
         expect(page).to have_link("Logout")
         expect(page).to_not have_link("Register as User")
         expect(page).to_not have_link("User Log In")

@@ -16,11 +16,11 @@ RSpec.describe "As any user" do
     it "I see name, description, image, merchant, quantity, price, time to fulfill" do
       visit item_path(@item)
       expect(page).to have_content(@item.name)
-      expect(page).to have_content(@item.description)
+      expect(page).to have_content("Description: #{@item.description}")
       expect(find("img")[:src]).to eq(@item.image)
-      expect(page).to have_content(@item.user.name)
-      expect(page).to have_content(@item.inventory)
-      expect(page).to have_content(@item.price)
+      expect(page).to have_content("Merchant: #{@item.user.name}")
+      expect(page).to have_content("Availability: #{@item.inventory}")
+      expect(page).to have_content("Price: $#{@item.price}")
       expect(page).to have_content("Average Fulfilled Time: #{@item.avg_fulfill_time} hours")
     end
 

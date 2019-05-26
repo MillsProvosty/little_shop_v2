@@ -1,5 +1,7 @@
 <div>
-  <%= button_to "Add Item to Cart", carts_path(item_id: @item.id) %>
+  <% unless current_admin? or current_merchant? %>
+    <%= button_to "Add Item to Cart", carts_path(item_id: @item.id) %>
+  <%end%>
 </div>
 
 
@@ -7,9 +9,9 @@
 <div>
   <p><img src="<%= @item.image %>"></p>
   <p><%= @item.name %></p>
-  <p><%= @item.price %></p>
-  <p><%= @item.description %></p>
-  <p><%= @item.user.name %></p>
-  <p><%= @item.inventory %></p>
+  <p>Price: <%= number_to_currency(@item.price) %></p>
+  <p>Description: <%= @item.description %></p>
+  <p>Merchant: <%= @item.user.name %></p>
+  <p>Availability: <%= @item.inventory %></p>
   <p>Average Fulfilled Time: <%= @item.avg_fulfill_time %> hours</p>
 </div>
