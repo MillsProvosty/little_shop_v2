@@ -26,4 +26,12 @@ class User < ApplicationRecord
     Order.joins(:items).where("items.user_id =#{id} and orders.status =0").distinct
   end
 
+  def date_registered
+    created_at.strftime("%B %d, %Y")
+  end
+
+  def self.active_merchants
+    where(role: :merchant, active: true).order(name: :asc)
+  end
+
 end
