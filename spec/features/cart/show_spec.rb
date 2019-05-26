@@ -315,7 +315,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           click_link "Checkout"
 
 
-          expect(current_path).to eq(profile_orders_path)
+          expect(current_path).to eq(user_orders_path)
           expect(page).to have_content("Your order was created.")
           expect(page).to have_content("Order: #{order.id}")
           expect(page).to have_content(order.status)
