@@ -22,4 +22,8 @@ class ApplicationController < ActionController::Base
   def current_user?
     current_user && current_user.role == "user"
   end
+
+  def render_404
+    render :file => "#{Rails.root}/public/404.html",  layout: false, status: :not_found
+  end
 end
