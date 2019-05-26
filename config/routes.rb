@@ -36,13 +36,20 @@ Rails.application.routes.draw do
   namespace :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
     resources :items, only: [:index]
+
   end
 
   # admin_paths
   namespace :admin do
     get '/dashboard', to: 'admin#show', as: :dashboard
     get '/', to: redirect('/404') #until/unless we have an admin index page
-    resources :users, only: [:index, :show]
+    resources :users, only: [:index, :show, :create]
   end
 
+  namespace :admin do
+    resources :merchants, only: [:show]
+    resources :users, only: [:create]
+  end
+
+  post "/admin/users/:id", to: 'admin/users#update'
 end
