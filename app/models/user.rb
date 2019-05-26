@@ -30,4 +30,8 @@ class User < ApplicationRecord
     created_at.strftime("%B %d, %Y")
   end
 
+  def self.active_merchants
+    where(role: :merchant, active: true).order(name: :asc)
+  end
+
 end
