@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Show page' do
-  describe 'when I visit my dashboard' do
+  context 'when I visit my dashboard' do
 
     before :each do
       @merchant = create(:merchant)
@@ -34,7 +34,7 @@ RSpec.describe 'Merchant Show page' do
 
     end
 
-    it 'i see my profile data but cannot edit it' do
+    scenario 'i see my profile data but cannot edit it' do
       expect(current_path).to eq(merchant_dashboard_path)
 
       expect(page).to have_content(@merchant.name)
@@ -48,7 +48,7 @@ RSpec.describe 'Merchant Show page' do
     end
 
 
-    it 'I see a list of pending orders and their information' do
+    scenario 'I see a list of pending orders and their information' do
       within '#order-info' do
         expect(page).to have_link("Order# " << @o1.id.to_s)
         expect(page).to have_link("Order# " << @o2.id.to_s)
@@ -68,6 +68,13 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Grand Total: $" << @o2.items_total_value.to_f.to_s)
         expect(page).to have_content("Grand Total: $" << @o3.items_total_value.to_f.to_s)
       end
+    end
+
+    scenario 'there is a link to view just my items' do
+      expect(page).to have_link('View my items')
+      click_link('View my items')
+
+      expect(current_path).to eq(merchant_items_path)
     end
   end
 end
