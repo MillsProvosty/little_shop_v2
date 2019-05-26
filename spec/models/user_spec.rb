@@ -63,7 +63,25 @@ RSpec.describe User, type: :model do
     it '.all_orders' do
       expect(@user.pending_orders).to eq([@order_2])
     end
+  end
+  describe "Class methods" do
+    it "reg_users" do
+      user_4 = create(:user)
+      user_5 = create(:user)
+      user_6 = create(:user)
 
+      merchant_1 = create(:merchant)
+      merchant_2 = create(:merchant)
+      merchant_3 = create(:merchant)
 
+      admin_1 = create(:admin)
+      admin_2 = create(:admin)
+      admin_3 = create(:admin)
+
+      admin = create(:admin)
+      
+      users = User.all
+      expect(users.reg_users).to eq([user_4, user_5, user_6])
+    end
   end
 end
