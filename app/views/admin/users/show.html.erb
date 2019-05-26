@@ -1,0 +1,13 @@
+
+<%= @user.name %>
+<%= @user.email %>
+<%= @user.address %>
+<%= @user.city %>
+<%= @user.state %>
+<%= @user.zip %>
+
+<div class="user-links">
+<% unless @user.orders.empty? %>
+<%= link_to "My Orders", user_orders_path %>
+<% end %>
+</div>
