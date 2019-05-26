@@ -3,6 +3,6 @@ class Merchant::BaseController < ApplicationController
 
   private
   def confirm_merchant
-    render file: '/public/404', status: 404 unless current_merchant?
+    redirect_to('/404') unless current_merchant?
   end
 end
