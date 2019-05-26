@@ -1,32 +1,48 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  #visitor paths
   root to: 'welcome#index'
-  # get '/cart', to: "cart#show"
+
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
-  resources :users, only: [:index, :create]
+  resources :users, only: [:create]
+
+  get '/register', to: "users#new", as: :new_user
 
   get '/login', to: "sessions#new", as: :login
   post '/login', to: "sessions#create"
   get 'logout', to: "sessions#destroy", as: :logout
 
+  resources :carts, only: [:create]
+  get '/cart', to: 'carts#show'
+  delete '/cart', to: 'carts#destroy'
+  delete '/cart/item/:id', to: 'carts#delete_item', as: :cart_delete_item
+  post '/cart/item/:id', to: 'carts#add_item', as: :cart_add_item
+  patch '/cart/item/:id', to: 'carts#eliminate_item', as: :cart_eliminate_item
+
+  ## RESTRICTED PATHS ##
+
   # user_paths
-  get '/register', to: "users#new", as: :new_user
-  get '/profile/edit', to: "users#edit", as: :user_edit
-  get '/profile', to: "users#show", as: :user_profile
-  patch '/profile', to: "users#update", as: :user_update
-  post '/profile/orders', to: "users#checkout", as: :profile_orders
-  get '/profile/orders', to: "users#orders", as: :user_orders
+  namespace :profile, module: :user, as: :user do
+    get '/', to: "users#show"
+    patch '/', to: "users#update"
+    get '/edit', to: "users#edit"
+    get '/orders', to: "users#orders"
+    post '/orders', to: "users#checkout"
+  end
 
   # merchant_paths
-  # resources :merchants, only: [:show], as: :merchant_dashboard
-  get '/dashboard', to: "merchants#show", as: :merchant_dashboard
-  get '/dashboard/orders/:id', to: "order#show", as: :merchant_orders
+  namespace :dashboard, module: :merchant, as: :merchant do
+    get '/', to: "merchants#show", as: :dashboard
+  end
 
   # admin_paths
   namespace :admin do
-    get '/dashboard', to: 'admin#show'
-    resources :users, only: [:index, :show, :create]
+
+    get '/dashboard', to: 'admin#show', as: :dashboard
+    get '/', to: redirect('/404') #until/unless we have an admin index page
+    resources :users, only: [:index, :show. :create]
   end
 
   namespace :admin do
@@ -42,5 +58,4 @@ Rails.application.routes.draw do
   delete '/cart/item/:id', to: 'carts#delete_item', as: :cart_delete_item
   post '/cart/item/:id', to: 'carts#add_item', as: :cart_add_item
   patch '/cart/item/:id', to: 'carts#eliminate_item', as: :cart_eliminate_item
-
 end

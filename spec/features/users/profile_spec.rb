@@ -12,7 +12,7 @@ RSpec.describe 'As a registered user' do
     click_on "Log In"
 
 
-    visit user_profile_path
+    visit user_path
   end
 
   describe 'when I visit my profile page' do
@@ -36,25 +36,25 @@ RSpec.describe 'As a registered user' do
 
       expect(current_path).to eq(user_edit_path)
 
-        expect(find_field("Name").value).to eq(@user.name)
-        expect(find_field("Email").value).to eq(@user.email)
-        expect(find_field("Address").value).to eq(@user.address)
-        expect(find_field("City").value).to eq(@user.city)
-        expect(find_field("State").value).to eq(@user.state)
-        expect(find_field("Zip").value).to eq(@user.zip)
-        expect(find_field("Password").value).to eq("")
+      expect(find_field("Name").value).to eq(@user.name)
+      expect(find_field("Email").value).to eq(@user.email)
+      expect(find_field("Address").value).to eq(@user.address)
+      expect(find_field("City").value).to eq(@user.city)
+      expect(find_field("State").value).to eq(@user.state)
+      expect(find_field("Zip").value).to eq(@user.zip)
+      expect(find_field("Password").value).to eq("")
 
-        find_field("Password").set("Nar")
+      find_field("Password").set("Nar")
 
-        find_field("Name").set("Butterfly")
+      find_field("Name").set("Butterfly")
 
 
-        click_button "Submit Edits"
+      click_button "Submit Edits"
 
-        expect(current_path).to eq(user_profile_path)
+      expect(current_path).to eq(user_path)
 
-        expect(page).to have_content("Butterfly")
-        expect(page).to have_content("Your profile has been updated")
+      expect(page).to have_content("Butterfly")
+      expect(page).to have_content("Your profile has been updated")
     end
 
     it "cannot edit profile with an email already in use" do
@@ -70,7 +70,7 @@ RSpec.describe 'As a registered user' do
       fill_in "password", with: user_1.password
       click_on "Log In"
 
-      expect(current_path).to eq(user_profile_path)
+      expect(current_path).to eq(user_path)
 
       click_link "Edit Profile"
 
@@ -80,7 +80,7 @@ RSpec.describe 'As a registered user' do
 
       click_button "Submit Edits"
 
-      expect(current_path).to eq(user_update_path)
+      expect(current_path).to eq(user_path)
       expect(page).to have_content("This email is already in use")
     end
     describe "User orders page from profile" do
@@ -95,14 +95,14 @@ RSpec.describe 'As a registered user' do
       end
       it "from profile I see a link called 'My Orders', click it and and my uri path is /profile/orders" do
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
-      visit user_profile_path
+        visit user_path
 
-      within(".user-links") do
-        click_link "My Orders"
-      end
-      expect(current_path).to eq(profile_orders_path)
+        within(".user-links") do
+          click_link "My Orders"
+        end
+        expect(current_path).to eq(user_orders_path)
       end
     end
   end

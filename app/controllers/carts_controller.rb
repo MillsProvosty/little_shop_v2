@@ -1,4 +1,5 @@
 class CartsController < ApplicationController
+  before_action :confirm_user_or_visitor
 
   def create
     @item = Item.find(params[:item_id])
@@ -44,8 +45,6 @@ class CartsController < ApplicationController
     redirect_to cart_path
   end
 
-  helpers 
-
   def delete_item
     session[:cart].delete(params[:id])
 
@@ -58,5 +57,11 @@ class CartsController < ApplicationController
 
   def eliminate_item_in_cart
     session[:cart][params[:id].to_s] -= 1
+  end
+
+  private
+
+  def confirm_user_or_visitor
+    redirect_to('/404') unless current_user? or !current_user
   end
 end

@@ -1,8 +1,7 @@
-<%= form_for current_user, url: user_update_path, method: :patch do |f| %>
+<%= form_for current_user, url: user_path, method: :patch do |f| %>
 
 <%= f.label :name  %>
 <%= f.text_field :name %>
-
 
 <%= f.label :email %>
 <%= f.text_field :email %>

@@ -42,7 +42,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
-    visit profile_orders_path
+    visit user_orders_path
 
     within("#order-#{@order_1.id}") do
       expect(page).to have_content(@order_1.id)
