@@ -1,25 +1,30 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  #visitor paths
   root to: 'welcome#index'
-  # get '/cart', to: "cart#show"
+
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
-  resources :users, only: [:index, :create]
+  resources :users, only: [:index, :create] #what needs a user index path?
+  get '/register', to: "users#new", as: :new_user
 
   get '/login', to: "sessions#new", as: :login
   post '/login', to: "sessions#create"
   get 'logout', to: "sessions#destroy", as: :logout
 
+
   # user_paths
-  get '/register', to: "users#new", as: :new_user
-  get '/profile/edit', to: "users#edit", as: :user_edit
-  get '/profile', to: "users#show", as: :user_profile
-  patch '/profile', to: "users#update", as: :user_update
-  post '/profile/orders', to: "users#checkout", as: :profile_orders
-  get '/profile/orders', to: "users#orders", as: :user_orders
+  namespace :profile, module: :user, as: :user do
+    get '/', to: "users#show"
+    patch '/', to: "users#update"
+    get '/edit', to: "users#edit"
+    get '/orders', to: "users#orders"
+    post '/orders', to: "users#checkout"
+  end
+
 
   # merchant_paths
-  # resources :merchants, only: [:show], as: :merchant_dashboard
   get '/dashboard', to: "merchants#show", as: :merchant_dashboard
   get '/dashboard/orders/:id', to: "order#show", as: :merchant_orders
 
