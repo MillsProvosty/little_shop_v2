@@ -18,9 +18,9 @@ RSpec.describe User, type: :model do
 
   describe "instance methods" do
     before :each do
-      #orders are for users not merchants...maybe?
       @user = create(:user)
       @merchant = create(:merchant)
+      create(:inactive_merchant)
 
       @order_2 = create(:order)
       @order_1 = create(:shipped_order, user: @user)
@@ -67,6 +67,9 @@ RSpec.describe User, type: :model do
       expect(@user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
     end
 
+    it '#active_merchant' do
+      expect(User.active_merchants).to eq([@merchant])
+    end
 
   end
 end
