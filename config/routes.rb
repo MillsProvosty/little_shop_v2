@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
   # admin_paths
   namespace :admin do
-    get '/dashboard', to: 'admin#show'
+    get '/dashboard', to: 'admin#show', as: :dashboard
+    get '/', to: redirect('/404') #until/unless we have an admin index page
   end
+
 end
