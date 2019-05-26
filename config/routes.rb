@@ -26,8 +26,15 @@ Rails.application.routes.draw do
   # admin_paths
   namespace :admin do
     get '/dashboard', to: 'admin#show'
-    resources :users, only: [:index, :show]
+    resources :users, only: [:index, :show, :create]
   end
+
+  namespace :admin do
+    resources :merchants, only: [:show]
+    resources :users, only: [:create]
+  end
+
+  post "/admin/users/:id", to: 'admin/users#update'
 
   resources :carts, only: [:create]
   get '/cart', to: 'carts#show'

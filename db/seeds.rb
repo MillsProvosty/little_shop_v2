@@ -14,13 +14,15 @@ Order.destroy_all
 Item.destroy_all
 User.destroy_all
 
+admin_1 = User.create(role: "admin", name: "Admin 1", email: "admin1email@gmail.com", address: "1234 admin st", city: "Denver", state: "CO", zip: "80102", password: "adminpassword")
+user_to_m = User.create(role: "user", name: "User to merch", email: "user123m@gmail.com", address: "4321 user st", city: "Denver", state: "CO", zip: "32232", password: "user123password")
 admin = create(:admin)
 user = create(:user)
 merchant_1 = create(:merchant)
 existing_user = create(:user, email: "existingemail@gmail.com")
 
 merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)
-
+binding.pry
 inactive_merchant_1 = create(:inactive_merchant)
 inactive_user_1 = create(:inactive_user)
 
