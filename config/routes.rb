@@ -36,7 +36,6 @@ Rails.application.routes.draw do
   namespace :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
     resources :items, only: [:index]
-
   end
 
   # admin_paths
