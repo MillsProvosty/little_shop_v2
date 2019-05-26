@@ -5,7 +5,6 @@ RSpec.describe User, type: :model do
     it {should validate_uniqueness_of :email}
     it {should validate_presence_of :password}
     it {should validate_presence_of :role}
-#    it {should validate_presence_of :active}
     it {should validate_presence_of :name}
     it {should validate_presence_of :address}
     it {should validate_presence_of :city}
@@ -20,8 +19,8 @@ RSpec.describe User, type: :model do
   describe "instance methods" do
     before :each do
       #orders are for users not merchants...maybe?
-      @user = create(:merchant)
-      @user_2 = create(:merchant)
+      @user = create(:user)
+      @merchant = create(:merchant)
 
       @order_2 = create(:order)
       @order_1 = create(:shipped_order, user: @user)
@@ -36,9 +35,9 @@ RSpec.describe User, type: :model do
       @item_6 = create(:item, user: @user)
       @item_7 = create(:item, user: @user)
       @item_8 = create(:item, user: @user)
-      @item_9 = create(:item, user: @user_2)
-      @item_10 = create(:item, user: @user_2)
-      @item_11 = create(:item, user: @user_2)
+      @item_9 = create(:item, user: @merchant)
+      @item_10 = create(:item, user: @merchant)
+      @item_11 = create(:item, user: @merchant)
 
       @oi_1 = create(:order_item, item: @item_1, order: @order_1, quantity: 3, fulfilled: true)
       @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 6, fulfilled: true)
@@ -73,6 +72,11 @@ RSpec.describe User, type: :model do
       merchant_1 = create(:merchant)
       merchant_2 = create(:merchant)
       merchant_3 = create(:merchant)
+
+
+    it '#date_registered' do
+      expect(@user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
+    end
 
       admin_1 = create(:admin)
       admin_2 = create(:admin)

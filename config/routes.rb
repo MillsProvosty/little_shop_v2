@@ -35,14 +35,15 @@ Rails.application.routes.draw do
   # merchant_paths
   namespace :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
+    resources :items, only: [:index]
+
   end
 
   # admin_paths
   namespace :admin do
-
     get '/dashboard', to: 'admin#show', as: :dashboard
     get '/', to: redirect('/404') #until/unless we have an admin index page
-    resources :users, only: [:index, :show. :create]
+    resources :users, only: [:index, :show, :create]
   end
 
   namespace :admin do
@@ -51,11 +52,4 @@ Rails.application.routes.draw do
   end
 
   post "/admin/users/:id", to: 'admin/users#update'
-
-  resources :carts, only: [:create]
-  get '/cart', to: 'carts#show'
-  delete '/cart', to: 'carts#destroy'
-  delete '/cart/item/:id', to: 'carts#delete_item', as: :cart_delete_item
-  post '/cart/item/:id', to: 'carts#add_item', as: :cart_add_item
-  patch '/cart/item/:id', to: 'carts#eliminate_item', as: :cart_eliminate_item
 end
