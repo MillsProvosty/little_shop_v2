@@ -6,13 +6,22 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   resources :merchants, only: [:index]
-  resources :users, only: [:index, :create] #what needs a user index path?
+  resources :users, only: [:create]
+
   get '/register', to: "users#new", as: :new_user
 
   get '/login', to: "sessions#new", as: :login
   post '/login', to: "sessions#create"
   get 'logout', to: "sessions#destroy", as: :logout
 
+  resources :carts, only: [:create]
+  get '/cart', to: 'carts#show'
+  delete '/cart', to: 'carts#destroy'
+  delete '/cart/item/:id', to: 'carts#delete_item', as: :cart_delete_item
+  post '/cart/item/:id', to: 'carts#add_item', as: :cart_add_item
+  patch '/cart/item/:id', to: 'carts#eliminate_item', as: :cart_eliminate_item
+
+  ## RESTRICTED PATHS ##
 
   # user_paths
   namespace :profile, module: :user, as: :user do
@@ -23,21 +32,13 @@ Rails.application.routes.draw do
     post '/orders', to: "users#checkout"
   end
 
-
   # merchant_paths
-  get '/dashboard', to: "merchants#show", as: :merchant_dashboard
-  get '/dashboard/orders/:id', to: "order#show", as: :merchant_orders
+  namespace :dashboard, module: :merchant, as: :merchant do
+    get '/', to: "merchants#show", as: :dashboard
+  end
 
   # admin_paths
   namespace :admin do
     get '/dashboard', to: 'admin#show'
   end
-
-  resources :carts, only: [:create]
-  get '/cart', to: 'carts#show'
-  delete '/cart', to: 'carts#destroy'
-  delete '/cart/item/:id', to: 'carts#delete_item', as: :cart_delete_item
-  post '/cart/item/:id', to: 'carts#add_item', as: :cart_add_item
-  patch '/cart/item/:id', to: 'carts#eliminate_item', as: :cart_eliminate_item
-
 end
