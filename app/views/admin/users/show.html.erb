@@ -10,4 +10,7 @@
 <% unless @user.orders.empty? %>
 <%= link_to "My Orders", user_orders_path %>
 <% end %>
+<% if current_admin? %>
+<%= button_to "Upgrade to Merchant", method: :patch %>
+<% end %>
 </div>
