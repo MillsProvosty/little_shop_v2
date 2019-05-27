@@ -130,5 +130,23 @@ RSpec.describe Item, type: :model do
       expect(item_2.item_subtotal.to_f).to eq(8.0)
       expect(item_1.item_subtotal.to_f).to eq(5.0)
     end
+
+    it '.percentage_remaining' do
+      user = create(:user)
+      merchant = create(:merchant)
+
+      item_1 = create(:item, price: 5)
+      item_2 = create(:item, price: 4)
+      item_3 = create(:item, price: 3, inventory: 24)
+      order_1 = create(:order, user: user)
+
+      o1_oi1 = create(:order_item, order: order_1, item: item_1, quantity: 1, price: 5, fulfilled: true)
+      o1_oi2 = create(:order_item, order: order_1, item: item_2, quantity: 2, price: 4, fulfilled: true)
+      o1_oi3 = create(:order_item, order: order_1, item: item_3, quantity: 3, price: 3, fulfilled: true)
+      o1_oi4 = create(:order_item, order: order_1, item: item_3, quantity: 4, price: 3, fulfilled: true)
+      o1_oi5 = create(:order_item, order: order_1, item: item_3, quantity: 5, price: 3, fulfilled: true)
+
+      expect(item_3.percentage_remaining).to eq(50)
+    end
   end
 end

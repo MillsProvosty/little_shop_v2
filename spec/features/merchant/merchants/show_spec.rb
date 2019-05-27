@@ -29,12 +29,12 @@ RSpec.describe 'Merchant Show page' do
       create(:order_item, item: @i2, order: @o5, quantity: 2)
 
       #shipped order
-      create(:order_item, item: @i2, order: @o6, quantity: 2)
-      create(:order_item, item: @i7, order: @o6, quantity: 20)
-      create(:order_item, item: @i4, order: @o6, quantity: 19)
-      create(:order_item, item: @i9, order: @o6, quantity: 17)
-      create(:order_item, item: @i8, order: @o6, quantity: 15)
-      create(:order_item, item: @i6, order: @o6, quantity: 13)
+      create(:order_item, item: @i2, order: @o6, quantity: 2, fulfilled: true)
+      create(:order_item, item: @i7, order: @o6, quantity: 20, fulfilled: true)
+      create(:order_item, item: @i4, order: @o6, quantity: 19, fulfilled: true)
+      create(:order_item, item: @i9, order: @o6, quantity: 17, fulfilled: true)
+      create(:order_item, item: @i8, order: @o6, quantity: 15, fulfilled: true)
+      create(:order_item, item: @i6, order: @o6, quantity: 13, fulfilled: true)
 
       #additional items added to order from different merchant
       create(:order_item, item: @i13, order: @o1)
@@ -127,44 +127,6 @@ RSpec.describe 'Merchant Show page' do
 
 
     describe "I see an area with statistics" do
-      # before :each do
-      #   visit logout_path
-      #
-      #   @merchant_1 = create(:merchant)
-      #   @i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9 = create_list(:item, 10, user: @merchant_1, price: 1.00)
-      #
-      #   #item with different merchant_1
-      #   @i12,@i13 = create_list(:item, 2)
-      #
-      #   #orders with pending status
-      #   @o1,@o2,@o3 = create_list(:order, 3)
-      #
-      #   #orders with shipped status
-      #   @o4,@o5 = create_list(:order, 2, status: 'shipped')
-      #
-      #   create(:order_item, item: @i1, order: @o1, quantity: 1)
-      #   create(:order_item, item: @i2, order: @o1, quantity: 2)
-      #   create(:order_item, item: @i3, order: @o1, quantity: 3)
-      #   create(:order_item, item: @i4, order: @o2, quantity: 7)
-      #   create(:order_item, item: @i5, order: @o2, quantity: 2)
-      #   create(:order_item, item: @i6, order: @o2, quantity: 4)
-      #   create(:order_item, item: @i7, order: @o3, quantity: 9)
-      #   create(:order_item, item: @i8, order: @o3, quantity: 5)
-      #   create(:order_item, item: @i9, order: @o3, quantity: 6)
-      #   create(:order_item, item: @i2, order: @o4, quantity: 1)
-      #   create(:order_item, item: @i2, order: @o5, quantity: 2)
-      #
-      #   #additional items added to order from different merchant_1
-      #   create(:order_item, item: @i13, order: @o1)
-      #   create(:order_item, item: @i12, order: @o1)
-      #
-      #   visit login_path
-      #
-      #   fill_in "email", with: @merchant_1.email
-      #   fill_in "password", with: @merchant_1.password
-      #
-      #   click_on "Log In"
-      # end
 
       it " top 5 items sold by quantity, quantity of each" do
         within("#merchant_stats") do
@@ -179,7 +141,12 @@ RSpec.describe 'Merchant Show page' do
 
       end
 
-      xit "shows total quantity of items sold, % against sold units plus remaining inventory" do
+      it "shows total quantity of items sold, % against sold units plus remaining inventory" do
+        visit merchant_dashboard_path
+        expect(page).to have_content("Quantity Sold vs. Remaining Inventory")
+        expect(page).to have_content("Item: #{@i1.name}#{@i1.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i1.percentage_remaining)}")
+        expect(page).to have_content("Item: #{@i3.name}#{@i3.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i3.percentage_remaining)}")
+        expect(page).to have_content("Item: #{@i7.name}#{@i7.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i7.percentage_remaining)}")
       end
 
       xit "shows top 3 stats where items were shipped/quantities, and the top 3 city/states where items shipped and quantities " do
