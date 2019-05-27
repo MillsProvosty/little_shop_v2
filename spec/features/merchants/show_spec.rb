@@ -49,24 +49,24 @@ RSpec.describe 'Merchant Show page' do
 
 
     scenario 'I see a list of pending orders and their information' do
-      within '#order-info' do
-        expect(page).to have_link("Order# " << @o1.id.to_s)
-        expect(page).to have_link("Order# " << @o2.id.to_s)
-        expect(page).to have_link("Order# " << @o3.id.to_s)
-        expect(page).to_not have_link("Order# " << @o4.id.to_s)
-        expect(page).to_not have_link("Order# " << @o5.id.to_s)
+      within('#order-info') do
+        expect(page).to have_link("Order# #{@o1.id.to_s}")
+        expect(page).to have_link("Order# #{@o2.id.to_s}")
+        expect(page).to have_link("Order# #{@o3.id.to_s}")
+        expect(page).to_not have_link("Order# #{@o4.id.to_s}")
+        expect(page).to_not have_link("Order# #{@o5.id.to_s}")
 
-        expect(page).to have_content("Date Ordered: " << @o1.created_at.strftime("%B %d, %Y"))
-        expect(page).to have_content("Date Ordered: " << @o2.created_at.strftime("%B %d, %Y"))
-        expect(page).to have_content("Date Ordered: " << @o3.created_at.strftime("%B %d, %Y"))
+        expect(page).to have_content("Date Ordered: #{@o1.created_at.strftime("%B %d, %Y")}")
+        expect(page).to have_content("Date Ordered: #{@o2.created_at.strftime("%B %d, %Y")}")
+        expect(page).to have_content("Date Ordered: #{@o3.created_at.strftime("%B %d, %Y")}")
 
-        expect(page).to have_content("Quantity: " << @o1.item_quantity.to_s)
-        expect(page).to have_content("Quantity: " << @o2.item_quantity.to_s)
-        expect(page).to have_content("Quantity: " << @o3.item_quantity.to_s)
+        expect(page).to have_content("Quantity: #{@o1.item_quantity.to_s}")
+        expect(page).to have_content("Quantity: #{@o2.item_quantity.to_s}")
+        expect(page).to have_content("Quantity: #{@o3.item_quantity.to_s}")
 
-        expect(page).to have_content("Grand Total: $" << @o1.items_total_value.to_f.to_s)
-        expect(page).to have_content("Grand Total: $" << @o2.items_total_value.to_f.to_s)
-        expect(page).to have_content("Grand Total: $" << @o3.items_total_value.to_f.to_s)
+        expect(page).to have_content("Grand Total: $#{@o1.items_total_value.to_f.to_s}")
+        expect(page).to have_content("Grand Total: $#{@o2.items_total_value.to_f.to_s}")
+        expect(page).to have_content("Grand Total: $#{@o3.items_total_value.to_f.to_s}")
       end
     end
 
