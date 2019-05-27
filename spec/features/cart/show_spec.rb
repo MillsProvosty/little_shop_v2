@@ -325,11 +325,41 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
     end
 
   describe 'As a registered user, when I add items to my cart and I visit my cart' do
-    describe "I see a button or link indicating I can checkout" do
-      describe "I click the button to checkout and an order is created with 'pending' status" do
-        it "I visit profile/orders path and see a flash message saying order was created and I see a new order list, cart is empty " do
-          expect(page).to 
+    before :each do
+      @user = create(:user)
+      @order = create(:order, user: @user)
+      @item1 = create(:item)
+      @item2 = create(:item)
+      @item3 = create(:item)
 
+      @oi1 = create(:order_item, order: @order, item: @item1)
+      @oi2 = create(:order_item, order: @order, item: @item2)
+      @oi3 = create(:order_item, order: @order, item: @item3)
+
+      visit login_path
+
+      fill_in "email", with: @user.email
+      fill_in "password", with: @user.password
+      click_on "Log In"
+
+      visit cart_path
+    end
+
+      describe "I see a button or link indicating I can checkout" do
+        describe "I click the button to checkout and an order is created with 'pending' status" do
+          it "I visit profile/orders path and see a flash message saying order was created and I see a new order list, cart is empty " do
+            visit cart_path
+
+            click_on "Checkout"
+            expect(current_path).to eq(user_orders_path)
+
+            expect(page).to have_content("pending")
+            expect(page).to have_content("Your order was created.")
+            expect(page).to have_content(@order.status)
+            expect(page).to have_content(@order.created_at)
+            expect(page).to have_content(@order.updated_at)
+            expect(page).to have_content("Cart: 0")
+          end
         end
       end
     end
