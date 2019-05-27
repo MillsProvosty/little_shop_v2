@@ -40,6 +40,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
         @o4_oi3 = create(:order_item, order: @order_4, item: @item_12)
 
   end
+
   it "I see the ID of the order, date created and updated, status, item quantity, grand total" do
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
@@ -125,7 +126,7 @@ describe "when I visit an orders show page " do
     expect(@o1_oi1.fulfilled).to eq(false)
     expect(@o1_oi2.fulfilled).to eq(false)
     expect(@o1_oi3.fulfilled).to eq(false)
-  end   
+  end
 
     it "shows each item I ordered and all information about those items" do
       user = create(:user)
@@ -150,6 +151,7 @@ describe "when I visit an orders show page " do
         expect(page).to have_content(item_1.quantity_bought)
         expect(page).to have_content(item_1.price)
         expect(page).to have_content(item_3.item_subtotal)
+      end 
     end
   end
 end

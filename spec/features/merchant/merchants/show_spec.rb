@@ -149,7 +149,7 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Item: #{@i7.name}#{@i7.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i7.percentage_remaining)}")
       end
 
-      it "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
+      xit "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
         visit merchant_dashboard_path
         expect(page).to have_content("Top Three States Where Items Were Shipped:")
         expect(page).to have_content("Top Three Cities Where Items Were Shipped:")
