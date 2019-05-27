@@ -45,13 +45,13 @@ RSpec.describe "Admin dashboard" do
 
       visit admin_dashboard_path
 
-      expect(page.all("p")[0]).to have_content(@order_2.user.name)
-      expect(page.all("p")[1]).to have_content(@order_2.id)
-      expect(page.all("p")[2]).to have_content(@order_2.created_at)
+      expect(page.all("p")[0]).to have_content(@order_4.user.name)
+      expect(page.all("p")[1]).to have_content(@order_4.id)
+      expect(page.all("p")[2]).to have_content(@order_4.created_at)
 
-      expect(page.all("p")[3]).to have_content(@order_4.user.name)
-      expect(page.all("p")[4]).to have_content(@order_4.id)
-      expect(page.all("p")[5]).to have_content(@order_4.created_at)
+      expect(page.all("p")[3]).to have_content(@order_2.user.name)
+      expect(page.all("p")[4]).to have_content(@order_2.id)
+      expect(page.all("p")[5]).to have_content(@order_2.created_at)
 
       expect(page.all("p")[6]).to have_content(@order_3.user.name)
       expect(page.all("p")[7]).to have_content(@order_3.id)
@@ -63,22 +63,3 @@ RSpec.describe "Admin dashboard" do
     end
   end
 end
-
-
-
-
-# As an admin user
-# When I log into my dashboard, "/admin/dashboard"
-# Then I see all orders in the system.
-# For each order I see the following information:
-#
-# - user who placed the order, which links to admin view of user profile
-# - order id
-# - date the order was created
-#
-# Orders are sorted by "status" in this order:
-#
-# - packaged
-# - pending
-# - shipped
-# - cancelled

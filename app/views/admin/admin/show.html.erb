@@ -2,8 +2,8 @@
 
 <div class="all-orders">
   <% @all_orders_sorted.each do |order| %>
-    <p><%= order.user.name %></p>
-    <p><%= order.id %></p>
-    <p><%= order.created_at %></p>
+    <p>Username: <%= order.user.name %></p>
+    <p>Order Id: <%= order.id %></p>
+    <p>Created: <%= order.created_at %></p>
   <% end %>
 </div>

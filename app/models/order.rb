@@ -32,5 +32,7 @@ class Order < ApplicationRecord
     end
   end
 
-  def sort_by_status 
+  def self.sort_by_status
+    order("status = 0 DESC, status = 1 DESC, status = 2 DESC, status = 3 DESC")
+  end
 end
