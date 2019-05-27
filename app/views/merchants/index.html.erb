@@ -1,0 +1,10 @@
+<div>
+  <%@merchants.each do |merchant| %>
+    <div id="merchant-<%=merchant.id%>">
+    <p>Name: <%=merchant.name%> </p>
+    <p>State: <%=merchant.state%></p>
+    <p>City: <%= merchant.city%></p>
+    <p>Registered: <%=merchant.date_registered%></p>
+    <div>
+  <% end %>
+</div>

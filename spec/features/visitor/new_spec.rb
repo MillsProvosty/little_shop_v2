@@ -26,7 +26,7 @@ RSpec.describe "As a visitor on the index page" do
 
         new_user = User.last
 
-        expect(current_path).to eq(user_profile_path)
+        expect(current_path).to eq(user_path)
         expect(page).to have_content("Congratulations #{new_user.name}! You are now registered and logged in.")
       end
       it "when I fill out missing name for registration page I am returned to the registration page" do
@@ -165,7 +165,7 @@ RSpec.describe "As a visitor on the index page" do
 
         new_user = User.last
 
-        expect(current_path).to eq(user_profile_path)
+        expect(current_path).to eq(user_path)
       end
     end
   end

@@ -60,7 +60,7 @@ RSpec.describe Cart do
 
   describe '#clear_cart' do
     it 'clears an entire cart of all items' do
-        @cart.clear_cart
+      @cart.clear_cart
 
       expect(@cart.contents).to eq(Hash.new)
     end

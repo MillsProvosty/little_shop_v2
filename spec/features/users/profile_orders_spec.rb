@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+include ActionView::Helpers::NumberHelper
 
 RSpec.describe "When a registered User visits Profile Orders Page" do
   before :each do
@@ -42,7 +42,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
-    visit profile_orders_path
+    visit user_orders_path
 
     within("#order-#{@order_1.id}") do
       expect(page).to have_content(@order_1.id)
@@ -50,7 +50,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(@order_1.updated_at)
       expect(page).to have_content(@order_1.status)
       expect(page).to have_content(@order_1.item_quantity)
-      expect(page).to have_content(@order_1.items_total_value)
+      expect(page).to have_content(number_to_currency @order_1.items_total_value)
     end
 
     within("#order-#{@order_2.id}") do
@@ -59,7 +59,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(@order_2.updated_at)
       expect(page).to have_content(@order_2.status)
       expect(page).to have_content(@order_2.item_quantity)
-      expect(page).to have_content(@order_2.items_total_value)
+      expect(page).to have_content(number_to_currency @order_2.items_total_value)
     end
 
     within("#order-#{@order_3.id}") do
@@ -68,7 +68,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(@order_3.updated_at)
       expect(page).to have_content(@order_3.status)
       expect(page).to have_content(@order_3.item_quantity)
-      expect(page).to have_content(@order_3.items_total_value)
+      expect(page).to have_content(number_to_currency @order_3.items_total_value)
     end
 
     within("#order-#{@order_4.id}") do
@@ -77,7 +77,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(@order_4.updated_at)
       expect(page).to have_content(@order_4.status)
       expect(page).to have_content(@order_4.item_quantity)
-      expect(page).to have_content(@order_4.items_total_value)
+      expect(page).to have_content(number_to_currency @order_4.items_total_value)
     end
     within("#order-#{@user.orders.last.id}") do
       expect(page).to have_content(@user.orders.last.id)
@@ -85,7 +85,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(@user.orders.last.updated_at)
       expect(page).to have_content(@user.orders.last.status)
       expect(page).to have_content(@user.orders.last.item_quantity)
-      expect(page).to have_content(@user.orders.last.items_total_value)
+      expect(page).to have_content(number_to_currency @user.orders.last.items_total_value)
     end
   end
 end
