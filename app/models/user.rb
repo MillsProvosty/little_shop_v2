@@ -39,9 +39,12 @@ class User < ApplicationRecord
   end
 
   def top_three_states
-    binding.pry
+    items.joins(:orders)
+    .where("orders.status = 2")
+    .select("SUM(order_items.quantity) AS qty, users.state")
+    .joins("join users on orders.user_id = users.id")
+    .group("users.state")
+    .limit(4)
+    .pluck(:state)
   end
-
-
-
 end

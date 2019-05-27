@@ -66,29 +66,6 @@ RSpec.describe User, type: :model do
     it '.all_orders' do
       expect(@user.pending_orders).to eq([@order_2])
     end
-
-    it '.top_three_states' do
-      merchant = create(:merchant)
-      user_1 = create(:user, city: "New Orleans", state: "Louisiana")
-      user_2 = create(:user, city: "Denver", state: "Colorado")
-      user_3 = create(:user, city: "Jackson", state: "Florida")
-      user_4 = create(:user, city: "Dallas", state: "Texas")
-
-      o1 = create(:order, user: user_1)
-      o2 = create(:order, user: user_2)
-      o3 = create(:order, user: user_3)
-      o4 = create(:order, user: user_4)
-
-      i1 = create(:item, user: merchant)
-
-      oi1 = create(:order_item, item: i1, quantity: 2, fulfilled: true, order: o1)
-      oi1 = create(:order_item, item: i1, quantity: 5, fulfilled: true, order: o2)
-      oi1 = create(:order_item, item: i1, quantity: 4, fulfilled: true, order: o3)
-      oi1 = create(:order_item, item: i1, quantity: 3, fulfilled: true, order: o4)
-
-
-      expect(merchant.top_three_states).to eq(["Colorado", "Florida", "Texas"])
-    end
   end
 
   describe "Class methods" do
@@ -123,6 +100,29 @@ RSpec.describe User, type: :model do
     it '#date_registered' do
       user = create(:user)
       expect(user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
+    end
+
+    it '.top_three_states' do
+      merchant = create(:merchant)
+      user_1 = create(:user, city: "New Orleans", state: "Louisiana")
+      user_2 = create(:user, city: "Denver", state: "Colorado")
+      user_3 = create(:user, city: "Houston", state: "Texas")
+      user_4 = create(:user, city: "Dallas", state: "Texas")
+
+      o1 = create(:order, user: user_1, status: "shipped")
+      o2 = create(:order, user: user_2, status: "shipped")
+      o3 = create(:order, user: user_3, status: "shipped")
+      o4 = create(:order, user: user_4, status: "shipped")
+
+      i1 = create(:item, user: merchant)
+
+      oi1 = create(:order_item, item: i1, quantity: 50, fulfilled: true, order: o2)
+      oi1 = create(:order_item, item: i1, quantity: 25, fulfilled: true, order: o3)
+      oi1 = create(:order_item, item: i1, quantity: 100, fulfilled: true, order: o1)
+      oi1 = create(:order_item, item: i1, quantity: 3, fulfilled: true, order: o4)
+
+
+      expect(merchant.top_three_states).to eq(["Louisiana", "Colorado", "Florida"])
     end
   end
 end

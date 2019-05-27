@@ -46,4 +46,5 @@ class Item < ApplicationRecord
   def percentage_remaining
       quantity_bought/inventory.to_f * 100
   end
+
 end
