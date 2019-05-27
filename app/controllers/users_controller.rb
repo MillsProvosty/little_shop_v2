@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   private
     def user_params
       params.require(:user).permit(:name, :email, :address, :city, :state, :zip, :password, :password_confirmation)
-    end
+    end 
 
     def user_update_params
       params.require(:user).permit(:name, :email, :address, :city, :state, :zip).merge(password: params[:user][:password].empty? ? current_user.password_digest : params[:user][:password])
