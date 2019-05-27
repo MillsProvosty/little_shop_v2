@@ -88,4 +88,46 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(number_to_currency @user.orders.last.items_total_value)
     end
   end
+
+describe "when I visit an orders show page " do
+  it "if order still pending, I see button to cancel the order" do
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+    visit user_orders_path
+
+    within("#order-#{@order_1.id}") do
+      expect(page).to have_button("Cancel Order")
+    end
+
+    within("#order-#{@order_2.id}") do
+      expect(page).to have_button("Cancel Order")
+    end
+
+    within("#order-#{@order_3.id}") do
+      expect(page).to have_button("Cancel Order")
+    end
+  end
+
+    it "each row in order item is given status of unfulfilled, order is given status cancel" do
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+    visit user_orders_path
+
+    within("#order-#{@order_1.id}") do
+      click_button "Cancel Order"
+    end
+
+    expect(@order_1.status).to eq("cancelled")
+    expect(@o1_oi1.fulfilled).to eq("false")
+    expect(page).to have_content("unfulfilled")
+    expect(@o1_oi2.fulfilled).to eq("false")
+    expect(@o1_oi3.fulfilled).to eq("false")
+
+# have their quantities returned to their respective merchant's inventory for that item.
+# - I am returned to my profile page
+# - I see a flash message telling me the order is now cancelled
+# - And I see that this order now has an updated status of "cancelled"
+
+    end
+  end
 end

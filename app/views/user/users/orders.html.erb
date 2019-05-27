@@ -7,5 +7,11 @@
   <p><%= order.updated_at %></p>
   <p><%= number_to_currency(order.item_quantity) %></p>
   <p><%= number_to_currency(order.items_total_value) %></p>
+<<<<<<< Updated upstream
+=======
+
+  <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
+
+>>>>>>> Stashed changes
 </div>
 <% end %>
