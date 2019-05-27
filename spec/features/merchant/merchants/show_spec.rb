@@ -14,7 +14,7 @@ RSpec.describe 'Merchant Show page' do
       @o1,@o2,@o3 = create_list(:order, 3)
 
       #orders with shipped status
-      @o4,@o5 = create_list(:order, 2, status: 'shipped')
+      @o4,@o5,@o6 = create_list(:order, 3, status: 'shipped')
 
       create(:order_item, item: @i1, order: @o1, quantity: 1)
       create(:order_item, item: @i2, order: @o1, quantity: 2)
@@ -27,6 +27,14 @@ RSpec.describe 'Merchant Show page' do
       create(:order_item, item: @i9, order: @o3, quantity: 6)
       create(:order_item, item: @i2, order: @o4, quantity: 1)
       create(:order_item, item: @i2, order: @o5, quantity: 2)
+
+      #shipped order
+      create(:order_item, item: @i2, order: @o6, quantity: 2, fulfilled: true)
+      create(:order_item, item: @i7, order: @o6, quantity: 20, fulfilled: true)
+      create(:order_item, item: @i4, order: @o6, quantity: 19, fulfilled: true)
+      create(:order_item, item: @i9, order: @o6, quantity: 17, fulfilled: true)
+      create(:order_item, item: @i8, order: @o6, quantity: 15, fulfilled: true)
+      create(:order_item, item: @i6, order: @o6, quantity: 13, fulfilled: true)
 
       #additional items added to order from different merchant
       create(:order_item, item: @i13, order: @o1)
@@ -115,7 +123,55 @@ RSpec.describe 'Merchant Show page' do
           expect(page).to have_content("Quantity on Order: 3")
           expect(page).to have_content("Price: $1.00")
         end
+    end
 
+
+    describe "I see an area with statistics" do
+
+      it " top 5 items sold by quantity, quantity of each" do
+        within("#merchant_stats") do
+          #7,4,9,8,6
+          expect(page).to have_content("Top 5 items sold:")
+          expect(page.all("p")[0]).to have_content("#{@i7.name} : #{@i7.quantity_bought}")
+          expect(page.all("p")[1]).to have_content("#{@i4.name} : #{@i4.quantity_bought}")
+          expect(page.all("p")[2]).to have_content("#{@i9.name} : #{@i9.quantity_bought}")
+          expect(page.all("p")[3]).to have_content("#{@i8.name} : #{@i8.quantity_bought}")
+          expect(page.all("p")[4]).to have_content("#{@i6.name} : #{@i6.quantity_bought}")
+        end
+
+      end
+
+      it "shows total quantity of items sold, % against sold units plus remaining inventory" do
+        visit merchant_dashboard_path
+        expect(page).to have_content("Quantity Sold vs. Remaining Inventory")
+        expect(page).to have_content("Item: #{@i1.name}#{@i1.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i1.percentage_remaining)}")
+        expect(page).to have_content("Item: #{@i3.name}#{@i3.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i3.percentage_remaining)}")
+        expect(page).to have_content("Item: #{@i7.name}#{@i7.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i7.percentage_remaining)}")
+      end
+
+      it "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
+        visit merchant_dashboard_path
+        expect(page).to have_content("Top Three States Where Items Were Shipped:")
+        expect(page).to have_content("Top Three Cities Where Items Were Shipped:")
+          expect(page.all("p")[0]).to have_content("#{@i7.name} : #{@i7.quantity_bought}")
+          within("#states") do
+            expect(page.all("p")[0]).to have_content("#{@merchant.top_three_states[0]}")
+            expect(page.all("p")[1]).to have_content("#{@merchant.top_three_states[1]}")
+            expect(page.all("p")[2]).to have_content("#{@merchant.top_three_states[2]}")
+          end
+
+          within("#cities") do
+            expect(page.all("p")[0]).to have_content("#{@merchant.top_three_cities[0]}")
+            expect(page.all("p")[1]).to have_content("#{@merchant.top_three_cities[1]}")
+            expect(page.all("p")[2]).to have_content("#{@merchant.top_three_cities[2]}")
+          end
+      end
+
+      xit "shows name of user: with most orders, who bought the most total itmes and total quantity, and top 3 users who have spent the most money and total amount they've spent. " do
+
+
+
+      end
     end
   end
 end
