@@ -91,6 +91,42 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
     end
   end
 
+describe "when I visit an orders show page " do
+  it "if order still pending, I see button to cancel the order" do
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+    visit user_orders_path
+
+    within("#order-#{@order_1.id}") do
+      expect(page).to have_button("Cancel Order")
+    end
+
+    within("#order-#{@order_2.id}") do
+      expect(page).to have_button("Cancel Order")
+    end
+
+    within("#order-#{@order_3.id}") do
+      expect(page).to have_button("Cancel Order")
+    end
+  end
+
+    it "each row in order item is given status of unfulfilled, order is given status cancel" do
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+    visit user_orders_path
+
+    within("#order-#{@order_1.id}") do
+      click_button "Cancel Order"
+    end
+
+    @order_1.reload
+
+    expect(@order_1.status).to eq("cancelled")
+    expect(@o1_oi1.fulfilled).to eq(false)
+    expect(@o1_oi2.fulfilled).to eq(false)
+    expect(@o1_oi3.fulfilled).to eq(false)
+  end   
+
     it "shows each item I ordered and all information about those items" do
       user = create(:user)
 

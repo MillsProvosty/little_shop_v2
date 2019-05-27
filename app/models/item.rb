@@ -4,8 +4,8 @@ class Item < ApplicationRecord
 
   validates_inclusion_of :active, in: [true, false]
   belongs_to :user
-  has_many :order_items
-  has_many :orders, through: :order_items
+  has_many :order_items, dependent: :destroy
+  has_many :orders, through: :order_items, dependent: :destroy
 
   def self.active_items
     Item.where(active: true)

@@ -32,10 +32,16 @@ class User::UsersController < User::BaseController
     @orders = current_user.orders
   end
 
+  def destroy
+    @order = Order.find(params[:id])
+    @order.update_column(:status, "cancelled")
+    redirect_to user_orders_path
+  end
+
+
   private
    def user_update_params
     params.require(:user).permit(:name, :email, :address, :city, :state, :zip)
       .merge(password: params[:user][:password].empty? ? current_user.password_digest : params[:user][:password])
   end
-
 end

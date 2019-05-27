@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   patch '/cart/item/:id', to: 'carts#eliminate_item', as: :cart_eliminate_item
 
   ## RESTRICTED PATHS ##
-
   # user_paths
   scope :profile, module: :user, as: :user do
     get '/', to: "users#show"
@@ -30,6 +29,8 @@ Rails.application.routes.draw do
     get '/edit', to: "users#edit"
     get '/orders', to: "users#orders"
     post '/orders', to: "users#checkout"
+    delete '/order/rr
+    :id', to: "users#destroy", as: :cancel_order
   end
 
   # merchant_paths
