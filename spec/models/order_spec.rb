@@ -41,7 +41,7 @@ RSpec.describe Order, type: :model do
 
     it '#items_total_value' do
       expect(@o1.items_total_value.to_f).to eq(37.0)
-      expect(@o2.items_total_value.to_f).to eq(130.0) 
+      expect(@o2.items_total_value.to_f).to eq(130.0)
       expect(@o3.items_total_value.to_f).to eq(60.0)
     end
 
@@ -75,6 +75,20 @@ RSpec.describe Order, type: :model do
 
       expect(order.item_total_value_for_merchant(merchant.id).to_f).to eq(25.0)
 
+    end
+  end
+  describe "Class Methods" do
+    it ".sort_by_status" do
+      user = create(:user)
+      user_2 = create(:user)
+
+      order_1 = create(:cancelled_order, user: user)
+      order_2 = create(:packaged_order, user: user_2)
+      order_3 = create(:shipped_order, user: user)
+      order_4 = create(:order, user: user_2)
+
+      orders = Order.all
+      expect(orders.sort_by_status).to eq([order_2, order_4, order_3, order_1])
     end
   end
 end
