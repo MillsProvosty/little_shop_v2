@@ -4,5 +4,4 @@ class OrderItem < ApplicationRecord
 
   validates_numericality_of :quantity, :price
   validates_inclusion_of :fulfilled, in: [true, false]
-
 end

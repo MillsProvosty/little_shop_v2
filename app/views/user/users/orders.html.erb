@@ -5,10 +5,19 @@
   <p><%= order.status %></p>
   <p><%= order.created_at %></p>
   <p><%= order.updated_at %></p>
-  <p><%= number_to_currency(order.item_quantity) %></p>
+  <p>Quantity: <%= order.item_quantity %></p>
   <p><%= number_to_currency(order.items_total_value) %></p>
 
   <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
+
+  <% order.items.each do |item| %>
+  <%= item.name %>
+  <%= item.description %>
+  <%= item.image %>
+  <%= item.quantity_bought %>
+  <%= item.price %>
+  <%= item.item_subtotal %>
+  <% end %>
 
 </div>
 <% end %>

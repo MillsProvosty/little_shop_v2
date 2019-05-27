@@ -1,7 +1,6 @@
 class Order < ApplicationRecord
 
   enum status: [:pending, :packaged, :shipped, :cancelled]
-  #validates_numericality_of :status
 
   belongs_to :user
   has_many :order_items, dependent: :destroy
@@ -9,11 +8,31 @@ class Order < ApplicationRecord
 
 
   def item_quantity
-    items.count
+    order_items.sum :quantity
   end
 
   def items_total_value
-    items.sum(:price)
+    order_items.sum { | o_i| o_i.price * o_i.quantity }
   end
 
+  def items_from_merchant(merchant_id)
+    items.where(user_id: merchant_id)
+  end
+
+  def item_count_for_merchant(merchant_id)
+    items_from_merchant(merchant_id).sum do |item|
+      item.order_items.find_by(order_id: id).quantity
+    end
+  end
+
+  def item_total_value_for_merchant(merchant_id)
+    items_from_merchant(merchant_id).sum do |item|
+      order_item = item.order_items.find_by(order_id: id)
+      order_item.price * order_item.quantity
+    end
+  end
+
+  def self.sort_by_status
+    order("status = 0 DESC, status = 1 DESC, status = 2 DESC, status = 3 DESC")
+  end
 end

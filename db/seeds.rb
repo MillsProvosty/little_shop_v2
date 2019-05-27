@@ -22,7 +22,6 @@ merchant_1 = create(:merchant)
 existing_user = create(:user, email: "existingemail@gmail.com")
 
 merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)
-binding.pry
 inactive_merchant_1 = create(:inactive_merchant)
 inactive_user_1 = create(:inactive_user)
 

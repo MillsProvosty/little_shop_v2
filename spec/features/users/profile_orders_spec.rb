@@ -12,6 +12,8 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
         @o1_oi1 = create(:order_item, order: @order_1, item: @item_1)
         @o1_oi2 = create(:order_item, order: @order_1, item: @item_2)
         @o1_oi3 = create(:order_item, order: @order_1, item: @item_3)
+        @o1_oi4 = create(:order_item, order: @order_1, item: @item_3)
+        @o1_oi5 = create(:order_item, order: @order_1, item: @item_3)
 
     @order_2 = create(:packaged_order, user: @user)
       @item_4 = create(:item)
@@ -123,6 +125,31 @@ describe "when I visit an orders show page " do
     expect(@o1_oi1.fulfilled).to eq(false)
     expect(@o1_oi2.fulfilled).to eq(false)
     expect(@o1_oi3.fulfilled).to eq(false)
+  end   
+
+    it "shows each item I ordered and all information about those items" do
+      user = create(:user)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      order_1 = create(:order, user: user)
+        item_1 = create(:item)
+        item_2 = create(:item)
+        item_3 = create(:item)
+          o1_oi1 = create(:order_item, order: order_1, item: item_1)
+          o1_oi2 = create(:order_item, order: order_1, item: item_2)
+          o1_oi3 = create(:order_item, order: order_1, item: item_3)
+          o1_oi4 = create(:order_item, order: order_1, item: item_3)
+          o1_oi5 = create(:order_item, order: order_1, item: item_3)
+      visit user_orders_path
+
+      within("#order-#{order_1.id}") do
+        expect(page).to have_content(item_1.name)
+        expect(page).to have_content(item_1.description)
+        expect(page).to have_content(item_1.image)
+        expect(page).to have_content(item_1.quantity_bought)
+        expect(page).to have_content(item_1.price)
+        expect(page).to have_content(item_3.item_subtotal)
     end
   end
 end

@@ -35,4 +35,16 @@ class Item < ApplicationRecord
   end
 
 
+  def quantity_on_order(order_id)
+    order_items.find_by(order_id: order_id).quantity
+  end
+
+  def item_subtotal
+    order_items.sum("order_items.price * order_items.quantity")
+  end
+
+  def percentage_remaining
+      quantity_bought/inventory.to_f * 100
+  end
+
 end

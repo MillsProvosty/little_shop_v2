@@ -1,0 +1,9 @@
+<h1>Admin Dashboard</h1>
+
+<div class="all-orders">
+  <% @all_orders_sorted.each do |order| %>
+    <p>Username: <%= order.user.name %></p>
+    <p>Order Id: <%= order.id %></p>
+    <p>Created: <%= order.created_at %></p>
+  <% end %>
+</div>

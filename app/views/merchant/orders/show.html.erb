@@ -1,0 +1,19 @@
+<div>
+  <section>
+    <h2><%=@order.user.name%></h2>
+    <p>
+      Address: <%=@order.user.address%>, <%= @order.user.city%>, <%=@order.user.state%>, <%= @order.user.zip%>
+    </p>
+
+    <section>
+      <h2>Items</h2>
+      <%@items.each do |item| %>
+        <div id="item-<%=item.id%>">
+          <p><%= link_to item.name, item_path(item)%></p>
+          <img src="<%=item.image%>">
+          <p>Price: <%=number_to_currency item.price%></p>
+          <p>Quantity on Order: <%= item.quantity_on_order(@order.id)%></p>
+        </div>
+      <%end%>
+    </section>
+</div>
