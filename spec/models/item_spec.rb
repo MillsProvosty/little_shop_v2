@@ -102,6 +102,7 @@ RSpec.describe Item, type: :model do
       expect(item.avg_fulfill_time).to eq(120)
     end
 
+
     it '#quantity_on_order' do
       item = create(:item)
       order_1, order_2 = create_list(:order, 2)
@@ -110,6 +111,23 @@ RSpec.describe Item, type: :model do
 
       expect(item.quantity_on_order(order_1)).to eq(order_item_1.quantity)
       expect(item.quantity_on_order(order_2)).to eq(order_item_2.quantity)
+
+    it ".item_subtotal" do
+      user = create(:user)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      order_1 = create(:order, user: user)
+        item_1 = create(:item)
+        item_2 = create(:item)
+        item_3 = create(:item)
+          o1_oi1 = create(:order_item, order: order_1, item: item_1)
+          o1_oi2 = create(:order_item, order: order_1, item: item_2)
+          o1_oi3 = create(:order_item, order: order_1, item: item_3)
+          o1_oi4 = create(:order_item, order: order_1, item: item_3)
+          o1_oi5 = create(:order_item, order: order_1, item: item_3)
+
+      expect(item_3.item_subtotal).to eq(0.387e3)
     end
   end
 end

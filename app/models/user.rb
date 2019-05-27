@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password 
   validates_presence_of :role, :email, :password, :name, :address, :city,
                         :state, :zip
 
@@ -32,6 +32,10 @@ class User < ApplicationRecord
 
   def self.active_merchants
     where(role: :merchant, active: true).order(name: :asc)
+  end 
+
+  def self.reg_users
+    where(role: "user")
   end
 
 end

@@ -7,5 +7,13 @@
   <p><%= order.updated_at %></p>
   <p>Quantity: <%= order.item_quantity %></p>
   <p><%= number_to_currency(order.items_total_value) %></p>
+  <% order.items.each do |item| %>
+  <%= item.name %>
+  <%= item.description %>
+  <%= item.image %>
+  <%= item.quantity_bought %>
+  <%= item.price %>
+  <%= item.item_subtotal %>
+  <% end %>
 </div>
 <% end %>

@@ -49,8 +49,6 @@ RSpec.describe User, type: :model do
       @oi_8 = create(:order_item, item: @item_6, order: @order_2, quantity: 6, fulfilled: false)
       @oi_9 = create(:order_item, item: @item_7, order: @order_3, quantity: 13, fulfilled: true)
       @oi_10 = create(:order_item, item: @item_8, order: @order_2, quantity: 6, fulfilled: true)
-
-
     end
     it ".top_items_for_merchant" do
 
@@ -62,14 +60,36 @@ RSpec.describe User, type: :model do
     it '.all_orders' do
       expect(@user.pending_orders).to eq([@order_2])
     end
+  end
 
-    it '#date_registered' do
-      expect(@user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
-    end
+  describe "Class methods" do
+     it "reg_users" do
+       user_4 = create(:user)
+       user_5 = create(:user)
+       user_6 = create(:user)
+
 
     it '#active_merchant' do
       expect(User.active_merchants).to eq([@merchant])
     end
 
+       merchant_1 = create(:merchant)
+       merchant_2 = create(:merchant)
+       merchant_3 = create(:merchant)
+
+       admin_1 = create(:admin)
+       admin_2 = create(:admin)
+       admin_3 = create(:admin)
+
+       admin = create(:admin)
+
+       users = User.all
+       expect(users.reg_users).to eq([user_4, user_5, user_6])
+     end
+
+    it '#date_registered' do
+      user = create(:user)
+      expect(user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
+    end
   end
 end
