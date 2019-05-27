@@ -167,8 +167,9 @@ RSpec.describe 'Merchant Show page' do
           end
       end
 
-      xit "shows name of user: with most orders, who bought the most total itmes and total quantity, and top 3 users who have spent the most money and total amount they've spent. " do
-
+      it "shows name of user: with most orders, who bought the most total itmes and total quantity, and top 3 users who have spent the most money and total amount they've spent. " do
+        visit merchant_dashboard_path
+          
 
 
       end
