@@ -38,6 +38,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           expect(page).to have_content("Subtotal: $6.00")
           expect(page).to have_content("Subtotal: $4.50")
         end
+
         expect(page).to have_content("Grand total: $10.50")
         expect(page).to have_link("Empty My Cart")
       end
@@ -70,7 +71,6 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
   end
 
   describe 'I can empty a cart that has items' do
-
     it 'vistor empties cart' do
       visit item_path(@i1)
       click_button "Add Item"
@@ -177,8 +177,6 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
     end
 
     describe 'decrement and increment items in cart' do
-
-
       before :each do
         merchant = create(:merchant)
         @i1,@i3,@i4,@i5 = create_list(:item,5, user: merchant)
@@ -267,7 +265,8 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
         expect(page).to have_content("Cart: 2")
         expect(page).to_not have_content(@i2.name)
       end
-      end
+    end
+
     describe "as a visitor with items in my cart" do
       before :each do
         merchant = create(:merchant)
@@ -295,6 +294,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           expect(page).to have_link("register")
           expect(page).to have_link("log in")
         end
+
         it "I see a message telling me I must register or log in to checkout" do
           user = create(:user)
           order = create(:order, user: user)
@@ -314,7 +314,6 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           expect(page).to have_link("Checkout")
           click_link "Checkout"
 
-
           expect(current_path).to eq(user_orders_path)
           expect(page).to have_content("Your order was created.")
           expect(page).to have_content("Order: #{order.id}")
@@ -322,6 +321,16 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           expect(page).to have_content(order.created_at)
           expect(page).to have_content(order.created_at)
           expect(page).to have_content("Cart: 0")
+      end
+    end
+
+  describe 'As a registered user, when I add items to my cart and I visit my cart' do
+    describe "I see a button or link indicating I can checkout" do
+      describe "I click the button to checkout and an order is created with 'pending' status" do
+        it "I visit profile/orders path and see a flash message saying order was created and I see a new order list, cart is empty " do
+          expect(page).to 
+
+        end
       end
     end
   end
