@@ -106,7 +106,7 @@ RSpec.describe User, type: :model do
       merchant = create(:merchant)
       user_1 = create(:user, city: "New Orleans", state: "Louisiana")
       user_2 = create(:user, city: "Denver", state: "Colorado")
-      user_3 = create(:user, city: "Houston", state: "Texas")
+      user_3 = create(:user, city: "Jacksonville", state: "Florida")
       user_4 = create(:user, city: "Dallas", state: "Texas")
 
       o1 = create(:order, user: user_1, status: "shipped")
@@ -122,7 +122,7 @@ RSpec.describe User, type: :model do
       oi1 = create(:order_item, item: i1, quantity: 3, fulfilled: true, order: o4)
 
 
-      expect(merchant.top_three_states).to eq(["Louisiana", "Colorado", "Florida"])
+      expect(merchant.top_three_states.map(& :state)).to eq(["Louisiana", "Colorado", "Florida"])
     end
   end
 end

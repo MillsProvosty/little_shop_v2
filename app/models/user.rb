@@ -44,7 +44,7 @@ class User < ApplicationRecord
     .select("SUM(order_items.quantity) AS qty, users.state")
     .joins("join users on orders.user_id = users.id")
     .group("users.state")
-    .limit(4)
-    .pluck(:state)
+    .order("qty DESC")
+    .limit(3)
   end
 end
