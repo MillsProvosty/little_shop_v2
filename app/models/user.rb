@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_secure_password 
+  has_secure_password
   validates_presence_of :role, :email, :password, :name, :address, :city,
                         :state, :zip
 
@@ -37,5 +37,11 @@ class User < ApplicationRecord
   def self.reg_users
     where(role: "user")
   end
+
+  def top_three_states
+    binding.pry
+  end
+
+
 
 end

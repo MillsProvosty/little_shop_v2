@@ -149,9 +149,22 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Item: #{@i7.name}#{@i7.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i7.percentage_remaining)}")
       end
 
-      xit "shows top 3 stats where items were shipped/quantities, and the top 3 city/states where items shipped and quantities " do
+      it "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
+        visit merchant_dashboard_path
+        expect(page).to have_content("Top Three States Where Items Were Shipped:")
+        expect(page).to have_content("Top Three Cities Where Items Were Shipped:")
+          expect(page.all("p")[0]).to have_content("#{@i7.name} : #{@i7.quantity_bought}")
+          within("#states") do
+            expect(page.all("p")[0]).to have_content("#{@merchant.top_three_states[0]}")
+            expect(page.all("p")[1]).to have_content("#{@merchant.top_three_states[1]}")
+            expect(page.all("p")[2]).to have_content("#{@merchant.top_three_states[2]}")
+          end
 
-
+          within("#cities") do
+            expect(page.all("p")[0]).to have_content("#{@merchant.top_three_cities[0]}")
+            expect(page.all("p")[1]).to have_content("#{@merchant.top_three_cities[1]}")
+            expect(page.all("p")[2]).to have_content("#{@merchant.top_three_cities[2]}")
+          end
       end
 
       xit "shows name of user: with most orders, who bought the most total itmes and total quantity, and top 3 users who have spent the most money and total amount they've spent. " do

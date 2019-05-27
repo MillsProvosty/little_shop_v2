@@ -20,6 +20,13 @@
   </ul>
 </div>
 
+<div id="states">
+  <h3>Top Three States Where Items Were Shipped:</h3>
+    <% current_user.top_three_states.each do |state|  %>
+  <p><%= state %>  </p>
+    <% end %>
+</div>
+
 <div>
   <%=link_to "View my items", merchant_items_path%>
 </div>
