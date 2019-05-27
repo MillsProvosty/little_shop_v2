@@ -31,4 +31,8 @@ class Order < ApplicationRecord
       order_item.price * order_item.quantity
     end
   end
+
+  def self.sort_by_status
+    order("status = 0 DESC, status = 1 DESC, status = 2 DESC, status = 3 DESC")
+  end
 end
