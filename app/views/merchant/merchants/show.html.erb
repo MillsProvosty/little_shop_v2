@@ -23,7 +23,14 @@
 <div id="states">
   <h3>Top Three States Where Items Were Shipped:</h3>
     <% current_user.top_three_states.each do |state|  %>
-  <p><%= state %>  </p>
+  <p><%= state %></p>
+    <% end %>
+</div>
+
+<div id="citites">
+  <h3>Top Three Cities Where Items Were Shipped:</h3>
+    <% current_user.top_three_citites.each do |city| %>
+    <p><%= city %></p>
     <% end %>
 </div>
 

@@ -47,4 +47,14 @@ class User < ApplicationRecord
     .order("qty DESC")
     .limit(3)
   end
+
+  def top_three_cities
+    items.joins(:orders)
+    .where("orders.status = 2")
+    .select("SUM(order_items.quantity) AS qty, users.city, users.state")
+    .joins("join users on orders.user_id = users.id")
+    .group("users.city, users.state")
+    .order("qty DESC")
+    .limit(3)
+  end
 end
