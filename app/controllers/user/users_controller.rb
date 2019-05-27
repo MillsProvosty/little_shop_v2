@@ -34,9 +34,7 @@ class User::UsersController < User::BaseController
 
   def destroy
     @order = Order.find(params[:id])
-    @order.destroy
-    binding.pry
-    @order.update_attributes(order_delete_params)
+    @order.update_column(:status, "cancelled")
     redirect_to user_orders_path
   end
 
@@ -50,9 +48,4 @@ class User::UsersController < User::BaseController
     params.require(:user).permit(:name, :email, :address, :city, :state, :zip)
       .merge(password: params[:user][:password].empty? ? current_user.password_digest : params[:user][:password])
   end
-
-  def order_delete_params
-    params.permit(:status)
-  end
-
 end

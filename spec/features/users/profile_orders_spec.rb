@@ -117,17 +117,12 @@ describe "when I visit an orders show page " do
       click_button "Cancel Order"
     end
 
+    @order_1.reload
+
     expect(@order_1.status).to eq("cancelled")
-    expect(@o1_oi1.fulfilled).to eq("false")
-    expect(page).to have_content("unfulfilled")
-    expect(@o1_oi2.fulfilled).to eq("false")
-    expect(@o1_oi3.fulfilled).to eq("false")
-
-# have their quantities returned to their respective merchant's inventory for that item.
-# - I am returned to my profile page
-# - I see a flash message telling me the order is now cancelled
-# - And I see that this order now has an updated status of "cancelled"
-
+    expect(@o1_oi1.fulfilled).to eq(false)
+    expect(@o1_oi2.fulfilled).to eq(false)
+    expect(@o1_oi3.fulfilled).to eq(false)
     end
   end
 end
