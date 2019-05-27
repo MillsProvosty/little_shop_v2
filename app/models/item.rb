@@ -34,5 +34,7 @@ class Item < ApplicationRecord
     order_items.average("order_items.updated_at - order_items.created_at").to_i * 24
   end
 
-
+  def quantity_on_order(order_id)
+    order_items.find_by(order_id: order_id).quantity
+  end
 end
