@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   describe "validations" do
     it {should validate_presence_of :name}
-    #it {should validate_inclusion_of :active}
     it {should validate_numericality_of :price}
     it {should validate_presence_of :description}
     it {should validate_presence_of :image}
@@ -101,6 +100,16 @@ RSpec.describe Item, type: :model do
       io_3.fulfilled = true
 
       expect(item.avg_fulfill_time).to eq(120)
+    end
+
+    it '#quantity_on_order' do
+      item = create(:item)
+      order_1, order_2 = create_list(:order, 2)
+      order_item_1 = create(:order_item, item: item, order: order_1, quantity: 3)
+      order_item_2 = create(:order_item, item: item, order: order_2, quantity: 1)
+
+      expect(item.quantity_on_order(order_1)).to eq(order_item_1.quantity)
+      expect(item.quantity_on_order(order_2)).to eq(order_item_2.quantity)
     end
   end
 end
