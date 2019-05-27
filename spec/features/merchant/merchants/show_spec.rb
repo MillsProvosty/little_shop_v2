@@ -14,7 +14,7 @@ RSpec.describe 'Merchant Show page' do
       @o1,@o2,@o3 = create_list(:order, 3)
 
       #orders with shipped status
-      @o4,@o5 = create_list(:order, 2, status: 'shipped')
+      @o4,@o5,@o6 = create_list(:order, 3, status: 'shipped')
 
       create(:order_item, item: @i1, order: @o1, quantity: 1)
       create(:order_item, item: @i2, order: @o1, quantity: 2)
@@ -27,6 +27,14 @@ RSpec.describe 'Merchant Show page' do
       create(:order_item, item: @i9, order: @o3, quantity: 6)
       create(:order_item, item: @i2, order: @o4, quantity: 1)
       create(:order_item, item: @i2, order: @o5, quantity: 2)
+
+      #shipped order
+      create(:order_item, item: @i2, order: @o6, quantity: 2)
+      create(:order_item, item: @i7, order: @o6, quantity: 20)
+      create(:order_item, item: @i4, order: @o6, quantity: 19)
+      create(:order_item, item: @i9, order: @o6, quantity: 17)
+      create(:order_item, item: @i8, order: @o6, quantity: 15)
+      create(:order_item, item: @i6, order: @o6, quantity: 13)
 
       #additional items added to order from different merchant
       create(:order_item, item: @i13, order: @o1)
@@ -115,7 +123,75 @@ RSpec.describe 'Merchant Show page' do
           expect(page).to have_content("Quantity on Order: 3")
           expect(page).to have_content("Price: $1.00")
         end
+    end
 
+
+    describe "I see an area with statistics" do
+      # before :each do
+      #   visit logout_path
+      #
+      #   @merchant_1 = create(:merchant)
+      #   @i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9 = create_list(:item, 10, user: @merchant_1, price: 1.00)
+      #
+      #   #item with different merchant_1
+      #   @i12,@i13 = create_list(:item, 2)
+      #
+      #   #orders with pending status
+      #   @o1,@o2,@o3 = create_list(:order, 3)
+      #
+      #   #orders with shipped status
+      #   @o4,@o5 = create_list(:order, 2, status: 'shipped')
+      #
+      #   create(:order_item, item: @i1, order: @o1, quantity: 1)
+      #   create(:order_item, item: @i2, order: @o1, quantity: 2)
+      #   create(:order_item, item: @i3, order: @o1, quantity: 3)
+      #   create(:order_item, item: @i4, order: @o2, quantity: 7)
+      #   create(:order_item, item: @i5, order: @o2, quantity: 2)
+      #   create(:order_item, item: @i6, order: @o2, quantity: 4)
+      #   create(:order_item, item: @i7, order: @o3, quantity: 9)
+      #   create(:order_item, item: @i8, order: @o3, quantity: 5)
+      #   create(:order_item, item: @i9, order: @o3, quantity: 6)
+      #   create(:order_item, item: @i2, order: @o4, quantity: 1)
+      #   create(:order_item, item: @i2, order: @o5, quantity: 2)
+      #
+      #   #additional items added to order from different merchant_1
+      #   create(:order_item, item: @i13, order: @o1)
+      #   create(:order_item, item: @i12, order: @o1)
+      #
+      #   visit login_path
+      #
+      #   fill_in "email", with: @merchant_1.email
+      #   fill_in "password", with: @merchant_1.password
+      #
+      #   click_on "Log In"
+      # end
+
+      it " top 5 items sold by quantity, quantity of each" do
+        within("#merchant_stats") do
+          #7,4,9,8,6
+          expect(page).to have_content("Top 5 items sold:")
+          expect(page.all("p")[0]).to have_content("#{@i7.name} : #{@i7.quantity_bought}")
+          expect(page.all("p")[1]).to have_content("#{@i4.name} : #{@i4.quantity_bought}")
+          expect(page.all("p")[2]).to have_content("#{@i9.name} : #{@i9.quantity_bought}")
+          expect(page.all("p")[3]).to have_content("#{@i8.name} : #{@i8.quantity_bought}")
+          expect(page.all("p")[4]).to have_content("#{@i6.name} : #{@i6.quantity_bought}")
+        end
+
+      end
+
+      xit "shows total quantity of items sold, % against sold units plus remaining inventory" do
+      end
+
+      xit "shows top 3 stats where items were shipped/quantities, and the top 3 city/states where items shipped and quantities " do
+
+
+      end
+
+      xit "shows name of user: with most orders, who bought the most total itmes and total quantity, and top 3 users who have spent the most money and total amount they've spent. " do
+
+
+
+      end
     end
   end
 end

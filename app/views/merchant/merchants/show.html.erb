@@ -7,6 +7,14 @@
   <%= current_user.zip%>
 </div>
 
+<div id="merchant_stats">
+  <h3>Top 5 items sold:</h3>
+  <% @top_five_items.each do |item| %>
+  <p><%= item.name %> : <%= item.quantity_bought %></p>
+  <% end  %>
+  <p></p>
+</div>
+
 <div>
   <%=link_to "View my items", merchant_items_path%>
 </div>
