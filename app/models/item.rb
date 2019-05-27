@@ -34,5 +34,9 @@ class Item < ApplicationRecord
     order_items.average("order_items.updated_at - order_items.created_at").to_i * 24
   end
 
+  def item_subtotal
+    order_items.sum(:price)
+  end
+
 
 end
