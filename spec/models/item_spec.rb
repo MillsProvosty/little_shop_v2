@@ -117,16 +117,18 @@ RSpec.describe Item, type: :model do
       user = create(:user)
 
       order_1 = create(:order, user: user)
-        item_1 = create(:item, price: 2)
-        item_2 = create(:item, price: 3)
-        item_3 = create(:item, price: 4)
-          o1_oi1 = create(:order_item, order: order_1, item: item_1, quantity: 1)
-          o1_oi2 = create(:order_item, order: order_1, item: item_2, quantity: 2)
-          o1_oi3 = create(:order_item, order: order_1, item: item_3, quantity: 3)
-          o1_oi4 = create(:order_item, order: order_1, item: item_3, quantity: 4)
-          o1_oi5 = create(:order_item, order: order_1, item: item_3, quantity: 5)
+        item_1 = create(:item, price: 5)
+        item_2 = create(:item, price: 4)
+        item_3 = create(:item, price: 3)
+          o1_oi1 = create(:order_item, order: order_1, item: item_1, quantity: 1, price: 5)
+          o1_oi2 = create(:order_item, order: order_1, item: item_2, quantity: 2, price: 4)
+          o1_oi3 = create(:order_item, order: order_1, item: item_3, quantity: 3, price: 3)
+          o1_oi4 = create(:order_item, order: order_1, item: item_3, quantity: 4, price: 3)
+          o1_oi5 = create(:order_item, order: order_1, item: item_3, quantity: 5, price: 3)
 
-      expect(item_3.item_subtotal.to_f).to eq(48.0)
+      expect(item_3.item_subtotal.to_f).to eq(36.0)
+      expect(item_2.item_subtotal.to_f).to eq(8.0)
+      expect(item_1.item_subtotal.to_f).to eq(5.0)
     end
   end
 end
