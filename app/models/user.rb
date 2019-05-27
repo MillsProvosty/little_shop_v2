@@ -32,7 +32,7 @@ class User < ApplicationRecord
 
   def self.active_merchants
     where(role: :merchant, active: true).order(name: :asc)
-  end 
+  end
 
   def self.reg_users
     where(role: "user")

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   ## RESTRICTED PATHS ##
 
   # user_paths
-  namespace :profile, module: :user, as: :user do
+  scope :profile, module: :user, as: :user do
     get '/', to: "users#show"
     patch '/', to: "users#update"
     get '/edit', to: "users#edit"
@@ -33,9 +33,10 @@ Rails.application.routes.draw do
   end
 
   # merchant_paths
-  namespace :dashboard, module: :merchant, as: :merchant do
+  scope :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
     resources :items, only: [:index]
+    resources :orders, only: [:show]
   end
 
   # admin_paths

@@ -6,17 +6,20 @@
   <%= current_user.state%>
   <%= current_user.zip%>
 </div>
+
 <div>
   <%=link_to "View my items", merchant_items_path%>
+</div>
 
 <div id="order-info">
   <%current_user.pending_orders.each do |order| %>
     <div>
-    <%=link_to "Order# #{order.id}"%>
-    <p>Date Ordered: <%= order.created_at.strftime("%B %d, %Y")%></p>
-    <p>Quantity: <%= order.item_quantity%></p>
-    <p>Grand Total: <%= number_to_currency(order.items_total_value.to_f)%>
-      <div>
+      <%=link_to "Order# #{order.id}", merchant_order_path(order)%>
+      <p>Date Ordered: <%= order.created_at.strftime("%B %d, %Y")%></p>
+      <p>Quantity: <%= order.item_count_for_merchant(current_user.id)%></p>
+      <p>Grand Total:
+        <%= number_to_currency(order.item_total_value_for_merchant(current_user.id).to_f)%>
+      </p>
+    </div>
   <%end%>
-
 </div>

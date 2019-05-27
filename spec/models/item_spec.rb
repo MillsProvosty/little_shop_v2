@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   describe "validations" do
     it {should validate_presence_of :name}
-    #it {should validate_inclusion_of :active}
     it {should validate_numericality_of :price}
     it {should validate_presence_of :description}
     it {should validate_presence_of :image}
@@ -103,22 +102,33 @@ RSpec.describe Item, type: :model do
       expect(item.avg_fulfill_time).to eq(120)
     end
 
+
+    it '#quantity_on_order' do
+      item = create(:item)
+      order_1, order_2 = create_list(:order, 2)
+      order_item_1 = create(:order_item, item: item, order: order_1, quantity: 3)
+      order_item_2 = create(:order_item, item: item, order: order_2, quantity: 1)
+
+      expect(item.quantity_on_order(order_1)).to eq(order_item_1.quantity)
+      expect(item.quantity_on_order(order_2)).to eq(order_item_2.quantity)
+    end
+
     it ".item_subtotal" do
       user = create(:user)
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-
       order_1 = create(:order, user: user)
-        item_1 = create(:item)
-        item_2 = create(:item)
-        item_3 = create(:item)
-          o1_oi1 = create(:order_item, order: order_1, item: item_1)
-          o1_oi2 = create(:order_item, order: order_1, item: item_2)
-          o1_oi3 = create(:order_item, order: order_1, item: item_3)
-          o1_oi4 = create(:order_item, order: order_1, item: item_3)
-          o1_oi5 = create(:order_item, order: order_1, item: item_3)
+        item_1 = create(:item, price: 5)
+        item_2 = create(:item, price: 4)
+        item_3 = create(:item, price: 3)
+          o1_oi1 = create(:order_item, order: order_1, item: item_1, quantity: 1, price: 5)
+          o1_oi2 = create(:order_item, order: order_1, item: item_2, quantity: 2, price: 4)
+          o1_oi3 = create(:order_item, order: order_1, item: item_3, quantity: 3, price: 3)
+          o1_oi4 = create(:order_item, order: order_1, item: item_3, quantity: 4, price: 3)
+          o1_oi5 = create(:order_item, order: order_1, item: item_3, quantity: 5, price: 3)
 
-      expect(item_3.item_subtotal).to eq(0.387e3)
+      expect(item_3.item_subtotal.to_f).to eq(36.0)
+      expect(item_2.item_subtotal.to_f).to eq(8.0)
+      expect(item_1.item_subtotal.to_f).to eq(5.0)
     end
   end
 end
