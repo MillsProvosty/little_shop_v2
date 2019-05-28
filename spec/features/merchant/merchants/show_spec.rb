@@ -143,6 +143,7 @@ RSpec.describe 'Merchant Show page' do
 
       it "shows total quantity of items sold, % against sold units plus remaining inventory" do
         visit merchant_dashboard_path
+
         expect(page).to have_content("Quantity Sold vs. Remaining Inventory")
         expect(page).to have_content("Item: #{@i1.name}#{@i1.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i1.percentage_remaining)}")
         expect(page).to have_content("Item: #{@i3.name}#{@i3.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i3.percentage_remaining)}")
@@ -151,6 +152,7 @@ RSpec.describe 'Merchant Show page' do
 
       xit "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
         visit merchant_dashboard_path
+
         expect(page).to have_content("Top Three States Where Items Were Shipped:")
         expect(page).to have_content("Top Three Cities Where Items Were Shipped:")
           expect(page.all("p")[0]).to have_content("#{@i7.name} : #{@i7.quantity_bought}")
