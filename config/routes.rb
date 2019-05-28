@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :merchants, only: [:show]
+    resources :merchants, only: [:show, :index]
     resources :users, only: [:create]
   end
 

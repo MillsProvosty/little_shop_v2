@@ -26,56 +26,21 @@ RSpec.describe "As an admin visiting merchants index" do
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
   end
-  describe "when I click on a merchants name" do
-    it "My URI route should be /admin/merchants/6" do
+  
+  describe "and I click 'disable' button for enabled merchat, and return to admin's merchant index page" do
+    it "returned to admin's merchant index page " do
+      visit admin_merchants_path
 
-      visit merchants_path
+      click_button "Disable Merchant"
 
-      click_on @merchant.name
-
-      expect(current_path).to eq(admin_merchant_path(@merchant))
-      expect(page).to have_content(@merchant.name)
-      expect(page).to have_content(@merchant.email)
-      expect(page).to have_content(@merchant.address)
-      expect(page).to have_content(@merchant.city)
-      expect(page).to have_content(@merchant.state)
-      expect(page).to have_content(@merchant.zip)
-      expect(page).to_not have_link("Edit Profile")
+      expect(current_path).to eq(admin_merchants_path)
     end
-  end
 
-  scenario 'I see a list of pending orders and their information' do
-
-    visit admin_merchant_path(@merchant)
-
-    within('#order-info') do
-      expect(page).to have_link("Order# #{@o1.id.to_s}")
-      expect(page).to have_link("Order# #{@o2.id.to_s}")
-      expect(page).to have_link("Order# #{@o3.id.to_s}")
-      expect(page).to_not have_link("Order# #{@o4.id.to_s}")
-      expect(page).to_not have_link("Order# #{@o5.id.to_s}")
-
-      expect(page).to have_content("Date Ordered: #{@o1.created_at.strftime("%B %d, %Y")}")
-      expect(page).to have_content("Date Ordered: #{@o2.created_at.strftime("%B %d, %Y")}")
-      expect(page).to have_content("Date Ordered: #{@o3.created_at.strftime("%B %d, %Y")}")
-
-      expect(page).to have_content("Quantity: #{@o1.item_quantity.to_s}")
-      expect(page).to have_content("Quantity: #{@o2.item_quantity.to_s}")
-      expect(page).to have_content("Quantity: #{@o3.item_quantity.to_s}")
-
-      expect(page).to have_content("Grand Total: $#{@o1.items_total_value.to_f.to_s}")
-      expect(page).to have_content("Grand Total: $#{@o2.items_total_value.to_f.to_s}")
-      expect(page).to have_content("Grand Total: $#{@o3.items_total_value.to_f.to_s}")
+    xit "I see a flash message that merchant is disabled" do
+      expect(current_pate).to have_content("Merchant #{@merchant.name} is now disabled")
     end
-  end
 
-  it 'there is a link to view just my items' do
-
-      visit admin_merchant_path(@merchant)
-
-    expect(page).to have_link('View my items')
-    click_link('View my items')
-
-    expect(current_path).to eq(merchant_items_path)
+    xit "This merchant cannot log in" do
+    end
   end
 end
