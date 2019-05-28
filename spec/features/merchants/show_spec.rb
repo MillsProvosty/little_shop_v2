@@ -48,7 +48,7 @@ RSpec.describe 'Merchant Show page' do
     end
 
 
-    xscenario 'I see a list of pending orders and their information' do
+    scenario 'I see a list of pending orders and their information' do
       within('#order-info') do
         expect(page).to have_link("Order# #{@o1.id.to_s}")
         expect(page).to have_link("Order# #{@o2.id.to_s}")
@@ -64,9 +64,9 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Quantity: #{@o2.item_quantity.to_s}")
         expect(page).to have_content("Quantity: #{@o3.item_quantity.to_s}")
 
-        expect(page).to have_content("Grand Total: $#{@o1.items_total_value.to_f.to_s}")
-        expect(page).to have_content("Grand Total: $#{@o2.items_total_value.to_f.to_s}")
-        expect(page).to have_content("Grand Total: $#{@o3.items_total_value.to_f.to_s}")
+        expect(page).to have_content("Grand Total: #{number_to_currency @o1.items_total_value}")
+        expect(page).to have_content("Grand Total: #{number_to_currency @o2.items_total_value}")
+        expect(page).to have_content("Grand Total: #{number_to_currency @o3.items_total_value}")
       end
     end
 

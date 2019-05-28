@@ -81,10 +81,3 @@ RSpec.describe "As an admin visiting merchants index" do
     expect(current_path).to eq(merchant_items_path)
   end
 end
-
-
-# As an admin user
-# When I visit the merchant index page ("/merchants")
-# And I click on a merchant's name,
-# Then my URI route should be ("/admin/merchants/6")
-# Then I see everything that merchant would see
