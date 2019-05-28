@@ -85,8 +85,35 @@ RSpec.describe "As a merchant, when I visit my items page" do
 
     @item_1.reload
 
+    within("#{@item_1.id}") do
+      expect(page).to have_button("Enable Item")
+    end
+
     expect(current_path).to eq(merchant_items_path)
     expect(page).to have_content("#{@item_1.name} is no longer for sale.")
     expect(@item_1.active).to eq(false)
   end
+  it "When I click enable item, the item is updated on the page and there is a flash saying the item is for sale" do
+
+    visit merchant_items_path
+
+    within("#item-#{@item_2.id}") do
+      click_button("Enable Item")
+    end
+
+    @item_2.reload
+
+    within("#{@item_2.id}") do
+      expect(page).to have_button("Disable Item")
+    end
+    expect(current_path).to eq(merchant_items_path)
+    expect(page).to have_content("#{@item_2.name} is no longer for sale.")
+    expect(@item_2.active).to eq(true)
+  end
 end
+# As a merchant
+# When I visit my items page
+# And I click on an "enable" button or link for an item
+# I am returned to my items page
+# I see a flash message indicating this item is now available for sale
+# I see the item is now enabled
