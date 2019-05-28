@@ -29,8 +29,6 @@ RSpec.describe "As an admin visiting merchants index" do
   describe "when I click on a merchants name" do
     it "My URI route should be /admin/merchants/6" do
 
-
-
       visit merchants_path
 
       click_on @merchant.name

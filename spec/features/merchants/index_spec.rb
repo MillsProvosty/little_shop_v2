@@ -42,7 +42,6 @@ RSpec.describe 'Merchant index page' do
       @merchant_2 = create(:merchant, city: "Seatle", state: "Washington", active: false)
       visit merchants_path
     end
-
     it "I see all merchants, and their city and state" do
       within "#merchant-#{@merchant_1.id}" do
         expect(page).to have_content("#{@merchant_1.city}")
