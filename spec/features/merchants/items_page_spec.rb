@@ -143,11 +143,76 @@ RSpec.describe "As a merchant, when I visit my items page" do
     expect(page).to_not have_content(item_3.inventory)
     end
   end
-end
+  describe "Adding an item to merchants item index" do
+    before :each do
+      @merchant = create(:merchant)
+      @order_1 = create(:order)
+        @item_1 = create(:item, user: @merchant, active: true)
+        @item_2 = create(:item, user: @merchant, active: false)
+        @item_3 = create(:item, user: @merchant, active: true)
+          @oi_1 = create(:order_item, order: @order_1, item: @item_1)
+          @oi_2 = create(:order_item, order: @order_1, item: @item_2)
+          @oi_3 = create(:order_item, order: @order_1, item: @item_2)
 
-# As a merchant
-# When I visit my items page
-# And I click on a "delete" button or link for an item
-# I am returned to my items page
-# I see a flash message indicating this item is now deleted
-# I no longer see this item on the page
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+    end
+    it "Click link to add a new item" do
+
+      visit merchant_items_path
+
+      within(".links") do
+        click_link "Add an Item"
+      end
+      expect(current_path).to eq(new_merchant_item_path)
+
+      fill_in "Name", with: "Laptop"
+      fill_in "Price", with: 2000.00
+      fill_in "Description", with: "Good quality laptop"
+      fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+      fill_in "Inventory", with: 12
+      click_on "Create Item"
+
+      expect(current_path).to eq(merchant_items_path)
+
+      @item = Item.last
+      expect(page).to have_content("Laptop has been saved.")
+
+      within("#item-#{@item.id}") do
+        expect(page).to have_content("Laptop")
+        expect(page).to have_content(2000.00)
+        expect(page).to have_content("Good quality laptop")
+        expect(find('img')[:src]).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(page).to have_content(12)
+      end
+    end
+    it "Uses a default image if the field is left blank on the new item form" do
+
+      visit merchant_items_path
+
+      within(".links") do
+        click_link "Add an Item"
+      end
+      expect(current_path).to eq(new_merchant_item_path)
+
+      fill_in "Name", with: "Iphone"
+      fill_in "Price", with: 800.00
+      fill_in "Description", with: "Good phone"
+
+      fill_in "Inventory", with: 22
+      click_on "Create Item"
+
+      expect(current_path).to eq(merchant_items_path)
+
+      @item = Item.last
+      expect(page).to have_content("Iphone has been saved.")
+
+      within("#item-#{@item.id}") do
+        expect(page).to have_content("Iphone")
+        expect(page).to have_content(800.00)
+        expect(page).to have_content("Good phone")
+        expect(find('img')[:src]).to eq("http://www.himalayansolution.com/public/img/medium-default-product.jpg")
+        expect(page).to have_content(22)
+      end
+    end
+  end
+end

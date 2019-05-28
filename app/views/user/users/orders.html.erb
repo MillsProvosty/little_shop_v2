@@ -8,7 +8,9 @@
   <p>Quantity: <%= order.item_quantity %></p>
   <p><%= number_to_currency(order.items_total_value) %></p>
 
-  <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
+  <% if order.status == "pending" %>
+    <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
+  <% end %>
 
   <% order.items.each do |item| %>
   <%= item.name %>

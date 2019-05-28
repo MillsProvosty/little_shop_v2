@@ -103,11 +103,11 @@ describe "when I visit an orders show page " do
     end
 
     within("#order-#{@order_2.id}") do
-      expect(page).to have_button("Cancel Order")
+      expect(page).to_not have_button("Cancel Order")
     end
-
+  
     within("#order-#{@order_3.id}") do
-      expect(page).to have_button("Cancel Order")
+      expect(page).to_not have_button("Cancel Order")
     end
   end
 

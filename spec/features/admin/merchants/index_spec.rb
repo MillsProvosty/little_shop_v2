@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "As an admin visiting merchants index" do
   before :each do
-    @user = create(:user, role: "admin")
+
+    admin = create(:admin)
     visit login_path
 
-    fill_in "email",  with: @user.email
-    fill_in "password", with: @user.password
+    fill_in "email",  with: admin.email
+    fill_in "password", with: admin.password
     click_on "Log In"
+    
     @merchant_1 = create(:merchant, city: "New Orleans", state: "Louisiana", active: true)
     @merchant_2 = create(:merchant, city: "Seatle", state: "Washington", active: false)
     visit admin_merchants_path

@@ -1,13 +1,14 @@
 <h1><%= @merchant.name %> Items</h1>
 
 <div class="links">
-  <%= link_to "Add an Item" %>
+  <%= link_to "Add an Item", new_merchant_item_path %>
 </div>
 
 <% @merchant.items.each do |item| %>
 <div id="item-<%= item.id %>">
   <p><%= item.id %></p>
   <p><%= item.name %></p>
+  <p><%= item.description %></p>
   <p><img src="<%= item.image %>"></p>
   <p><%= item.price %></p>
   <p><%= item.inventory %></p>
