@@ -10,6 +10,9 @@ class Admin::MerchantsController < ApplicationController
   end
 
   def update
-    binding.pry
+    @merchant = User.find(params[:id])
+    @merchant.update_column(:active, false)
+    flash[:message] = "#{@merchant.name} is now disabled"
+    redirect_to admin_merchant_path(@merchant.id)
   end
 end

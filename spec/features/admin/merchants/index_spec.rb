@@ -61,7 +61,7 @@ RSpec.describe "As an admin visiting merchants index" do
     end
 
     xit "I see a flash message that merchant is disabled" do
-      expect(current_pate).to have_content("Merchant #{@merchant_1.name} is now disabled")
+      expect(current_pate).to have_content("#{@merchant_1.name} is now disabled")
       within("#merchant-#{@merchant_1.id}") do
         expect(page).to have_link("Enable Merchant")
       end
