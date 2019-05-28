@@ -29,8 +29,7 @@ Rails.application.routes.draw do
     get '/edit', to: "users#edit"
     get '/orders', to: "users#orders"
     post '/orders', to: "users#checkout"
-    delete '/order/rr
-    :id', to: "users#destroy", as: :cancel_order
+    delete '/order/:id', to: "users#destroy", as: :cancel_order
   end
 
   # merchant_paths
@@ -45,6 +44,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: 'admin#show', as: :dashboard
     get '/', to: redirect('/404') #until/unless we have an admin index page
     resources :users, only: [:index, :show, :create]
+    resources :orders, only: [:update]
   end
 
   namespace :admin do

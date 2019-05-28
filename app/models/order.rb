@@ -33,6 +33,6 @@ class Order < ApplicationRecord
   end
 
   def self.sort_by_status
-    order(:status)
+    order(Arel.sql("status = 1")).reverse
   end
 end

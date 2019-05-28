@@ -13,7 +13,12 @@ RSpec.describe "Admin dashboard" do
 
       @admin = create(:admin)
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+      visit login_path
+
+      fill_in "email",  with: @admin.email
+      fill_in "password", with: @admin.password
+      click_on "Log In"
+
 
     end
     it "I see all orders in the system, user who placed the order, order id and date created" do
@@ -44,22 +49,48 @@ RSpec.describe "Admin dashboard" do
     it "Orders are sorted by status, packaged, pending, shipped, cancelled" do
 
       visit admin_dashboard_path
+      expect(page.all(".orders")[0]).to have_content(@order_2.user.name)
+      expect(page.all(".orders")[0]).to have_content(@order_2.id)
+      expect(page.all(".orders")[0]).to have_content(@order_2.created_at)
 
-      expect(page.all("p")[0]).to have_content(@order_4.user.name)
-      expect(page.all("p")[1]).to have_content(@order_4.id)
-      expect(page.all("p")[2]).to have_content(@order_4.created_at)
+      expect(page.all(".orders")[1]).to have_content(@order_4.user.name)
+      expect(page.all(".orders")[1]).to have_content(@order_4.id)
+      expect(page.all(".orders")[1]).to have_content(@order_4.created_at)
 
-      expect(page.all("p")[3]).to have_content(@order_2.user.name)
-      expect(page.all("p")[4]).to have_content(@order_2.id)
-      expect(page.all("p")[5]).to have_content(@order_2.created_at)
+      expect(page.all(".orders")[2]).to have_content(@order_3.user.name)
+      expect(page.all(".orders")[2]).to have_content(@order_3.id)
+      expect(page.all(".orders")[2]).to have_content(@order_3.created_at)
 
-      expect(page.all("p")[6]).to have_content(@order_3.user.name)
-      expect(page.all("p")[7]).to have_content(@order_3.id)
-      expect(page.all("p")[8]).to have_content(@order_3.created_at)
+      expect(page.all(".orders")[3]).to have_content(@order_1.user.name)
+      expect(page.all(".orders")[3]).to have_content(@order_1.id)
+      expect(page.all(".orders")[3]).to have_content(@order_1.created_at)
+    end
+    it "I see any packaged orders ready to ship" do
+      visit admin_dashboard_path
 
-      expect(page.all("p")[9]).to have_content(@order_1.user.name)
-      expect(page.all("p")[10]).to have_content(@order_1.id)
-      expect(page.all("p")[11]).to have_content(@order_1.created_at)
+      within("#order-#{@order_2.id}") do
+        expect(page).to have_content(@order_2.id)
+        expect(page).to have_content(@order_2.status)
+        expect(page).to have_button("Ship")
+
+        click_on "Ship"
+
+        @order_2.reload
+        expect(@order_2.status).to eq("shipped")
+        expect(page).to have_content(@order_2.status)
+      end
+
+        visit logout_path
+        visit login_path
+        fill_in "email",  with: @user_2.email
+        fill_in "password", with: @user_2.password
+        click_on "Log In"
+
+        visit user_orders_path
+
+      within("#order-#{@order_2.id}") do
+        expect(page).to_not have_button("Ship")
+      end
     end
   end
 end
