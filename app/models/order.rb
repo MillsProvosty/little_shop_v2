@@ -33,6 +33,6 @@ class Order < ApplicationRecord
   end
 
   def self.sort_by_status
-    order("status = 0 DESC, status = 1 DESC, status = 2 DESC, status = 3 DESC")
+    order(:status)
   end
 end

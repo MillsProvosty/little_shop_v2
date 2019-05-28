@@ -8,12 +8,12 @@
 <div id="item-<%= item.id %>">
   <p><%= item.id %></p>
   <p><%= item.name %></p>
-  <p><%= item.image %></p>
+  <p><img src="<%= item.image %>"></p>
   <p><%= item.price %></p>
   <p><%= item.inventory %></p>
   <p><%= button_to "Edit Item" %></p>
   <% if item.order_items.empty? %>
-  <%= button_to "Delete Item" %>
+  <%= button_to "Delete Item", merchant_item_path(item), method: :delete %>
   <% end %>
   <% if item.active == true %>
   <%= button_to "Disable Item", merchant_item_path(item), method: :patch %>

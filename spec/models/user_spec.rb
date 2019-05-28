@@ -33,14 +33,14 @@ RSpec.describe User, type: :model do
       @order_3 = create(:cancelled_order)
       @order_4 = create(:shipped_order)
 
-      @item_1 = create(:item, user: @user)
-      @item_2 = create(:item, user: @user)
-      @item_3 = create(:item, user: @user)
-      @item_4 = create(:item, user: @user)
-      @item_5 = create(:item, user: @user)
-      @item_6 = create(:item, user: @user)
-      @item_7 = create(:item, user: @user)
-      @item_8 = create(:item, user: @user)
+      @item_1 = create(:item, user: @merchant)
+      @item_2 = create(:item, user: @merchant)
+      @item_3 = create(:item, user: @merchant)
+      @item_4 = create(:item, user: @merchant)
+      @item_5 = create(:item, user: @merchant)
+      @item_6 = create(:item, user: @merchant)
+      @item_7 = create(:item, user: @merchant)
+      @item_8 = create(:item, user: @merchant)
       @item_9 = create(:item, user: @merchant)
       @item_10 = create(:item, user: @merchant)
       @item_11 = create(:item, user: @merchant)
@@ -56,15 +56,16 @@ RSpec.describe User, type: :model do
       @oi_9 = create(:order_item, item: @item_7, order: @order_3, quantity: 13, fulfilled: true)
       @oi_10 = create(:order_item, item: @item_8, order: @order_2, quantity: 6, fulfilled: true)
     end
+
     it ".top_items_for_merchant" do
 
       expected = [@item_3, @item_6, @item_4, @item_2, @item_5]
 
-      expect(@user.top_items_for_merchant).to eq(expected)
+      expect(@merchant.top_items_for_merchant).to eq(expected)
     end
 
     it '.all_orders' do
-      expect(@user.pending_orders).to eq([@order_2])
+      expect(@merchant.pending_orders).to eq([@order_2])
     end
   end
 
@@ -97,7 +98,7 @@ RSpec.describe User, type: :model do
        expect(users.reg_users).to eq([user_4, user_5, user_6])
      end
 
-    xit '#date_registered' do
+    it '#date_registered' do
       user = create(:user)
       expect(user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
     end

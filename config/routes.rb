@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   # merchant_paths
   scope :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
-    resources :items, only: [:index, :update]
+    resources :items, only: [:index, :update, :destroy]
     resources :orders, only: [:show]
   end
 
