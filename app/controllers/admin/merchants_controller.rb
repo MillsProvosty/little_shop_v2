@@ -8,4 +8,8 @@ class Admin::MerchantsController < ApplicationController
   def index
     @merchants = User.where(role: :merchant)
   end
+
+  def update
+    binding.pry
+  end
 end

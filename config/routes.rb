@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    patch '/merchants/:id', to: 'merchants#update', as: :update_merchant
     resources :merchants, only: [:show, :index]
     resources :users, only: [:create]
   end

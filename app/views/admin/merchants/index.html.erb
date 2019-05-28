@@ -5,9 +5,9 @@
     <p>City: <%= merchant.city %></p>
     <p>Active: <%= merchant.active %></p>
     <% if merchant.active %>
-      <%= link_to "Disable Merchant" %>
+      <%= button_to "Disable Merchant", admin_update_merchant_path(merchant.id), method: :update %>
     <% elsif !merchant.active %>
-      <%= link_to "Enable Merchant" %>
+      <%= button_to "Enable Merchant", admin_update_merchant_path(merchant.id), method: :update %>
     <% end %>
   <% end %>
 </div>
