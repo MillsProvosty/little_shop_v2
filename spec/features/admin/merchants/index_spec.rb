@@ -10,7 +10,7 @@ RSpec.describe "As an admin visiting merchants index" do
 
       @o1,@o2,@o3 = create_list(:order, 3)
       @o4,@o5 = create_list(:order, 2, status: 'shipped')
-
+ 
       create(:order_item, item: @i1, order: @o1)
       create(:order_item, item: @i2, order: @o1)
       create(:order_item, item: @i3, order: @o1)
