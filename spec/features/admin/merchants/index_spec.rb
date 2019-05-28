@@ -76,10 +76,8 @@ RSpec.describe "As an admin visiting merchants index" do
       fill_in "email",  with: @merchant_1.email
       fill_in "password", with: @merchant_1.password
       click_on "Log In"
-save_and_open_page
 
       expect(page).to have_content("The page you were looking for doesn't exist.")
-
     end
   end
 end
