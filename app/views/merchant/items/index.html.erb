@@ -18,7 +18,7 @@
   <% if item.active == true %>
   <%= button_to "Disable Item", merchant_item_path(item), method: :patch %>
   <% elsif  item.active == false %>
-  <%= button_to "Enable Item" %>
+  <%= button_to "Enable Item", merchant_item_path(item), method: :patch %>
   <% end %>
 </div>
 <% end %>
