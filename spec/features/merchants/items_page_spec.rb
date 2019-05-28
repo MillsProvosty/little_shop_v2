@@ -75,4 +75,18 @@ RSpec.describe "As a merchant, when I visit my items page" do
       expect(page).to have_button("Disable Item")
     end
   end
+  it "When I click disable item, I see a flash saying item is not for sale, and Item is disabled" do
+
+    visit merchant_items_path
+
+    within("#item-#{@item_1.id}") do
+      click_button("Disable Item")
+    end
+
+    @item_1.reload
+
+    expect(current_path).to eq(merchant_items_path)
+    expect(page).to have_content("#{@item_1.name} is no longer for sale.")
+    expect(@item_1.active).to eq(false)
+  end
 end
