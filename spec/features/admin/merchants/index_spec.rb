@@ -45,7 +45,8 @@ RSpec.describe "As an admin visiting merchants index" do
       expect(page).to_not have_link("Edit Profile")
     end
   end
-  xscenario 'I see a list of pending orders and their information' do
+
+  scenario 'I see a list of pending orders and their information' do
 
     visit admin_merchant_path(@merchant)
 
