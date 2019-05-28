@@ -48,7 +48,7 @@ RSpec.describe 'Merchant Show page' do
     end
 
 
-    scenario 'I see a list of pending orders and their information' do
+    xscenario 'I see a list of pending orders and their information' do
       within('#order-info') do
         expect(page).to have_link("Order# #{@o1.id.to_s}")
         expect(page).to have_link("Order# #{@o2.id.to_s}")

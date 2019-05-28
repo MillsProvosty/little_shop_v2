@@ -97,7 +97,7 @@ RSpec.describe User, type: :model do
        expect(users.reg_users).to eq([user_4, user_5, user_6])
      end
 
-    it '#date_registered' do
+    xit '#date_registered' do
       user = create(:user)
       expect(user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
     end
