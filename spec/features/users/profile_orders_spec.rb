@@ -40,6 +40,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
         @o4_oi3 = create(:order_item, order: @order_4, item: @item_12)
 
   end
+
   it "I see the ID of the order, date created and updated, status, item quantity, grand total" do
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)

@@ -1,4 +1,24 @@
 <div>
+<<<<<<< HEAD
+  <%@merchants.each do |merchant| %>
+  <div id="merchant-<%= merchant.id %>">
+    <% if !current_admin? %>
+      <h1><p>Name: <%= merchant.name %> </p></h1>
+      <p>State: <%= merchant.state %></p>
+      <p>City: <%= merchant.city %></p>
+      <p>Registered: <%= merchant.date_registered %></p>
+    <% elsif current_admin? %>
+      <h1>Name:<a href="<%= admin_merchant_path(merchant.id) %>"><%= merchant.name %></a></h1>
+      <p>State: <%= merchant.state %></p>
+      <p>City: <%= merchant.city %></p>
+      <p>Active: <%= merchant.active %></p>
+      <% if merchant.active %>
+         <%= link_to "Disable Merchant" %>
+       <% elsif !merchant.active %>
+         <%= link_to "Enable Merchant" %>
+       <% end %>
+    <% end %>
+=======
   <% @merchants.each do |merchant| %>
     <div id="merchant-<%= merchant.id %>">
     <% if current_admin? %>
@@ -9,6 +29,7 @@
     <p>State: <%=merchant.state %></p>
     <p>City: <%= merchant.city %></p>
     <p>Registered: <%=merchant.date_registered%></p>
+>>>>>>> 358e902a81349a1624dc0296b6c16ecedf057a95
     <div>
   <% end %>
 </div>
