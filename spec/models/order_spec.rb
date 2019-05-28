@@ -88,7 +88,7 @@ RSpec.describe Order, type: :model do
       order_4 = create(:order, user: user_2)
 
       orders = Order.all
-      expect(orders.sort_by_status).to eq([order_4, order_2, order_3, order_1])
+      expect(orders.sort_by_status).to eq([order_2, order_4, order_3, order_1])
     end
   end
 end
