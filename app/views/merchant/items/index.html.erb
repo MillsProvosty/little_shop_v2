@@ -11,6 +11,14 @@
   <p><%= item.image %></p>
   <p><%= item.price %></p>
   <p><%= item.inventory %></p>
-  <p><%= button_to "Edit Item #{item.name}" %></p>
+  <p><%= button_to "Edit Item" %></p>
+  <% if item.order_items.empty? %>
+  <%= button_to "Delete Item" %>
+  <% end %>
+  <% if item.active == true %>
+  <%= button_to "Disable Item" %>
+  <% elsif  item.active == false %>
+  <%= button_to "Enable Item" %>
+  <% end %>
 </div>
 <% end %>
