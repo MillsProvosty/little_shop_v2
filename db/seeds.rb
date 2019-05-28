@@ -16,6 +16,12 @@ User.destroy_all
 
 admin_1 = User.create(role: "admin", name: "Admin 1", email: "admin1email@gmail.com", address: "1234 admin st", city: "Denver", state: "CO", zip: "80102", password: "adminpassword")
 user_to_m = User.create(role: "user", name: "User to merch", email: "user123m@gmail.com", address: "4321 user st", city: "Denver", state: "CO", zip: "32232", password: "user123password")
+new_merchant = create(:merchant, email: "new_merchant@gmail.com", password: "password")
+
+nm_item_1 = create(:item, active: false, user: new_merchant)
+nm_item_2 = create(:item, active: true, user: new_merchant)
+nm_item_3 = create(:item, active: false, user: new_merchant)
+
 admin = create(:admin)
 user = create(:user)
 merchant_1 = create(:merchant)
