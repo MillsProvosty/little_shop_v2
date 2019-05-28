@@ -7,14 +7,14 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
     @merchant = create(:merchant)
     @i1, @i2, @i3, @i4, @i5 = create_list(:item, 5, user: @merchant, price: 3)
     @o1 = create(:order)
-    @io1 = create(:order_item, item: @i1, order: @o1, price: 3)
-    @io2 = create(:order_item, item: @i2, order: @o1, price: 5)
+    @io1 = create(:order_item, item: @i1, order: @o1, price: 3, quantity: 2)
+    @io2 = create(:order_item, item: @i2, order: @o1, price: 3, quantity: 1)
     @io3 = create(:order_item, item: @i3, order: @o1, price: 2)
     @io4 = create(:order_item, item: @i4, order: @o1, price: 3)
     @io5 = create(:order_item, item: @i5, order: @o1, price: 6)
   end
 
-  xdescribe 'I visit my cart and see a link to empty my cart' do
+  describe 'I visit my cart and see a link to empty my cart' do
     it 'shows item name, small image of item, merchant, price, desired quantity and sub total' do
 
        visit login_path
@@ -45,13 +45,12 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
           expect(page).to have_content(1)
           expect(page).to have_content("Subtotal: #{number_to_currency(@i1.item_subtotal)}")
         end
-
-        expect(page).to have_content("Grand total: $10.50")
+        expect(page).to have_content("Grand total: #{number_to_currency(@i1.item_subtotal + @i2.item_subtotal)}")
         expect(page).to have_link("Empty My Cart")
 
     end
 
-    xdescribe "When I add no items and I visit cart " do
+    describe "When I add no items and I visit cart " do
       it "I see a message that Cart is Empty and no link to empty the cart" do
         user = create(:user, role: "user")
 
@@ -97,7 +96,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
       expect(page).to have_content("Cart: 0")
     end
 
-    xit 'registered user empties cart' do
+    it 'registered user empties cart' do
 
       user = create(:user)
 
