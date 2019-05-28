@@ -1,5 +1,6 @@
 <div>
   <%@merchants.each do |merchant| %>
+  <div id="merchant-<%= merchant.id %>">
     <h1>Name:<a href="<%= admin_merchant_path(merchant.id) %>"><%= merchant.name %></a></h1>
     <p>State: <%= merchant.state %></p>
     <p>City: <%= merchant.city %></p>
@@ -9,5 +10,6 @@
     <% elsif !merchant.active %>
       <%= button_to "Enable Merchant", admin_update_merchant_path(merchant.id), method: :update %>
     <% end %>
+    </div>
   <% end %>
 </div>

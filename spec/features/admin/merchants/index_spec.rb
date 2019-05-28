@@ -37,18 +37,17 @@ RSpec.describe "As an admin visiting merchants index" do
     end
 
     it "I see a disable button next to merchants not disabled, and enable button next to those disabled" do
-      # expect(user.status).to eq("disabled")
       within "#merchant-#{@merchant_1.id}" do
         expect(@merchant_1.active).to eq(true)
-        expect(page).to have_link("Disable Merchant")
+        expect(page).to have_button("Disable Merchant")
       end
 
       within "#merchant-#{@merchant_2.id}" do
           expect(@merchant_2.active).to eq(false)
-          expect(page).to have_link("Enable Merchant")
+          expect(page).to have_button("Enable Merchant")
       end
     end
-
+  end
 
   describe "and I click 'disable' button for enabled merchat, and return to admin's merchant index page" do
     it "returned to admin's merchant index page " do
@@ -56,14 +55,14 @@ RSpec.describe "As an admin visiting merchants index" do
 
       click_button "Disable Merchant"
 
-      expect(current_path).to eq(admin_update_merchant_path(merchant.id))
+      expect(current_path).to eq(admin_update_merchant_path(@merchant_1.id))
 
-        @merchant.reload
+        @merchant_1.reload
     end
 
     xit "I see a flash message that merchant is disabled" do
-      expect(current_pate).to have_content("Merchant #{@merchant.name} is now disabled")
-      within("#merchant-#{@merchant.id}") do
+      expect(current_pate).to have_content("Merchant #{@merchant_1.name} is now disabled")
+      within("#merchant-#{@merchant_1.id}") do
         expect(page).to have_link("Enable Merchant")
       end
     end
