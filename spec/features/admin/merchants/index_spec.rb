@@ -60,20 +60,25 @@ RSpec.describe "As an admin visiting merchants index" do
         @merchant_1.reload
     end
 
-    it "I see a flash message that merchant is disabled" do
+    it "I see a flash message that merchant is disabled and cannot log in" do
       click_button "Disable Merchant"
       @merchant_1.reload
-
       expect(current_path).to eq(admin_merchants_path)
-
       expect(page).to have_content("#{@merchant_1.name} is now disabled")
       within("#merchant-#{@merchant_1.id}") do
         expect(page).to have_button("Enable Merchant")
       end
-    end
 
-    it "This merchant cannot log in" do
-      
+      click_on "Logout"
+      @merchant_1.reload
+
+      visit login_path
+      fill_in "email",  with: @merchant_1.email
+      fill_in "password", with: @merchant_1.password
+      click_on "Log In"
+save_and_open_page
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
 
     end
   end
