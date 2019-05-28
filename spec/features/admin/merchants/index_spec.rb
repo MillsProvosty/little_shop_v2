@@ -2,80 +2,84 @@ require 'rails_helper'
 
 RSpec.describe "As an admin visiting merchants index" do
   before :each do
-    @admin = create(:admin)
-    @merchant = create(:merchant)
 
-      @i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9 = create_list(:item, 10, user: @merchant)
-      @i10,@i11 = create_list(:item, 2, user: @merchant)
+    admin = create(:admin)
+    visit login_path
 
-      @o1,@o2,@o3 = create_list(:order, 3)
-      @o4,@o5 = create_list(:order, 2, status: 'shipped')
- 
-      create(:order_item, item: @i1, order: @o1)
-      create(:order_item, item: @i2, order: @o1)
-      create(:order_item, item: @i3, order: @o1)
-      create(:order_item, item: @i4, order: @o2)
-      create(:order_item, item: @i5, order: @o2)
-      create(:order_item, item: @i6, order: @o2)
-      create(:order_item, item: @i7, order: @o3)
-      create(:order_item, item: @i8, order: @o3)
-      create(:order_item, item: @i9, order: @o3)
-      create(:order_item, item: @i2, order: @o4)
-      create(:order_item, item: @i2, order: @o5)
-      create_list(:order_item, 15)
-
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+    fill_in "email",  with: admin.email
+    fill_in "password", with: admin.password
+    click_on "Log In"
+    
+    @merchant_1 = create(:merchant, city: "New Orleans", state: "Louisiana", active: true)
+    @merchant_2 = create(:merchant, city: "Seatle", state: "Washington", active: false)
+    visit admin_merchants_path
   end
-  describe "when I click on a merchants name" do
-    it "My URI route should be /admin/merchants/6" do
 
-      visit merchants_path
+  describe "As an admin user, when I visit the merchant's index page at '/merchants'" do
+    it "I see all merchants, and their city and state" do
+      within "#merchant-#{@merchant_1.id}" do
+        expect(page).to have_content("#{@merchant_1.city}")
+        expect(page).to have_content("#{@merchant_1.state}")
+      end
 
-      click_on @merchant.name
+      within "#merchant-#{@merchant_2.id}" do
+        expect(page).to have_content("#{@merchant_2.city}")
+        expect(page).to have_content("#{@merchant_2.state}")
+      end
+    end
 
-      expect(current_path).to eq(admin_merchant_path(@merchant))
-      expect(page).to have_content(@merchant.name)
-      expect(page).to have_content(@merchant.email)
-      expect(page).to have_content(@merchant.address)
-      expect(page).to have_content(@merchant.city)
-      expect(page).to have_content(@merchant.state)
-      expect(page).to have_content(@merchant.zip)
-      expect(page).to_not have_link("Edit Profile")
+    it "each merchant's name is a link to their dashboard, route admin/merchant/id" do
+      within "#merchant-#{@merchant_1.id}" do
+        expect(page).to have_link("#{@merchant_1.name}")
+      end
+
+      within "#merchant-#{@merchant_2.id}" do
+        expect(page).to have_link("#{@merchant_2.name}")
+      end
+    end
+
+    it "I see a disable button next to merchants not disabled, and enable button next to those disabled" do
+      within "#merchant-#{@merchant_1.id}" do
+        expect(@merchant_1.active).to eq(true)
+        expect(page).to have_button("Disable Merchant")
+      end
+
+      within "#merchant-#{@merchant_2.id}" do
+          expect(@merchant_2.active).to eq(false)
+          expect(page).to have_button("Enable Merchant")
+      end
     end
   end
 
-  scenario 'I see a list of pending orders and their information' do
+  describe "and I click 'disable' button for enabled merchat, and return to admin's merchant index page" do
+    it "returned to admin's merchant index page " do
+      visit admin_merchants_path
 
-    visit admin_merchant_path(@merchant)
+      click_button "Disable Merchant"
 
-    within('#order-info') do
-      expect(page).to have_link("Order# #{@o1.id.to_s}")
-      expect(page).to have_link("Order# #{@o2.id.to_s}")
-      expect(page).to have_link("Order# #{@o3.id.to_s}")
-      expect(page).to_not have_link("Order# #{@o4.id.to_s}")
-      expect(page).to_not have_link("Order# #{@o5.id.to_s}")
+      expect(current_path).to eq(admin_merchants_path)
 
-      expect(page).to have_content("Date Ordered: #{@o1.created_at.strftime("%B %d, %Y")}")
-      expect(page).to have_content("Date Ordered: #{@o2.created_at.strftime("%B %d, %Y")}")
-      expect(page).to have_content("Date Ordered: #{@o3.created_at.strftime("%B %d, %Y")}")
-
-      expect(page).to have_content("Quantity: #{@o1.item_quantity.to_s}")
-      expect(page).to have_content("Quantity: #{@o2.item_quantity.to_s}")
-      expect(page).to have_content("Quantity: #{@o3.item_quantity.to_s}")
-
-      expect(page).to have_content("Grand Total: $#{@o1.items_total_value.to_f.to_s}")
-      expect(page).to have_content("Grand Total: $#{@o2.items_total_value.to_f.to_s}")
-      expect(page).to have_content("Grand Total: $#{@o3.items_total_value.to_f.to_s}")
+        @merchant_1.reload
     end
-  end
 
-  it 'there is a link to view just my items' do
+    it "I see a flash message that merchant is disabled and cannot log in" do
+      click_button "Disable Merchant"
+      @merchant_1.reload
+      expect(current_path).to eq(admin_merchants_path)
+      expect(page).to have_content("#{@merchant_1.name} is now disabled")
+      within("#merchant-#{@merchant_1.id}") do
+        expect(page).to have_button("Enable Merchant")
+      end
 
-      visit admin_merchant_path(@merchant)
+      click_on "Logout"
+      @merchant_1.reload
 
-    expect(page).to have_link('View my items')
-    click_link('View my items')
+      visit login_path
+      fill_in "email",  with: @merchant_1.email
+      fill_in "password", with: @merchant_1.password
+      click_on "Log In"
 
-    expect(current_path).to eq(merchant_items_path)
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
   end
 end
