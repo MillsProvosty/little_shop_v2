@@ -55,20 +55,25 @@ RSpec.describe "As an admin visiting merchants index" do
 
       click_button "Disable Merchant"
 
-      expect(current_path).to eq(admin_update_merchant_path(@merchant_1.id))
+      expect(current_path).to eq(admin_merchants_path)
 
         @merchant_1.reload
     end
 
-    xit "I see a flash message that merchant is disabled" do
-      expect(current_pate).to have_content("#{@merchant_1.name} is now disabled")
+    it "I see a flash message that merchant is disabled" do
+      click_button "Disable Merchant"
+      @merchant_1.reload
+
+      expect(current_path).to eq(admin_merchants_path)
+
+      expect(page).to have_content("#{@merchant_1.name} is now disabled")
       within("#merchant-#{@merchant_1.id}") do
-        expect(page).to have_link("Enable Merchant")
+        expect(page).to have_button("Enable Merchant")
       end
     end
 
-    xit "This merchant cannot log in" do
-
+    it "This merchant cannot log in" do
+      
 
     end
   end
