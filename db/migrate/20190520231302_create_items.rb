@@ -5,7 +5,7 @@ class CreateItems < ActiveRecord::Migration[5.2]
       t.boolean :active
       t.decimal :price
       t.text :description
-      t.string :image
+      t.string :image, default: "http://www.himalayansolution.com/public/img/medium-default-product.jpg"
       t.integer :inventory
       t.references :user, foreign_key: true
 
