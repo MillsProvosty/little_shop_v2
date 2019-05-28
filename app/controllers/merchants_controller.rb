@@ -6,4 +6,5 @@ class MerchantsController < ApplicationController
       @merchants = User.active_merchants
     end
   end
+
 end

@@ -71,7 +71,7 @@ RSpec.describe "When a registered User visits Profile Orders Page" do
       expect(page).to have_content(@order_3.updated_at)
       expect(page).to have_content(@order_3.status)
       expect(page).to have_content(@order_3.item_quantity)
-      expect(page).to have_content(number_to_currency @order_3.items_total_value)
+      expect(page).to have_content(number_to_currency(@order_3.items_total_value))
     end
 
     within("#order-#{@order_4.id}") do
@@ -151,7 +151,7 @@ describe "when I visit an orders show page " do
         expect(page).to have_content(item_1.quantity_bought)
         expect(page).to have_content(item_1.price)
         expect(page).to have_content(item_3.item_subtotal)
-      end 
+      end
     end
   end
 end

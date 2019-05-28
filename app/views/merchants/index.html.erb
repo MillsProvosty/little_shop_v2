@@ -1,4 +1,5 @@
 <div>
+<<<<<<< HEAD
   <%@merchants.each do |merchant| %>
   <div id="merchant-<%= merchant.id %>">
     <% if !current_admin? %>
@@ -17,6 +18,18 @@
          <%= link_to "Enable Merchant" %>
        <% end %>
     <% end %>
+=======
+  <% @merchants.each do |merchant| %>
+    <div id="merchant-<%= merchant.id %>">
+    <% if current_admin? %>
+    <p>Name: <%= link_to merchant.name, admin_merchant_path(merchant) %> </p>
+    <% else %>
+    <p>Name: <%= merchant.name %></p>
+    <% end %>
+    <p>State: <%=merchant.state %></p>
+    <p>City: <%= merchant.city %></p>
+    <p>Registered: <%=merchant.date_registered%></p>
+>>>>>>> 358e902a81349a1624dc0296b6c16ecedf057a95
     <div>
   <% end %>
 </div>

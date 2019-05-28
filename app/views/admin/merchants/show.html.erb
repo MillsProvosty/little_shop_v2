@@ -1,0 +1,45 @@
+<div>
+  <%= @merchant.name %>
+  <%= @merchant.email %>
+  <%= @merchant.address %>
+  <%= @merchant.city %>
+  <%= @merchant.state %>
+  <%= @merchant.zip %>
+</div>
+
+<div id="merchant_stats">
+  <h3>Top 5 items sold:</h3>
+  <% @top_five_items.each do |item| %>
+  <p><%= item.name %> : <%= item.quantity_bought %></p>
+  <% end  %>
+  <h3>Quantity Sold vs. Remaining Inventory</h3>
+  <ul>
+  <% @merchant.items.each do |item| %>
+    <li>Item: <%= item.name%><%= item.quantity_bought %>, Percentage Remaining: <%= number_to_percentage(item.percentage_remaining) %>%</li>
+  <% end   %>
+  </ul>
+</div>
+
+<div id="states">
+  <h3>Top Three States Where Items Were Shipped:</h3>
+    <% @merchant.top_three_states.each do |state|  %>
+  <p><%= state %>  </p>
+    <% end %>
+</div>
+
+<div>
+  <%= link_to "View my items", merchant_items_path %>
+</div>
+
+<div id="order-info">
+  <%@merchant.pending_orders.each do |order| %>
+    <div>
+      <%=link_to "Order# #{order.id}", merchant_order_path(order)%>
+      <p>Date Ordered: <%= order.created_at.strftime("%B %d, %Y")%></p>
+      <p>Quantity: <%= order.item_count_for_merchant(@merchant.id)%></p>
+      <p>Grand Total:
+        <%= number_to_currency(order.item_total_value_for_merchant(@merchant.id).to_f)%>
+      </p>
+    </div>
+  <%end%>
+</div>
