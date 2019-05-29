@@ -45,11 +45,22 @@ RSpec.describe "As a visitor on the merchants index page" do
     @oi = create(:order_items, price: 800, quantity: 2, order: @o6, fulfilled: false, item: @i3)
     @oi = create(:order_items, price: 100000, quantity: 1 , order: @o7, fulfilled: false, item: @i3)
 
-
   end
 
   describe "I see an area with the following statistics" do
     it "top 3 merchants who have sold the most by price and quantity, and their revenue " do
+      visit merchants_path
+
+      expect(page).to have_content("Top 3 Merchants")
+        within("#top3sellers") do
+          expect(page).to have_content(@merch3)
+          expect(page).to have_content(@merch2)
+          expect(page).to have_content(@merch1)
+          expect(page).to_not have_content(@merch4)
+          expect(page).to have_content("$12,300")
+          expect(page).to have_content("$6,800")
+          expect(page).to have_content("$1,200")
+        end
     end
 
     xit "top 3 merchants who were fastest at fulfilling items in an order, and their times" do
