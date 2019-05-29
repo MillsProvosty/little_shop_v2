@@ -178,5 +178,14 @@ RSpec.describe "As an admin visiting merchants index" do
 
       expect(page).to have_content("The page you were looking for doesn't exist.")
     end
+
+    it 'an admin is redirected to a user profile from merchant dashboard' do
+      admin = create(:admin)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+      user = create(:user)
+
+      visit admin_merchant_path(user)
+      expect(current_path).to eq(admin_user_path(user))
+    end
   end
 end
