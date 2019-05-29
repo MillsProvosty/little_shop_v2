@@ -205,7 +205,7 @@ RSpec.describe 'Merchant Show page' do
       end
 
       xit "shows name of user: with most orders, who bought the most total itmes and total quantity" do
-        
+
       end
 
       xit "top 3 users who have spent the most money and total amount they've spent. "
@@ -245,6 +245,3 @@ RSpec.describe 'Merchant Show page' do
     end
   end
 end
-
-# When all items in an order have been "fulfilled" by their merchants
-# The order status changes from "pending" to "packaged"

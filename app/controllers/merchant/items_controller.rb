@@ -68,6 +68,8 @@ class Merchant::ItemsController < Merchant::BaseController
     elsif item_params["inventory"] == ""
       flash[:message] = "Could not create item without an inventory value"
       render :edit
+    else
+      render :edit
     end
   end
 
