@@ -204,6 +204,7 @@ RSpec.describe "As a merchant, when I visit my items page" do
       expect(current_path).to eq(merchant_items_path)
 
       @item = Item.last
+
       expect(page).to have_content("Iphone has been saved.")
       expect(@item.active).to eq(true)
 
@@ -211,7 +212,7 @@ RSpec.describe "As a merchant, when I visit my items page" do
         expect(page).to have_content("Iphone")
         expect(page).to have_content(800.00)
         expect(page).to have_content("Good phone")
-        expect(find('img')[:src]).to eq("http://www.himalayansolution.com/public/img/medium-default-product.jpg")
+        expect(find('img')[:src]).to eq("https://picsum.photos/200/300")
         expect(page).to have_content(22)
       end
     end

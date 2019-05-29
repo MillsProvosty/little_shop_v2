@@ -13,6 +13,11 @@
           <img src="<%=item.image%>">
           <p>Price: <%=number_to_currency item.price%></p>
           <p>Quantity on Order: <%= item.quantity_on_order(@order.id)%></p>
+          <% if (item.quantity <= item.inventory unless item.fulfilled) %>
+            <%= link_to "Fulfill Item", merchant_order_item_path(item, order_id: @order.id), method: :patch %>
+            <% else %>
+            <p>"Item has been fulfilled"</p>
+          <% end %>
         </div>
       <%end%>
     </section>

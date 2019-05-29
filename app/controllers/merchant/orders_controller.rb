@@ -5,4 +5,3 @@ class Merchant::OrdersController < Merchant::BaseController
     @items = @order.items_from_merchant(current_user.id)
   end
 end
-

@@ -12,7 +12,7 @@ RSpec.describe 'Merchant Show page' do
       @o4,@o5 = create_list(:order, 2, status: 'shipped')
 
       create(:order_item, item: @i1, order: @o1)
-      create(:order_item, item: @i2, order: @o1)
+      @oi1 = create(:order_item, item: @i2, order: @o1)
       create(:order_item, item: @i3, order: @o1)
       create(:order_item, item: @i4, order: @o2)
       create(:order_item, item: @i5, order: @o2)
@@ -75,6 +75,22 @@ RSpec.describe 'Merchant Show page' do
       click_link('View my items')
 
       expect(current_path).to eq(merchant_items_path)
+    end
+
+    describe 'when I visit an orders show page from my dashboard' do
+      scenario 'I can fulfill part of an order' do
+        visit merchant_order_path(@o1)
+
+        within("#item-#{@i2.id}") do
+
+        click_on "Fulfill Item"
+
+        expect(current_path).to eq(merchant_order_path(@o1))
+        expect(page).to have_content("Item has been fulfilled")
+
+        end
+        expect(page).to have_content("Item fulfilled")
+      end
     end
   end
 end

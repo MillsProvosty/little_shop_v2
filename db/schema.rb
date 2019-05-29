@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_233230) do
     t.boolean "active"
     t.decimal "price"
     t.text "description"
-    t.string "image", default: "http://www.himalayansolution.com/public/img/medium-default-product.jpg"
+    t.string "image", default: "https://picsum.photos/200/300"
     t.integer "inventory"
     t.bigint "user_id"
     t.datetime "created_at", null: false

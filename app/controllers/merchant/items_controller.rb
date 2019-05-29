@@ -43,6 +43,7 @@ class Merchant::ItemsController < Merchant::BaseController
   def update
     @merchant = current_user
     @item = Item.find(params[:id])
+
     if @item.active == true
     @item.update_column(:active, false)
     flash[:message] = "#{@item.name} is no longer for sale."
