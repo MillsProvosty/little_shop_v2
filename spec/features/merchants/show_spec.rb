@@ -183,30 +183,32 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Item: #{@i7.name}#{@i7.quantity_bought}, Percentage Remaining: #{number_to_percentage(@i7.percentage_remaining)}")
       end
 
-      xit "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
+      it "shows top 3 states where items were shipped/quantities shipped, and the top 3 city/states where items shipped and quantities " do
         visit merchant_dashboard_path
 
         expect(page).to have_content("Top Three States Where Items Were Shipped:")
-        expect(page).to have_content("Top Three Cities Where Items Were Shipped:")
         expect(page.all("p")[0]).to have_content("#{@i7.name} : #{@i7.quantity_bought}")
+
         within("#states") do
-          expect(page.all("p")[0]).to have_content("#{@merchant.top_three_states[0]}")
-          expect(page.all("p")[1]).to have_content("#{@merchant.top_three_states[1]}")
-          expect(page.all("p")[2]).to have_content("#{@merchant.top_three_states[2]}")
+          state_1,state_2,state_3 = @merchant.top_three_states
+          expect(page.all("p")[0]).to have_content("#{state_1.state}: #{state_1.qty}")
+          expect(page.all("p")[1]).to have_content("#{state_2.state}: #{state_2.qty}")
+          expect(page.all("p")[2]).to have_content("#{state_3.state}: #{state_3.qty}")
         end
 
         within("#cities") do
-          expect(page.all("p")[0]).to have_content("#{@merchant.top_three_cities[0]}")
-          expect(page.all("p")[1]).to have_content("#{@merchant.top_three_cities[1]}")
-          expect(page.all("p")[2]).to have_content("#{@merchant.top_three_cities[2]}")
+          city_1,city_2,city_3 = @merchant.top_three_cities
+          expect(page.all("p")[0]).to have_content("#{city_1.city}: #{city_1.qty}")
+          expect(page.all("p")[1]).to have_content("#{city_2.city}: #{city_2.qty}")
+          expect(page.all("p")[2]).to have_content("#{city_3.city}: #{city_3.qty}")
         end
       end
 
-      xit "shows name of user: with most orders, who bought the most total itmes and total quantity, and top 3 users who have spent the most money and total amount they've spent. " do
-
-
-
+      xit "shows name of user: with most orders, who bought the most total itmes and total quantity" do
+        
       end
+
+      xit "top 3 users who have spent the most money and total amount they've spent. "
     end
     describe 'when I visit an orders show page from my dashboard' do
       scenario 'I can fulfill part of an order' do

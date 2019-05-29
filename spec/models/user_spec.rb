@@ -28,10 +28,10 @@ RSpec.describe User, type: :model do
       @merchant = create(:merchant)
       create(:inactive_merchant)
 
-      @order_2 = create(:order)
+      @order_2 = create(:order, user: @user_2)
       @order_1 = create(:shipped_order, user: @user)
-      @order_3 = create(:cancelled_order)
-      @order_4 = create(:shipped_order)
+      @order_3 = create(:cancelled_order, user: @user_3)
+      @order_4 = create(:shipped_order, user: @user)
 
       @item_1 = create(:item, user: @merchant)
       @item_2 = create(:item, user: @merchant)
@@ -66,6 +66,11 @@ RSpec.describe User, type: :model do
 
     it '.all_orders' do
       expect(@merchant.pending_orders).to eq([@order_2])
+    end
+
+    xit '.top_customer_by_order_num' do
+      expect(@merchant.top_customer.name).to eq(@user.name)
+      expect(@merchant.top_customer.order_num).to eq(2)
     end
   end
 
@@ -126,7 +131,7 @@ RSpec.describe User, type: :model do
 
       expect(merchant.top_three_states.map(& :state)).to eq(["Louisiana", "Colorado", "Florida"])
     end
-    it ".disable_items" do
+    xit ".disable_items" do
       merchant = create(:merchant)
         item_1 = create(:item, user: merchant)
         item_2 = create(:item, user: merchant)
