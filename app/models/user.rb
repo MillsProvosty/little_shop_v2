@@ -7,7 +7,6 @@ class User < ApplicationRecord
 
   validates_uniqueness_of :email
 
-#  validates_numericality_of :role
   enum role: %w[user merchant admin]
   has_many :items
   has_many :orders
@@ -47,6 +46,21 @@ class User < ApplicationRecord
     .order("qty DESC")
     .limit(3)
   end
+
+  def top_three_cities
+    items.joins(:orders)
+      .where("orders.status = 2")
+      .select("SUM(order_items.quantity) AS qty, users.state, users.city")
+      .joins("join users on orders.user_id = users.id")
+      .group("users.state, users.city")
+      .order("qty DESC")
+      .limit(3)
+  end
+
+  def top_customer
+    items.joins(:orders).where("orders.status = 2").select("users.name, count(distinct(orders.id)) as order_num").joins("join users on users.id = orders.user_id").group("users.name").order("order_num")
+  end
+
 
   def disable_items
     items.each do |item|
