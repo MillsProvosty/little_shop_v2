@@ -192,10 +192,8 @@ RSpec.describe User, type: :model do
     @oi = create(:order_item, price: 100000, quantity: 1 , order: @o7, fulfilled: false, item: @i3)
   end
 
-  # expect(merchant.top_three_states.map(& :state)).to eq(["Louisiana", "Colorado", "Florida"])
-
-  it '.topthreesellers' do
-    expect(User.topthreesellers.map(& :name)).to eq([@merch3.name, @merch2.name, @merch1.name])
-  end
+    it '.topthreesellers' do
+      expect(User.topthreesellers.map(& :name)).to eq([@merch3.name, @merch2.name, @merch1.name])
+    end
   end
 end

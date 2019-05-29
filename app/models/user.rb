@@ -73,6 +73,9 @@ class User < ApplicationRecord
     .joins(:items)
     .joins("join order_items on items.id = order_items.item_id")
     .select("distinct(users.name) AS name, SUM(order_items.price * order_items.quantity) AS revenue")
-    .group(:name).reverse
+    .where("order_items.fulfilled = true")
+    .group(:name)
+    .limit(3)
+    .reverse
   end
 end
