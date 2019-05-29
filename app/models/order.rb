@@ -17,6 +17,7 @@ class Order < ApplicationRecord
 
   def items_from_merchant(merchant_id)
     items.where(user_id: merchant_id)
+    .select("order_items.fulfilled, items.*, order_items.quantity")
   end
 
   def item_count_for_merchant(merchant_id)
