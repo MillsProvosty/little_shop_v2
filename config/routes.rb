@@ -35,7 +35,9 @@ Rails.application.routes.draw do
   # merchant_paths
   scope :dashboard, module: :merchant, as: :merchant do
     get '/', to: "merchants#show", as: :dashboard
-    resources :items, only: [:index, :update, :destroy, :new, :create]
+    resources :items, only: [:index, :update, :destroy, :new, :create, :edit]
+    patch '/dashboard/items/:id', to: "items#activate_item", as: :activate_item
+    patch '/dashboard/items', to: "items#update", as: :update_item
     resources :orders, only: [:show]
     resources :order_items, only: [:update]
   end

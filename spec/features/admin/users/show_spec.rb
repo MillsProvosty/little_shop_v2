@@ -62,7 +62,3 @@ RSpec.describe "Users profile from admin, when I visit a users profile page" do
     end
   end
 end
-#
-# And I see a flash message indicating the user has been upgraded
-# The next time this user logs in they are now a merchant
-# Only admins can reach any route necessary to upgrade the user to merchant status
