@@ -29,7 +29,11 @@ class Merchant::ItemsController < Merchant::BaseController
     elsif item_params["inventory"] == ""
       flash[:message] = "Could not create item without an inventory value"
       render :new
-    else
+    elsif item_params[:price].to_i <= 0
+      flash[:message] = "Price amount must be greater than zero"
+      render :new
+    elsif item_params[:inventory].to_i <= 0
+      flash[:message] = "Inventory amount must be greater than zero"
       render :new
     end
   end
