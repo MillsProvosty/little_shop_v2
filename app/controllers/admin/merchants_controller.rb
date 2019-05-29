@@ -1,4 +1,5 @@
-class Admin::MerchantsController < ApplicationController
+class Admin::MerchantsController < Admin::BaseController
+
 
   def show
     @merchant = User.find(params[:id])
@@ -10,7 +11,7 @@ class Admin::MerchantsController < ApplicationController
   end
 
   def update
-  @merchant = User.find(params[:id])
+    @merchant = User.find(params[:id])
     if @merchant.active
       @merchant.update_column(:active, false)
       flash[:message] = "#{@merchant.name} is now disabled"
@@ -20,5 +21,13 @@ class Admin::MerchantsController < ApplicationController
       flash[:message] = "#{@merchant.name} is now enabled"
       redirect_to admin_merchants_path
     end
+  end
+
+  def downgrade
+    @merchant = User.find(params[:id])
+    @merchant.disable_items
+    @merchant.update_column(:role, "user")
+    flash[:message] = "#{@merchant.name} has been downgraded to a regular user"
+    redirect_to admin_user_path(@merchant)
   end
 end

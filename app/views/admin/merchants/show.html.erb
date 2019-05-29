@@ -1,10 +1,13 @@
-<div>
+<div class="merchant-info">
   <%= @merchant.name %>
   <%= @merchant.email %>
   <%= @merchant.address %>
   <%= @merchant.city %>
   <%= @merchant.state %>
   <%= @merchant.zip %>
+  <% if current_admin? %>
+  <%= button_to "Downgrade Merchant", admin_downgrade_merchant_path(@merchant.id), method: :patch %>
+  <% end %>
 </div>
 
 <div id="merchant_stats">

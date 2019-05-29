@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     post '/merchants/:id', to: 'merchants#update', as: :update_merchant
+    patch '/merchants/:id', to: 'merchants#downgrade', as: :downgrade_merchant
     resources :merchants, only: [:show, :index]
     resources :users, only: [:create]
   end
