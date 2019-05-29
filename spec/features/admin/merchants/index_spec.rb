@@ -9,7 +9,7 @@ RSpec.describe "As an admin visiting merchants index" do
     fill_in "email",  with: admin.email
     fill_in "password", with: admin.password
     click_on "Log In"
-    
+
     @merchant_1 = create(:merchant, city: "New Orleans", state: "Louisiana", active: true)
     @merchant_2 = create(:merchant, city: "Seatle", state: "Washington", active: false)
     visit admin_merchants_path
@@ -87,8 +87,9 @@ RSpec.describe "As an admin visiting merchants index" do
     it "I am returned to admin's merchant page, see flash message merchant account enabled, merchant account is enabled and they can now log in" do
       click_on "Logout"
       visit login_path
-      fill_in "email",  with: @user.email
-      fill_in "password", with: @user.password
+      admin = create(:admin)
+      fill_in "email",  with: admin.email
+      fill_in "password", with: admin.password
       click_on "Log In"
       visit admin_merchants_path
 
