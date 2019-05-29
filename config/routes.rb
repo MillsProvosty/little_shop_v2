@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get '/', to: "merchants#show", as: :dashboard
     resources :items, only: [:index, :update, :destroy, :new, :create]
     resources :orders, only: [:show]
+    resources :order_items, only: [:update]
   end
 
   # admin_paths
