@@ -4,6 +4,7 @@ RSpec.describe "Users profile from admin, when I visit a users profile page" do
   before :each do
     @user = create(:user)
     @admin = create(:admin)
+    @merchant = create(:merchant)
   end
   it "I see the same information the user would see, except a link to edit their profile" do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
@@ -59,6 +60,24 @@ RSpec.describe "Users profile from admin, when I visit a users profile page" do
 
       expect(user_1.role).to eq("merchant")
       expect(current_path).to eq(merchant_dashboard_path)
+    end
+  end
+  describe "visit a user profile page for a user and that user is a merchant" do
+    it "redirects me to the appropriate merchant dashboard page and I see their merchant dashboard page" do
+      visit login_path
+
+      fill_in "email",  with: @admin.email
+      fill_in "password", with: @admin.password
+      click_on "Log In"
+
+      visit admin_user_path(@merchant)
+
+      expect(current_path).to eq(admin_merchant_path(@merchant.id))
+      expect(page).to have_content(@merchant.name)
+      expect(page).to have_content(@merchant.email)
+      expect(page).to have_content(@merchant.address)
+      expect(page).to have_content(@merchant.city)
+      expect(page).to have_content(@merchant.state)
     end
   end
 end
