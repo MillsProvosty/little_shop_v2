@@ -47,4 +47,10 @@ class User < ApplicationRecord
     .order("qty DESC")
     .limit(3)
   end
+
+  def disable_items
+    items.each do |item|
+      item.update_column(:active, false)
+    end
+  end
 end

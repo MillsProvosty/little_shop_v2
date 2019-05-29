@@ -100,7 +100,8 @@ RSpec.describe User, type: :model do
 
     it '#date_registered' do
       user = create(:user)
-      expect(user.date_registered).to eq(Time.now.strftime("%B %d, %Y"))
+
+      expect(user.date_registered).to eq(user.created_at.strftime("%B %d, %Y"))
     end
 
     it '.top_three_states' do
@@ -124,6 +125,20 @@ RSpec.describe User, type: :model do
 
 
       expect(merchant.top_three_states.map(& :state)).to eq(["Louisiana", "Colorado", "Florida"])
+    end
+    it ".disable_items" do
+      merchant = create(:merchant)
+        item_1 = create(:item, user: merchant)
+        item_2 = create(:item, user: merchant)
+        item_3 = create(:item, user: merchant)
+
+      expect(merchant.disable_items).to eq([item_1, item_2, item_3])
+      item_1.reload
+      item_2.reload
+      item_3.reload
+      expect(item_1.active).to eq(false)
+      expect(item_2.active).to eq(false)
+      expect(item_3.active).to eq(false)
     end
   end
 end

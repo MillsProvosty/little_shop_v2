@@ -24,10 +24,11 @@ RSpec.describe "As an admin visiting merchants index" do
       create(:order_item, item: @i2, order: @o5)
       create_list(:order_item, 15)
 
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
   end
   describe "when I click on a merchants name" do
     it "My URI route should be /admin/merchants/6" do
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
 
       visit admin_merchants_path
 
@@ -45,6 +46,8 @@ RSpec.describe "As an admin visiting merchants index" do
   end
 
   scenario 'I see a list of pending orders and their information' do
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
 
     visit admin_merchant_path(@merchant)
 
@@ -71,11 +74,109 @@ RSpec.describe "As an admin visiting merchants index" do
 
   it 'there is a link to view just my items' do
 
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+
       visit admin_merchant_path(@merchant)
 
     expect(page).to have_link('View my items')
     click_link('View my items')
 
     expect(current_path).to eq(merchant_items_path)
+  end
+  describe "As an Admin visiting a merchants dashboard" do
+    it "I see a link to downgrade a merchants account to become a regular user" do
+        admin = create(:admin)
+        merchant = create(:merchant)
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+
+        visit admin_merchant_path(merchant)
+
+        within(".merchant-info") do
+        expect(page).to have_button("Downgrade Merchant")
+        end
+      end
+      it "the merchants should not see this link" do
+        admin = create(:admin)
+        merchant = create(:merchant)
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+        visit admin_merchant_path(merchant)
+
+        expect(page).to_not have_button("Downgrade Merchant")
+
+        visit merchant_dashboard_path
+
+        expect(page).to_not have_button("Downgrade Merchant")
+      end
+      it "When I click on this button, I am redirected to admin user path because merchant is now a user" do
+        admin = create(:admin)
+        merchant = create(:merchant)
+          item_1 = create(:item, user: merchant)
+          item_2 = create(:item, user: merchant)
+          item_3 = create(:item, user: merchant)
+
+        visit login_path
+
+        fill_in "Email", with: admin.email
+        fill_in "Password", with: admin.password
+        click_on "Log In"
+
+        visit admin_merchant_path(merchant)
+
+        within(".merchant-info") do
+        click_on("Downgrade Merchant")
+        end
+
+      user = merchant.reload
+      item_1.reload
+      item_2.reload
+      item_3.reload
+
+      expect(current_path).to eq(admin_user_path(user))
+      expect(page).to have_content("#{user.name} has been downgraded to a regular user")
+      expect(user.role).to eq("user")
+      expect(item_1.active).to eq(false)
+      expect(item_2.active).to eq(false)
+      expect(item_3.active).to eq(false)
+
+      click_on "Logout"
+
+      visit login_path
+
+      fill_in "Email", with: user.email
+      fill_in "Password", with: user.password
+      click_on "Log In"
+
+      expect(current_path).to_not eq(merchant_dashboard_path)
+    end
+    it "only admins can reach any route necessary to downgrade the merchant to user status" do
+      merchant = create(:merchant)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+      visit admin_merchant_path(merchant)
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
+    it "reg_user cannot reach admin_merchant_path" do
+      user = create(:user)
+      merchant = create(:merchant)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit admin_merchant_path(merchant)
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
+    it "a visitor cannot visit" do
+      user = create(:user)
+      merchant = create(:merchant)
+
+      visit admin_merchant_path(merchant)
+
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
   end
 end
