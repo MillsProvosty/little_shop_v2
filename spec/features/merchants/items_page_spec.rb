@@ -176,7 +176,7 @@ RSpec.describe "As a merchant, when I visit my items page" do
 
       @item = Item.last
       expect(page).to have_content("Laptop has been saved.")
-
+      expect(@item.active).to eq(true)
       within("#item-#{@item.id}") do
         expect(page).to have_content("Laptop")
         expect(page).to have_content(2000.00)
@@ -206,6 +206,7 @@ RSpec.describe "As a merchant, when I visit my items page" do
       @item = Item.last
 
       expect(page).to have_content("Iphone has been saved.")
+      expect(@item.active).to eq(true)
 
       within("#item-#{@item.id}") do
         expect(page).to have_content("Iphone")
@@ -213,6 +214,150 @@ RSpec.describe "As a merchant, when I visit my items page" do
         expect(page).to have_content("Good phone")
         expect(find('img')[:src]).to eq("https://picsum.photos/200/300")
         expect(page).to have_content(22)
+      end
+    end
+    describe "When I try to add a new item, if any data is incorrect or missing(except image)" do
+      describe "I am returned to the form, with a flash message indicating each error"
+        it "When I dont fill in an item name, i am redirected to form with a flash saying name is missing, fields are repopulated" do
+
+        visit merchant_items_path
+
+        within(".links") do
+          click_link "Add an Item"
+        end
+        expect(current_path).to eq(new_merchant_item_path)
+
+        # no name filled in
+        fill_in "Price", with: 800.00
+        fill_in "Description", with: "Good phone"
+        fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+        fill_in "Inventory", with: 22
+        click_on "Create Item"
+
+        expect(page).to have_content("Could not create item without name")
+        expect(find_field("Name").value).to eq("")
+        expect(find_field("Price").value).to eq("800.0")
+        expect(find_field("Description").value).to eq("Good phone")
+        expect(find_field("Image").value).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(find_field("Inventory").value).to eq("22")
+      end
+        it "When I dont fill in an item price, i am redirected to form with a flash saying name is missing, fields are repopulated" do
+
+        visit merchant_items_path
+
+        within(".links") do
+          click_link "Add an Item"
+        end
+        expect(current_path).to eq(new_merchant_item_path)
+
+        fill_in "Name", with: "Iphone"
+        #no price filled in
+        fill_in "Description", with: "Good phone"
+        fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+        fill_in "Inventory", with: 22
+        click_on "Create Item"
+
+
+        expect(page).to have_content("Could not create item without a price")
+        expect(find_field("Name").value).to eq("Iphone")
+        expect(find_field("Price").value).to eq("")
+        expect(find_field("Description").value).to eq("Good phone")
+        expect(find_field("Image").value).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(find_field("Inventory").value).to eq("22")
+      end
+        it "When I dont fill in an item description, i am redirected to form with a flash saying name is missing, fields are repopulated" do
+
+        visit merchant_items_path
+
+        within(".links") do
+          click_link "Add an Item"
+        end
+        expect(current_path).to eq(new_merchant_item_path)
+
+        fill_in "Name", with: "Iphone"
+        fill_in "Price", with: "800.0"
+        #no description filled in
+        fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+        fill_in "Inventory", with: 22
+        click_on "Create Item"
+
+
+        expect(page).to have_content("Could not create item without a description")
+        expect(find_field("Name").value).to eq("Iphone")
+        expect(find_field("Price").value).to eq("800.0")
+        expect(find_field("Description").value).to eq("")
+        expect(find_field("Image").value).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(find_field("Inventory").value).to eq("22")
+      end
+        it "When I dont fill in an item inventory value, i am redirected to form with a flash saying name is missing, fields are repopulated" do
+
+        visit merchant_items_path
+
+        within(".links") do
+          click_link "Add an Item"
+        end
+        expect(current_path).to eq(new_merchant_item_path)
+
+        fill_in "Name", with: "Iphone"
+        fill_in "Price", with: "800.0"
+        fill_in "Description", with: "Good phone"
+        fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+        #no inventory filled in
+        click_on "Create Item"
+
+
+        expect(page).to have_content("Could not create item without an inventory value")
+        expect(find_field("Name").value).to eq("Iphone")
+        expect(find_field("Price").value).to eq("800.0")
+        expect(find_field("Description").value).to eq("Good phone")
+        expect(find_field("Image").value).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(find_field("Inventory").value).to eq("")
+      end
+      it "A price must be greater than zero" do
+
+        visit merchant_items_path
+
+        within(".links") do
+          click_link "Add an Item"
+        end
+        expect(current_path).to eq(new_merchant_item_path)
+
+        fill_in "Name", with: "Iphone"
+        fill_in "Price", with: 0
+        fill_in "Description", with: "Good phone"
+        fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+        fill_in "Inventory", with: 33
+        click_on "Create Item"
+
+        expect(page).to have_content("Price amount must be greater than zero")
+        expect(find_field("Name").value).to eq("Iphone")
+        expect(find_field("Price").value).to eq("0")
+        expect(find_field("Description").value).to eq("Good phone")
+        expect(find_field("Image").value).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(find_field("Inventory").value).to eq("33")
+      end
+      it "Inventory value must be greater than zero" do
+
+        visit merchant_items_path
+
+        within(".links") do
+          click_link "Add an Item"
+        end
+        expect(current_path).to eq(new_merchant_item_path)
+
+        fill_in "Name", with: "Iphone"
+        fill_in "Price", with: 30.0
+        fill_in "Description", with: "Good phone"
+        fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+        fill_in "Inventory", with: 0
+        click_on "Create Item"
+
+        expect(page).to have_content("Inventory amount must be greater than zero")
+        expect(find_field("Name").value).to eq("Iphone")
+        expect(find_field("Price").value).to eq("30.0")
+        expect(find_field("Description").value).to eq("Good phone")
+        expect(find_field("Image").value).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+        expect(find_field("Inventory").value).to eq("0")
       end
     end
   end

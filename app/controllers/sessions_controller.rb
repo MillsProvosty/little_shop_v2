@@ -24,10 +24,12 @@ class SessionsController < ApplicationController
       flash[:login] = "Welcome back #{user.name}, you are logged in."
       if current_user?
         redirect_to user_path
-      elsif current_merchant?
+      elsif current_merchant? && current_user.active
         redirect_to merchant_dashboard_path
       elsif current_admin?
         redirect_to root_path
+      else
+        render_404
       end
     end
   end

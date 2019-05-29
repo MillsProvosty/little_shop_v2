@@ -1,6 +1,8 @@
 class Item < ApplicationRecord
-  validates_presence_of :name, :description
-  validates_numericality_of :price, :inventory
+
+  validates_presence_of :name, :description, :image
+  validates_numericality_of :price, :greater_than => 0
+  validates_numericality_of :inventory, :greater_than => 0
 
   validates_inclusion_of :active, in: [true, false]
   belongs_to :user
