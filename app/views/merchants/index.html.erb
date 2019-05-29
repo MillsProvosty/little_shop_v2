@@ -1,4 +1,11 @@
 <div>
+  <section id="top3sellers">
+    <h2>Top 3 Merchants to Sell the Most!</h2>
+        <% @topthreesellers.each do |merchant| %>
+        <% binding.pry %>
+      <p><%= merchant.name %>, Revenue: <%= number_to_currency(merchant.revenue) %></p>
+        <% end %>
+  </section>
   <%@merchants.each do |merchant| %>
     <div id="merchant-<%= merchant.id %>">
       <% if !current_admin? %>

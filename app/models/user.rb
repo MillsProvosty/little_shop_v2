@@ -67,4 +67,12 @@ class User < ApplicationRecord
       item.update_column(:active, false)
     end
   end
+
+  def self.topthreesellers
+    User.where(role: :merchant)
+    .joins(:items)
+    .joins("join order_items on items.id = order_items.item_id")
+    .select("distinct(users.name) AS name, SUM(order_items.price * order_items.quantity) AS revenue")
+    .group(:name).reverse
+  end
 end
