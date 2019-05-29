@@ -11,9 +11,9 @@ RSpec.describe 'Merchant Show page' do
       @o1,@o2,@o3 = create_list(:order, 3)
       @o4,@o5 = create_list(:order, 2, status: 'shipped')
 
-      create(:order_item, item: @i1, order: @o1)
-      @oi1 = create(:order_item, item: @i2, order: @o1)
-      create(:order_item, item: @i3, order: @o1)
+      create(:order_item, item: @i1, order: @o1, price: 3.00, quantity: 5)
+      @oi1 = create(:order_item, item: @i2, order: @o1, price: 2.50, quantity: 6)
+      create(:order_item, item: @i3, order: @o1, price: 5.25, quantity: 4)
       create(:order_item, item: @i4, order: @o2)
       create(:order_item, item: @i5, order: @o2)
       create(:order_item, item: @i6, order: @o2)
@@ -69,6 +69,40 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Grand Total: #{number_to_currency @o3.items_total_value}")
       end
     end
+
+    xscenario 'I can view details of an order as it pertains to me' do
+     click_link "Order# #{@o1.id}"
+     expect(current_path).to eq(merchant_order_path(@o1))
+     customer = @o1.user
+
+     expect(page).to have_content(customer.name)
+     expect(page).to have_content(customer.address)
+     expect(page).to have_content(customer.city)
+     expect(page).to have_content(customer.state)
+     expect(page).to have_content(customer.zip)
+
+     #items from my inventory
+       within "#item-#{@i1.id}" do
+         expect(page).to have_content(@i1.name)
+         expect(find("img")[:src]).to eq(@i1.image)
+         expect(page).to have_content("Quantity on Order: 5")
+         expect(page).to have_content("Price: $3.00")
+       end
+
+       within "#item-#{@i2.id}" do
+         expect(page).to have_content(@i2.name)
+         expect(find("img")[:src]).to eq(@i2.image)
+         expect(page).to have_content("Quantity on Order: 6")
+         expect(page).to have_content("Price: $4.50")
+       end
+
+       within "#item-#{@i3.id}" do
+         expect(page).to have_content(@i3.name)
+         expect(find("img")[:src]).to eq(@i3.image)
+         expect(page).to have_content("Quantity on Order: 4")
+         expect(page).to have_content("Price: $6.00")
+       end
+   end
 
     scenario 'there is a link to view just my items' do
       expect(page).to have_link('View my items')

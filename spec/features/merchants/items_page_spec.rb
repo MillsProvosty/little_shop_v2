@@ -361,4 +361,214 @@ RSpec.describe "As a merchant, when I visit my items page" do
       end
     end
   end
+  describe "Merchant can edit an item" do
+    before :each do
+      @merchant = create(:merchant)
+        @item_1 = create(:item, user: @merchant)
+        @item_2 = create(:item, user: @merchant, active: false)
+        @item_3 = create(:item, user: @merchant)
+    end
+    describe "When I visit my items page, and I click edit on an item" do
+      describe "I am taken to a form similar to the new item form" do
+        it "my current route will be dashboard/items/:id/edit" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit merchant_items_path
+
+          within("#item-#{@item_1.id}") do
+            click_on "Edit Item"
+          end
+          expect(current_path).to eq(edit_merchant_item_path(@item_1))
+        end
+        it "The form is repopulated with all item information" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_1)
+
+          expect(find_field("Name").value).to eq(@item_1.name)
+          expect(find_field("Price").value).to eq("120.0")
+          expect(find_field("Description").value).to eq(@item_1.description)
+          expect(find_field("Image").value).to eq(@item_1.image)
+          expect(find_field("Inventory").value).to eq("#{@item_1.inventory}")
+        end
+        it "When I submit the form I am taken back to items page and item is listed, with updated flash message" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_1)
+
+          fill_in "Name", with: "New Item"
+          fill_in "Price", with: 200
+          fill_in "Description", with: "cool item"
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 22
+          click_on "Update Item"
+
+          @item_1.reload
+
+          expect(current_path).to eq(merchant_items_path)
+
+          expect(page).to have_content("#{@item_1.name} has been updated")
+
+          within("#item-#{@item_1.id}") do
+            expect(page).to have_content("New Item")
+            expect(page).to have_content(200)
+            expect(page).to have_content("cool item")
+            expect(find('img')[:src]).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+            expect(page).to have_content(22)
+          end
+        end
+        it "When I submit the form I am taken back to items page and item is listed, with its active state staying the same" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "New Item"
+          fill_in "Price", with: 200
+          fill_in "Description", with: "cool item"
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 22
+          click_on "Update Item"
+
+          @item_2.reload
+
+          expect(current_path).to eq(merchant_items_path)
+
+          expect(page).to have_content("#{@item_2.name} has been updated")
+
+          within("#item-#{@item_2.id}") do
+            expect(page).to have_content("New Item")
+            expect(page).to have_content(200)
+            expect(page).to have_content("cool item")
+            expect(find('img')[:src]).to eq("https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png")
+            expect(page).to have_content(22)
+            expect(@item_2.active).to eq(false)
+          end
+        end
+        it "I can change any information, price must be greater than 0" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_1)
+
+          fill_in "Price", with: 0
+
+          click_on "Update Item"
+
+          expect(page).to have_content("Price amount must be greater than zero")
+        end
+        it "When I submit the form with price less than or equal to zero i get a flash and redirect back to form" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "New Item"
+          fill_in "Price", with: 0
+          fill_in "Description", with: "cool item"
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 22
+          click_on "Update Item"
+
+          @item_2.reload
+
+
+          expect(page).to have_content("Price amount must be greater than zero")
+        end
+        it "When I submit the form with inventory less than one i get a flash and redirect back to form" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "New Item"
+          fill_in "Price", with: 200
+          fill_in "Description", with: "cool item"
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 0
+          click_on "Update Item"
+
+          @item_2.reload
+
+
+          expect(page).to have_content("Inventory amount must be greater than zero")
+        end
+        it "When I submit the form with missing name i get a flash and redirect back to form" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: ""
+          fill_in "Price", with: 200
+          fill_in "Description", with: "cool item"
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 12
+          click_on "Update Item"
+
+          @item_2.reload
+
+
+          expect(page).to have_content("Could not create item without name")
+        end
+        it "When I submit the form with missing price i get a flash and redirect back to form" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "Item new"
+          fill_in "Price", with: ""
+          fill_in "Description", with: "cool item"
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 12
+          click_on "Update Item"
+
+          @item_2.reload
+
+
+          expect(page).to have_content("Could not create item without a price")
+        end
+        it "When I submit the form with missing description i get a flash and redirect back to form" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "Item new"
+          fill_in "Price", with: 200
+          fill_in "Description", with: ""
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: 12
+          click_on "Update Item"
+
+          @item_2.reload
+
+
+          expect(page).to have_content("Could not create item without a description")
+        end
+        it "When I submit the form with missing Inventory i get a flash and redirect back to form" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "Item new"
+          fill_in "Price", with: 200
+          fill_in "Description", with: ""
+          fill_in "Image", with: "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05962484.png"
+          fill_in "Inventory", with: ""
+          click_on "Update Item"
+
+          @item_2.reload
+
+
+          expect(page).to have_content("Inventory amount must be greater than zero")
+        end
+      end
+    end
+  end
 end

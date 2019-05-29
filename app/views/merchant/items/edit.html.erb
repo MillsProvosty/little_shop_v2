@@ -1,0 +1,13 @@
+<%= form_for [@merchant, @item], :url => merchant_update_item_path(@item) do |f| %>
+<%= f.label :name %>
+<%= f.text_field :name %>
+<%= f.label :price %>
+<%= f.number_field :price %>
+<%= f.label :description %>
+<%= f.text_area :description %>
+<%= f.label :image %>
+<%= f.text_field :image %>
+<%= f.label :inventory %>
+<%= f.number_field :inventory %>
+<%= f.submit %>
+<% end %>

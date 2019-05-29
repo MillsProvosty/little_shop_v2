@@ -12,14 +12,14 @@
   <p><img src="<%= item.image %>"></p>
   <p><%= item.price %></p>
   <p><%= item.inventory %></p>
-  <p><%= button_to "Edit Item" %></p>
+  <p><%= button_to "Edit Item", edit_merchant_item_path(item), method: :get %></p>
   <% if item.order_items.empty? %>
   <%= button_to "Delete Item", merchant_item_path(item), method: :delete %>
   <% end %>
   <% if item.active == true %>
-  <%= button_to "Disable Item", merchant_item_path(item), method: :patch %>
+  <%= button_to "Disable Item", merchant_activate_item_path(item), method: :patch %>
   <% elsif  item.active == false %>
-  <%= button_to "Enable Item", merchant_item_path(item), method: :patch %>
+  <%= button_to "Enable Item", merchant_activate_item_path(item), method: :patch %>
   <% end %>
 </div>
 <% end %>
