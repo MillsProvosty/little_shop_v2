@@ -132,7 +132,7 @@ RSpec.describe User, type: :model do
         item_2 = create(:item, user: merchant)
         item_3 = create(:item, user: merchant)
 
-      expect(merchant.disable_items).to eq([item_1, item_2, item_3])
+      expect(merchant.disable_items).to eq([item_1, item_2, item_3]) 
       item_1.reload
       item_2.reload
       item_3.reload

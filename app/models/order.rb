@@ -22,7 +22,7 @@ class Order < ApplicationRecord
 
   def item_count_for_merchant(merchant_id)
     items_from_merchant(merchant_id).sum do |item|
-      item.order_items.find_by(order_id: id).quantity
+      item.order_items.find_by(order_id: id, item_id: item.id).quantity
     end
   end
 
