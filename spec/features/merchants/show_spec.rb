@@ -37,8 +37,8 @@ RSpec.describe 'Merchant Show page' do
       create(:order_item, item: @i6, order: @o6, quantity: 13, fulfilled: true)
 
       #additional items added to order from different merchant
-      create(:order_item, item: @i13, order: @o1)
-      create(:order_item, item: @i12, order: @o1)
+      create(:order_item, item: @i13, order: @o1, fulfilled: true)
+      create(:order_item, item: @i12, order: @o1, fulfilled: true)
 
       visit login_path
 
@@ -190,5 +190,25 @@ RSpec.describe 'Merchant Show page' do
         expect(page).to have_content("Item fulfilled")
       end
     end
+    describe 'when all items in an order have been fulfilled by merchants' do
+      it 'the order status changes from pending to packaged' do
+        visit merchant_order_path(@o1)
+
+          within("#item-#{@i1.id}") do
+            click_on "Fulfill Item"
+          end
+          within("#item-#{@i2.id}") do
+            click_on "Fulfill Item"
+          end
+          within("#item-#{@i3.id}") do
+            click_on "Fulfill Item"
+
+          expect(@o1.reload.status).to eq("packaged")
+        end
+      end
+    end
   end
 end
+
+# When all items in an order have been "fulfilled" by their merchants
+# The order status changes from "pending" to "packaged"
