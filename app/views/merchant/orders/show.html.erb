@@ -15,6 +15,8 @@
           <p>Quantity on Order: <%= item.quantity_on_order(@order.id)%></p>
           <% if (item.quantity <= item.inventory unless item.fulfilled) %>
             <%= link_to "Fulfill Item", merchant_order_item_path(item, order_id: @order.id), method: :patch %>
+            <% elsif item.quantity > item.inventory and !item.fulfilled %>
+            <p style="color:red;font-weight:bold;font-size:20px;"> Item cannot be fulfilled</p>
             <% else %>
             <p>"Item has been fulfilled"</p>
           <% end %>

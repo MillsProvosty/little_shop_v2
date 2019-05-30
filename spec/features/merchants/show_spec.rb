@@ -6,12 +6,12 @@ RSpec.describe 'Merchant Show page' do
     before :each do
       @merchant = create(:merchant)
       @i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9 = create_list(:item, 10, user: @merchant, price: 1.00)
-
+      @i20 = create(:item, inventory: 1, user: @merchant)
       #item with different merchant
       @i12,@i13 = create_list(:item, 2)
 
       #orders with pending status
-      @o1,@o2,@o3 = create_list(:order, 3)
+      @o1,@o2,@o3, @o20 = create_list(:order, 4)
 
       #orders with shipped status
       @o4,@o5,@o6 = create_list(:order, 3, status: 'shipped')
@@ -27,6 +27,7 @@ RSpec.describe 'Merchant Show page' do
       create(:order_item, item: @i9, order: @o3, quantity: 6)
       create(:order_item, item: @i2, order: @o4, quantity: 1)
       create(:order_item, item: @i2, order: @o5, quantity: 2)
+      create(:order_item, item: @i20, order: @o20, quantity: 15)
 
       #shipped order
       create(:order_item, item: @i2, order: @o6, quantity: 2, fulfilled: true)
@@ -219,6 +220,17 @@ RSpec.describe 'Merchant Show page' do
 
         expect(page).to have_content("Item fulfilled")
       end
+
+      scenario 'if the quantity desired is greater than the inventory I do not see a fulfill button' do
+
+        visit merchant_order_path(@o20)
+
+        within("#item-#{@i20.id}") do
+          save_and_open_page
+          expect(page).to_not have_content("Fulfill Item")
+        end
+      end
+
     end
     describe 'when all items in an order have been fulfilled by merchants' do
       it 'the order status changes from pending to packaged' do
