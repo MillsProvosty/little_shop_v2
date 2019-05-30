@@ -4,7 +4,7 @@
 <div id="user-<%= user.id %>" class="users">
   <p><%= link_to user.name, admin_user_path(user) %></p>
   <p><%= user.created_at %></p>
-  <p><%= button_to "Upgrade to Merchant" %></p>
+  <%= button_to "Enable Merchant", admin_update_merchant_path(user.id), method: :update %>
 </div>
 <% end %>
 </div>
