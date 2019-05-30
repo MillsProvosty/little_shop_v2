@@ -27,6 +27,15 @@
         <% end %>
   </section>
 
+  <section id="top3cities">
+    <h3>Top 3 Cities we ship to:</h3>
+        <% @topthreecities.each do |user| %>
+      <p><%= user.city %>, <%= user.state %>, number of orders: <%= user.order_count %></p>
+        <% end %>
+  </section>
+
+  
+
   <%@merchants.each do |merchant| %>
     <div id="merchant-<%= merchant.id %>">
       <% if !current_admin? %>

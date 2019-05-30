@@ -106,7 +106,14 @@ class User < ApplicationRecord
     User.joins(:orders)
     .where("orders.status = 2")
     .select("users.state, COUNT(users.id) as order_count")
-    .group("users.id")
+    .group("users.id, users.state")
+  end
+
+  def self.topthreecities
+    User.joins(:orders)
+    .where("orders.status = 2")
+    .select("users.city, users.state, COUNT(users.id) as order_count")
+    .group("users.id, users.state, users.city")
   end
 
 end
