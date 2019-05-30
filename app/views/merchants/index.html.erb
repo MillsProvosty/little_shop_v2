@@ -20,6 +20,13 @@
         <% end %>
   </section>
 
+  <section id="top3states">
+    <h2>Top 3 States we ship to:</h2>
+        <% @topthreestates.each do |user| %>
+      <p><%= user.state %> days.</p>
+        <% end %>
+  </section>
+
   <%@merchants.each do |merchant| %>
     <div id="merchant-<%= merchant.id %>">
       <% if !current_admin? %>

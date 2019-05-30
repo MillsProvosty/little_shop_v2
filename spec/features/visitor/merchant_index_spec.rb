@@ -93,7 +93,14 @@ RSpec.describe "As a visitor on the merchants index page" do
         end
     end
 
-    xit "top 3 states where any orders were shipped (by number of orders), and count of orders" do
+    it "top 3 states where any orders were shipped (by number of orders), and count of orders" do
+      visit merchants_path
+      expect(page).to have_content("Top 3 States we ship to:")
+        within("#top3states") do
+          expect(page).to have_content("Colorado")
+          expect(page).to have_content("Alaska")
+          expect(page).to have_content("Texas")
+        end
     end
 
     xit "top 3 cities where any orders were shipped (by number of orders, also Springfield, MI should not be grouped with Springfield, CO), and the count of orders" do

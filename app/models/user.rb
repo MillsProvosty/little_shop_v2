@@ -102,5 +102,11 @@ class User < ApplicationRecord
     .reverse
   end
 
+  def self.topthreestates
+    User.joins(:orders)
+    .where("orders.status = 2")
+    .select("users.state, COUNT(users.id) as order_count")
+    .group("users.id")
+  end
 
 end

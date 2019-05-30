@@ -168,7 +168,7 @@ RSpec.describe User, type: :model do
     @o5 = create(:order, status: "cancelled", user: @buyer1)
     @o6 = create(:order, status: "shipped", user: @buyer1)
     @o7 = create(:order, status: "shipped", user: @buyer1)
-    @o8 = create(:order, status: "pending", user: @buyer2)
+    @o8 = create(:order, status: "shipped", user: @buyer3)
     @o9 = create(:order, status: "pending", user: @buyer2)
 
     @i1 = create(:item, price: 100, user: @merch1)
@@ -202,6 +202,10 @@ RSpec.describe User, type: :model do
 
     it '.worstthreetimes' do
       expect(User.worstthreetimes.map(& :name)).to eq([@merch1.name, @merch2.name, @merch3.name])
+    end
+
+    it '.topthreestates' do
+      expect(User.topthreestates.map(& :state)).to eq([@buyer1.state, @buyer3.state, @buyer4.state])
     end
   end
 end
