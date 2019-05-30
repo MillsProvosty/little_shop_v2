@@ -1,9 +1,10 @@
 <h1>Users In the System</h1>
-
+<div id="all-users">
 <% @users.each do |user| %>
-<div id="user-<%= user.id %>">
+<div id="user-<%= user.id %>" class="users">
   <p><%= link_to user.name, admin_user_path(user) %></p>
   <p><%= user.created_at %></p>
   <p><%= button_to "Upgrade to Merchant" %></p>
 </div>
 <% end %>
+</div>

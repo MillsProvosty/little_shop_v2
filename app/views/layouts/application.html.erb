@@ -10,50 +10,50 @@
   </head>
 
   <body>
+    <nav>
+      <%= link_to "Welcome Page", root_path %>
 
-    <%= link_to "Welcome Page", root_path %>
+      <% if current_user? %>
+        <%= link_to "My Profile", user_path %>
+      <% end %>
 
-    <% if current_user? %>
-      <%= link_to "My Profile", user_path %>
-    <% end %>
+      <%= link_to "Items for Sale", items_path %>
+      <%= link_to "Merchants", merchants_path %>
 
-    <%= link_to "Items for Sale", items_path %>
-    <%= link_to "Merchants", merchants_path %>
+      <% unless current_merchant? or current_admin? %>
+        <%= link_to "My Cart", cart_path %>
+      <% end%>
 
-    <% unless current_merchant? or current_admin? %>
-    <%= link_to "My Cart", cart_path %>
-    <% end%>
+      <% if current_merchant? %>
+        <%= link_to "Dashboard", merchant_dashboard_path %>
+      <%end%>
 
-    <% if current_merchant? %>
-      <%= link_to "Dashboard", merchant_dashboard_path %>
-    <%end%>
-
-    <% if current_admin? %>
-    <div id="admin-links">
-      <%= link_to "Admin Dashboard", admin_dashboard_path%>
-      <%= link_to "Users", admin_users_path %>
-    </div>
-    <% end %>
+      <% if current_admin? %>
+        <div id="admin-links">
+          <%= link_to "Admin Dashboard", admin_dashboard_path%>
+          <%= link_to "Users", admin_users_path %>
+        </div>
+      <% end %>
 
 
-    <% if current_user == nil %>
-      <%= link_to "User Log In", login_path %>
-      <%= link_to "Register as User", new_user_path %>
-    <% end %>
+      <% if current_user == nil %>
+        <%= link_to "User Log In", login_path %>
+        <%= link_to "Register as User", new_user_path %>
+      <% end %>
 
-    <% unless current_merchant? || current_admin? %>
-      <p class="nav-cart">Cart: <%= cart.total_count %></p>
-    <% end %>
+      <% unless current_merchant? || current_admin? %>
+        <p class="nav-cart">Cart: <%= cart.total_count %></p>
+      <% end %>
 
-    <% if current_user %>
-      <%= link_to "Logout", logout_path %>
-      <p>Logged In As <%= current_user.name %></p>
-    <%end%>
+      <% if current_user %>
+        <%= link_to "Logout", logout_path %>
+        <p>Logged In As <%= current_user.name %></p>
+      <%end%>
 
-    <% flash.each do |key, value| %>
-      <%= value %>
-    <% end %>
-
+      <% flash.each do |key, value| %>
+        <%= value %>
+      <% end %>
+    </nav>
     <%= yield %>
   </body>
 </html>
