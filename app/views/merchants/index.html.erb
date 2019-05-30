@@ -1,53 +1,57 @@
-<div>
-  <section id="top3sellers">
-    <h2>Top 3 Merchants to Sell the Most!</h2>
-        <% @topthreesellers.each do |merchant| %>
-      <p><%= merchant.name %>, Revenue: <%= number_to_currency(merchant.revenue) %></p>
-        <% end %>
-  </section>
+<div id="merchant-index">
+  <div class="top-merch-stats">
+    <section id="top3sellers">
+      <h2>Top 3 Merchants to Sell the Most!</h2>
+      <% @topthreesellers.each do |merchant| %>
+        <p><%= merchant.name %>, Revenue: <%= number_to_currency(merchant.revenue) %></p>
+      <% end %>
+    </section>
 
-  <section id="top3times">
-    <h3>Top 3 Merchants to fulfill their orders on time!</h3>
-        <% @topthreetimes.each do |merchant| %>
-      <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
-        <% end %>
-  </section>
+    <section id="top3times">
+      <h3>Top 3 Merchants to fulfill their orders on time!</h3>
+      <% @topthreetimes.each do |merchant| %>
+        <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
+      <% end %>
+    </section>
 
-  <section id="worst3times">
-    <h3>Slowest 3 Merchants to fulfill their orders on time!</h3>
-        <% @worstthreetimes.each do |merchant| %>
-      <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
-        <% end %>
-  </section>
+    <section id="worst3times">
+      <h3>Slowest 3 Merchants to fulfill their orders on time!</h3>
+      <% @worstthreetimes.each do |merchant| %>
+        <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
+      <% end %>
+    </section>
+  </div>
+  <div class="top-merch-stats">
+    <section id="top3states">
+      <h3>Top 3 States we ship to:</h3>
+      <% @topthreestates.each do |user| %>
+        <p><%= user.state %>, number of orders: <%= user.order_count %></p>
+      <% end %>
+    </section>
 
-  <section id="top3states">
-    <h3>Top 3 States we ship to:</h3>
-        <% @topthreestates.each do |user| %>
-      <p><%= user.state %>, number of orders: <%= user.order_count %></p>
-        <% end %>
-  </section>
+    <section id="top3cities">
+      <h3>Top 3 Cities we ship to:</h3>
+      <% @topthreecities.each do |user| %>
+        <p><%= user.city %>, <%= user.state %>, number of orders: <%= user.order_count %></p>
+      <% end %>
+    </section>
 
-  <section id="top3cities">
-    <h3>Top 3 Cities we ship to:</h3>
-        <% @topthreecities.each do |user| %>
-      <p><%= user.city %>, <%= user.state %>, number of orders: <%= user.order_count %></p>
-        <% end %>
-  </section>
-
-  <section id="top3orders">
-    <h3>Top 3 Biggest Orders:</h3>
-        <% @topthreeorders.each do |order| %>
-      <p>Order ID: <%= order.id %>, quantity: <%= order.total_quantity %></p>
-        <% end %>
-  </section>
-
+    <section id="top3orders">
+      <h3>Top 3 Biggest Orders:</h3>
+      <% @topthreeorders.each do |order| %>
+        <p>Order ID: <%= order.id %>, quantity: <%= order.total_quantity %></p>
+      <% end %>
+    </section>
+  </div>
 
 
   <%@merchants.each do |merchant| %>
-    <div id="merchant-<%= merchant.id %>">
-        <h1><p>Name: <%= merchant.name %> </p></h1>
-        <p>State: <%= merchant.state %></p>
-        <p>City: <%= merchant.city %></p>
-        <p>Registered: <%= merchant.date_registered %></p>
+    <div id="merchant-<%= merchant.id %>" class="users">
+      <h1><p>Name: <%= merchant.name %> </p></h1>
+      <p>State: <%= merchant.state %></p>
+      <p>City: <%= merchant.city %></p>
+      <p>Registered: <%= merchant.date_registered %></p>
+    </div>
   <% end %>
+
 </div>
