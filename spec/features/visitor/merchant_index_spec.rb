@@ -38,12 +38,12 @@ RSpec.describe "As a visitor on the merchants index page" do
     @oi7 = create(:order_item, price: 700, created_at: 15.days.ago, updated_at: 3.hours.ago, quantity: 10, order: @o7, fulfilled: true, item: @i3)
     @oi8 = create(:order_item, price: 800, created_at: 10.days.ago, updated_at: 3.hours.ago, quantity: 1, order: @o8, fulfilled: true, item: @i3)
     @oi9 = create(:order_item, price: 900, created_at: 5.days.ago, updated_at: 3.hours.ago, quantity: 5, order: @o9, fulfilled: true, item: @i3)
-    @oi10 = create(:order_item, price: 100, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 1, order: @o2, fulfilled: false, item: @i1)
-    @oi11 = create(:order_item, price: 1900, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 5, order: @o3, fulfilled: false, item: @i1)
-    @oi12 = create(:order_item, price: 400, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 4, order: @o4, fulfilled: false, item: @i2)
-    @oi13 = create(:order_item, price: 700, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 7, order: @o5, fulfilled: false, item: @i2)
-    @oi14 = create(:order_item, price: 800, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 2, order: @o6, fulfilled: false, item: @i3)
-    @oi = create(:order_item, price: 100000, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 1 , order: @o7, fulfilled: false, item: @i3)
+    @oi10 = create(:order_item, price: 100, created_at: 1.days.ago, updated_at: 3.hours.ago, quantity: 1, order: @o2, fulfilled: false, item: @i1)
+    @oi11 = create(:order_item, price: 1900, created_at: 2.days.ago, updated_at: 3.hours.ago, quantity: 5, order: @o3, fulfilled: false, item: @i1)
+    @oi12 = create(:order_item, price: 400, created_at: 3.days.ago, updated_at: 3.hours.ago, quantity: 4, order: @o4, fulfilled: false, item: @i2)
+    @oi13 = create(:order_item, price: 700, created_at: 4.days.ago, updated_at: 3.hours.ago, quantity: 7, order: @o5, fulfilled: false, item: @i2)
+    @oi14 = create(:order_item, price: 800, created_at: 5.days.ago, updated_at: 3.hours.ago, quantity: 2, order: @o6, fulfilled: false, item: @i3)
+    @oi = create(:order_item, price: 100000, created_at: 6.days.ago, updated_at: 3.hours.ago, quantity: 1 , order: @o7, fulfilled: false, item: @i3)
 
   end
 
