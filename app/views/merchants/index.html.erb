@@ -7,23 +7,23 @@
   </section>
 
   <section id="top3times">
-    <h2>Top 3 Merchants to fulfill their orders on time!</h2>
+    <h3>Top 3 Merchants to fulfill their orders on time!</h3>
         <% @topthreetimes.each do |merchant| %>
       <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
         <% end %>
   </section>
 
   <section id="worst3times">
-    <h2>Slowest 3 Merchants to fulfill their orders on time!</h2>
+    <h3>Slowest 3 Merchants to fulfill their orders on time!</h3>
         <% @worstthreetimes.each do |merchant| %>
       <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
         <% end %>
   </section>
 
   <section id="top3states">
-    <h2>Top 3 States we ship to:</h2>
+    <h3>Top 3 States we ship to:</h3>
         <% @topthreestates.each do |user| %>
-      <p><%= user.state %> days.</p>
+      <p><%= user.state %>, number of orders: <%= user.order_count %></p>
         <% end %>
   </section>
 
