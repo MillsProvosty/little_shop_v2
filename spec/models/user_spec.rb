@@ -45,16 +45,17 @@ RSpec.describe User, type: :model do
       @item_10 = create(:item, user: @merchant)
       @item_11 = create(:item, user: @merchant)
 
-      @oi_1 = create(:order_item, item: @item_1, order: @order_1, quantity: 3, fulfilled: true)
-      @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 6, fulfilled: true)
-      @oi_3 = create(:order_item, item: @item_3, order: @order_1, quantity: 6, fulfilled: true)
-      @oi_4 = create(:order_item, item: @item_3, order: @order_4, quantity: 5, fulfilled: true)
-      @oi_5 = create(:order_item, item: @item_4, order: @order_1, quantity: 7, fulfilled: true)
-      @oi_6 = create(:order_item, item: @item_5, order: @order_1, quantity: 5, fulfilled: true)
-      @oi_7 = create(:order_item, item: @item_6, order: @order_1, quantity: 10, fulfilled: true)
-      @oi_8 = create(:order_item, item: @item_6, order: @order_2, quantity: 6, fulfilled: false)
-      @oi_9 = create(:order_item, item: @item_7, order: @order_3, quantity: 13, fulfilled: true)
-      @oi_10 = create(:order_item, item: @item_8, order: @order_2, quantity: 6, fulfilled: true)
+      @oi_1 = create(:order_item, item: @item_1, order: @order_1, quantity: 3, fulfilled: true, price: 10)
+      @oi_2 = create(:order_item, item: @item_2, order: @order_1, quantity: 6, fulfilled: true, price: 10)
+      @oi_3 = create(:order_item, item: @item_3, order: @order_1, quantity: 6, fulfilled: true, price: 10)
+      @oi_4 = create(:order_item, item: @item_3, order: @order_4, quantity: 5, fulfilled: true, price: 10)
+      @oi_5 = create(:order_item, item: @item_4, order: @order_1, quantity: 7, fulfilled: true, price: 10)
+      @oi_6 = create(:order_item, item: @item_5, order: @order_1, quantity: 5, fulfilled: true, price: 10)
+      @oi_7 = create(:order_item, item: @item_6, order: @order_1, quantity: 10, fulfilled: true, price: 10)
+      @oi_8 = create(:order_item, item: @item_6, order: @order_2, quantity: 6, fulfilled: false, price: 8)
+      @oi_9 = create(:order_item, item: @item_7, order: @order_3, quantity: 13, fulfilled: true, price: 10)
+      @oi_10 = create(:order_item, item: @item_8, order: @order_2, quantity: 6, fulfilled: true, price: 7)
+
     end
 
     it ".top_items_for_merchant" do
@@ -68,9 +69,28 @@ RSpec.describe User, type: :model do
       expect(@merchant.pending_orders).to eq([@order_2])
     end
 
-    xit '.top_customer_by_order_num' do
+    it '.top_customer_by_order_num' do
       expect(@merchant.top_customer.name).to eq(@user.name)
       expect(@merchant.top_customer.order_num).to eq(2)
+    end
+
+    it ".top_customer_by_item_count" do
+    expect(@merchant.top_customer_by_item_count.item_total).to eq(294)
+    expect(@merchant.top_customer_by_item_count.name).to eq(@user.name)
+    end
+
+    it ".top_3_users_by_spending" do
+      order_5 = create(:shipped_order, user: @user_3)
+      order_6 = create(:shipped_order, user: @user_2)
+        oi_11 = create(:order_item, item: @item_1, order: order_5, quantity: 12, fulfilled: true, price: 5)
+        oi_12 = create(:order_item, item: @item_2, order: order_6, quantity: 7, fulfilled: true, price: 3)
+
+      expect(@merchant.top_3_users_by_spending.first.name).to eq(@user.name)
+      expect(@merchant.top_3_users_by_spending.first.amount.to_i).to eq(420)
+      expect(@merchant.top_3_users_by_spending.second.name).to eq(@user_3.name)
+      expect(@merchant.top_3_users_by_spending.second.amount.to_i).to eq(60)
+      expect(@merchant.top_3_users_by_spending.third.name).to eq(@user_2.name)
+      expect(@merchant.top_3_users_by_spending.third.amount.to_i).to eq(21)
     end
   end
 
@@ -131,13 +151,13 @@ RSpec.describe User, type: :model do
 
       expect(merchant.top_three_states.map(& :state)).to eq(["Louisiana", "Colorado", "Florida"])
     end
-    xit ".disable_items" do
+    it ".disable_items" do
       merchant = create(:merchant)
         item_1 = create(:item, user: merchant)
         item_2 = create(:item, user: merchant)
         item_3 = create(:item, user: merchant)
 
-      expect(merchant.disable_items).to eq([item_1, item_2, item_3]) 
+      expect(merchant.disable_items).to eq([item_1, item_2, item_3])
       item_1.reload
       item_2.reload
       item_3.reload

@@ -34,7 +34,8 @@ RSpec.describe "Users profile from admin, when I visit a users profile page" do
   end
   describe "User role is changed to merchant" do
     it "The next time a user logs in they are now a merchant, only admin can upgrade a user to merchant" do
-
+      visit logout_path
+      
       admin = create(:admin)
       user_1 = create(:user)
 

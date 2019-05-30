@@ -29,6 +29,24 @@
   <p><%= state %>  </p>
     <% end %>
 </div>
+<% if @merchant.top_customer != nil %>
+<div id="top-user-order">
+  <p><%= @merchant.top_customer.name %></p>
+  <p><%= @merchant.top_customer.order_num %></p>
+</div>
+
+<div id="top-user-items">
+  <p><%= @merchant.top_customer_by_item_count.item_total %></p>
+  <p><%= @merchant.top_customer_by_item_count.name %></p>
+</div>
+
+<div id="top-users-amount-spent">
+  <% @merchant.top_3_users_by_spending.each do |user| %>
+  <p><%= user.name %></p>
+  <p><%= user.amount.to_i %></p>
+  <% end %>
+</div>
+<% end %>
 
 <div>
   <%= link_to "View my items", merchant_items_path %>

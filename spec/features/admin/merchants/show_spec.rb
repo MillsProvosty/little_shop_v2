@@ -105,10 +105,6 @@ RSpec.describe "As an admin visiting merchants index" do
         visit admin_merchant_path(merchant)
 
         expect(page).to_not have_button("Downgrade Merchant")
-
-        visit merchant_dashboard_path
-
-        expect(page).to_not have_button("Downgrade Merchant")
       end
       it "When I click on this button, I am redirected to admin user path because merchant is now a user" do
         admin = create(:admin)
