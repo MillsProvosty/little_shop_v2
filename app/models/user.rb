@@ -80,6 +80,7 @@ class User < ApplicationRecord
   end
 
   def self.topthreetimes
+    binding.pry
    User.where(role: :merchant)
    .joins(:items)
    .joins("join order_items on items.id = order_items.item_id")
