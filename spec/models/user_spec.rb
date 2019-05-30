@@ -199,5 +199,9 @@ RSpec.describe User, type: :model do
     it '.topthreetimes' do
       expect(User.topthreetimes.map(& :name)).to eq([@merch3.name, @merch2.name, @merch1.name])
     end
+
+    it '.worstthreetimes' do
+      expect(User.worstthreetimes.map(& :name)).to eq([@merch1.name, @merch2.name, @merch3.name])
+    end
   end
 end
