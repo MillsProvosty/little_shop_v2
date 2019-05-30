@@ -13,3 +13,83 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+    background-color: rgba(0,0,0,.2);
+    height: 100vh;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(0,0,0,.4);
+    border-radius: 10px;
+}
+
+form {
+    margin: auto;
+    display: grid;
+    align-items: center;
+    width: 50%;
+}
+
+.button_to {
+    width:200px;
+    margin-left: 40%;
+}
+
+.all-orders, #all-users, .user-container {
+    text-align: center;
+    display: grid;
+    justify-content: center;
+}
+
+.orders, .users, .user, .item {
+    background-color: peru;
+    border-radius: 5px;
+    width: 400px;
+    margin: 5px;
+}
+
+.user-container {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.user {
+    display: grid;
+    justify-content: center;
+}
+
+.user p {
+    background-color: rgba(0,0,0,.3);
+}
+
+.top-merch-stats, .item-stats {
+    display: flex;
+}
+
+.top-merch-stats section, .stats div, .item-stats div{
+    background-color: peru;
+    border-radius: 5px;
+    margin: 3px;
+}
+
+#merchant-index {
+    display: grid;
+    align-items: center;
+}
+
+.orders-index {
+    background-color: rgba(0,0,0,.3);
+    margin: 4px;
+    padding: 5px;
+}
+
+
+
+
+
+

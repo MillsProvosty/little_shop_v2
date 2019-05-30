@@ -1,26 +1,29 @@
-<% @orders.each do |order| %>
+<div class="all-orders">
+  <% @orders.each do |order| %>
 
-<div id="order-<%= order.id %>">
-  <h1>Order: <%= order.id %></h1>
-  <p>Status: <%= order.status %></p>
-  <p>Created at: <%= order.created_at %></p>
-  <p>Updated at:<%= order.updated_at %></p>
-  <p>Quantity: <%= order.item_quantity %></p>
+    <div id="order-<%= order.id %>" class="orders-index">
+      <h1>Order: <%= order.id %></h1>
+      <p>Status: <%= order.status %></p>
+      <p>Created at: <%= order.created_at %></p>
+      <p>Updated at:<%= order.updated_at %></p>
+      <p>Quantity: <%= order.item_quantity %></p>
 
+      <% if order.status == "pending" %>
+        <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
+      <% end %>
 
-  <% if order.status == "pending" %>
-    <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
+      <% order.items.each do |item| %>
+        <div class="item">
+          <p><img src="<%= item.image %>"></p>
+          <h3><%= item.name %></h3>
+          <p>Description: <%= item.description %></p>
+          <p>Quantity Bought: <%= item.quantity_bought %></p>
+          <p>Item Price: $<%= item.price %></p>
+          <p>Item Subtotal: $<%= item.item_subtotal %></p>
+        </div>
+      <% end %>
+
+      <p>Order Items Total Value: <%= number_to_currency(order.items_total_value) %></p>
+    </div>
   <% end %>
-
-  <% order.items.each do |item| %>
-  <p><img src="<%= item.image %>"></p>
-  <h3><%= item.name %></h3>
-  <p>Description: <%= item.description %></p>
-  <p>Quantity Bought: <%= item.quantity_bought %></p>
-  <p>Item Price: $<%= item.price %></p>
-  <p>Item Subtotal: $<%= item.item_subtotal %></p>
-  <% end %>
-
-  <p>Order Items Total Value: <%= number_to_currency(order.items_total_value) %></p>
-</div>
-<% end %>
+  <div>

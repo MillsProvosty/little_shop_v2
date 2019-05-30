@@ -1,16 +1,18 @@
-
-<%= @user.name %>
-<%= @user.email %>
-<%= @user.address %>
-<%= @user.city %>
-<%= @user.state %>
-<%= @user.zip %>
-
-<div class="user-links">
-<% unless @user.orders.empty? %>
-<%= link_to "My Orders", user_orders_path %>
-<% end %>
-<% if current_admin? %>
-<%= button_to "Upgrade to Merchant", method: :patch %>
-<% end %>
+<div class="user-container">
+  <div class="user">
+    <p><%= @user.name %></p>
+    <p><%= @user.email %></p>
+    <p><%= @user.address %></p>
+    <p><%= @user.city %></p>
+    <p><%= @user.state %></p>
+    <p><%= @user.zip %></p>
+  <div class="user-links">
+    <% unless @user.orders.empty? %>
+      <%= link_to "My Orders", user_orders_path %>
+    <% end %>
+    <% if current_admin? %>
+      <%= button_to "Upgrade to Merchant", method: :patch %>
+    <% end %>
+  </div>
+  </div>
 </div>

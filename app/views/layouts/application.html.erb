@@ -10,7 +10,7 @@
   </head>
 
   <body>
-
+<nav>
     <%= link_to "Welcome Page", root_path %>
 
     <% if current_user? %>
@@ -18,7 +18,10 @@
     <% end %>
 
     <%= link_to "Items for Sale", items_path %>
+
+    <% unless current_admin? %>
     <%= link_to "Merchants", merchants_path %>
+    <% end %>
 
     <% unless current_merchant? or current_admin? %>
     <%= link_to "My Cart", cart_path %>
@@ -32,6 +35,7 @@
     <div id="admin-links">
       <%= link_to "Admin Dashboard", admin_dashboard_path%>
       <%= link_to "Users", admin_users_path %>
+      <%= link_to "Merchants", admin_merchants_path %>
     </div>
     <% end %>
 
@@ -49,7 +53,7 @@
       <%= link_to "Logout", logout_path %>
       <p>Logged In As <%= current_user.name %></p>
     <%end%>
-
+  </nav>
     <% flash.each do |key, value| %>
       <%= value %>
     <% end %>
