@@ -68,7 +68,17 @@ class User < ApplicationRecord
   end
 
   def top_customer_by_item_count
-    items.joins(:orders).where("orders.status = 2").select("users.name, (count(items) * sum(order_items.quantity)) AS item_total").joins("join users on users.id = orders.user_id").group("users.name").order("item_total").first
+    items.joins(:orders)
+    .where("orders.status = 2")
+    .select("users.name, (count(items) * sum(order_items.quantity)) AS item_total")
+    .joins("join users on users.id = orders.user_id")
+    .group("users.name")
+    .order("item_total DESC")
+    .first
+  end
+
+  def top_3_users_by_spending
+    items.joins(:orders).where("orders.status = 2").select("users.name, sum(order_items.price * order_items.quantity) AS amount").joins("join users on users.id = orders.user_id").group("users.name").order("amount desc").limit(3)
   end
 
   def disable_items
@@ -76,9 +86,4 @@ class User < ApplicationRecord
       item.update_column(:active, false)
     end
   end
-
-  def top_3_users_by_spending
-    items.joins(:orders).where("orders.status = 2").select("users.name, sum(order_items.price * order_items.quantity) AS amount").joins("join users on users.id = orders.user_id").group("users.name").order("amount desc").limit(3)
-  end
-
 end

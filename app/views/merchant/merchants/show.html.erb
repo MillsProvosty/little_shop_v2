@@ -33,6 +33,27 @@
   <% end %>
 </div>
 
+<% if current_merchant? && current_user.top_customer %>
+<div id="top-user-order">
+  <h3>Top User By Orders</h3>
+  <p><%= current_user.top_customer.name %></p>
+  <p><%= current_user.top_customer.order_num %></p>
+</div>
+<div id="top-user-items">
+  <h3>Top User By Items</h3>
+  <p><%= current_user.top_customer_by_item_count.name %></p>
+  <p><%= current_user.top_customer_by_item_count.item_total %></p>
+</div>
+
+<div id="top-3-users-amount-spent">
+  <h3>Top 3 Spending Users</h3>
+  <% current_user.top_3_users_by_spending.each do |user| %>
+  <p><%= user.name %></p>
+  <p><%= user.amount.to_i %></p>
+  <% end %>
+</div>
+<% end %>
+
 <div>
   <%=link_to "View my items", merchant_items_path%>
 </div>

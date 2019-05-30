@@ -32,8 +32,6 @@ RSpec.describe User, type: :model do
       @order_1 = create(:shipped_order, user: @user)
       @order_3 = create(:cancelled_order, user: @user_3)
       @order_4 = create(:shipped_order, user: @user)
-      @order_5 = create(:shipped_order, user: @user_3)
-      @order_6 = create(:shipped_order, user: @user_2)
 
       @item_1 = create(:item, user: @merchant)
       @item_2 = create(:item, user: @merchant)
@@ -57,8 +55,7 @@ RSpec.describe User, type: :model do
       @oi_8 = create(:order_item, item: @item_6, order: @order_2, quantity: 6, fulfilled: false, price: 8)
       @oi_9 = create(:order_item, item: @item_7, order: @order_3, quantity: 13, fulfilled: true, price: 10)
       @oi_10 = create(:order_item, item: @item_8, order: @order_2, quantity: 6, fulfilled: true, price: 7)
-      @oi_11 = create(:order_item, item: @item_1, order: @order_5, quantity: 12, fulfilled: true, price: 5)
-      @oi_12 = create(:order_item, item: @item_2, order: @order_6, quantity: 7, fulfilled: true, price: 3)
+
     end
 
     it ".top_items_for_merchant" do
@@ -83,6 +80,10 @@ RSpec.describe User, type: :model do
     end
 
     it ".top_3_users_by_spending" do
+      order_5 = create(:shipped_order, user: @user_3)
+      order_6 = create(:shipped_order, user: @user_2)
+        oi_11 = create(:order_item, item: @item_1, order: order_5, quantity: 12, fulfilled: true, price: 5)
+        oi_12 = create(:order_item, item: @item_2, order: order_6, quantity: 7, fulfilled: true, price: 3)
 
       expect(@merchant.top_3_users_by_spending.first.name).to eq(@user.name)
       expect(@merchant.top_3_users_by_spending.first.amount.to_i).to eq(420)

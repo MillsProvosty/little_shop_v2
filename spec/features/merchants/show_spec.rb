@@ -203,12 +203,6 @@ RSpec.describe 'Merchant Show page' do
           expect(page.all("p")[2]).to have_content("#{city_3.city}: #{city_3.qty}")
         end
       end
-
-      xit "shows name of user: with most orders, who bought the most total itmes and total quantity" do
-
-      end
-
-      xit "top 3 users who have spent the most money and total amount they've spent. "
     end
     describe 'when I visit an orders show page from my dashboard' do
       scenario 'I can fulfill part of an order' do
@@ -240,6 +234,111 @@ RSpec.describe 'Merchant Show page' do
             click_on "Fulfill Item"
 
           expect(@o1.reload.status).to eq("packaged")
+        end
+      end
+    end
+    describe "Merchant stats" do
+      it "top user by number orders" do
+
+        merchant = create(:merchant)
+        visit logout_path
+
+        visit login_path
+
+        fill_in "Email", with: merchant.email
+        fill_in "Password", with: merchant.password
+
+        click_on "Log In"# We forgot to do this line !!!
+
+        user_1 = create(:user, name: "Joe")
+        user_2 = create(:user, name: "Melvin")
+        user_3 = create(:user, name: "Todd")
+
+          item_1 = create(:item, user: merchant)
+          item_2 = create(:item, user: merchant)
+          item_3 = create(:item, user: merchant)
+
+          order_1 = create(:order, status: 2, user: user_1)
+          order_2 = create(:order, status: 2, user: user_1)
+          order_3 = create(:order, status: 2, user: user_1)
+          order_4 = create(:order, status: 2, user: user_2)
+          order_5 = create(:order, status: 2, user: user_2)
+          order_6 = create(:order, status: 2, user: user_3)
+
+            oi_1 = create(:order_item, order: order_1, item: item_1, price: 5, quantity: 7000)
+            oi_3 = create(:order_item, order: order_2, item: item_2, price: 3, quantity: 400)
+            oi_2 = create(:order_item, order: order_3, item: item_3, price: 2, quantity: 300)
+
+            # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+            visit merchant_dashboard_path
+
+        within("#top-user-order") do
+          expect(page).to have_content("Joe")
+          expect(page).to have_content(3)
+        end
+      end
+      it "top customer by item count" do
+
+        merchant = create(:merchant)
+
+
+        user_1 = create(:user, name: "Joe")
+        user_2 = create(:user, name: "Melvin")
+        user_3 = create(:user, name: "Todd")
+
+          item_1 = create(:item, user: merchant)
+          item_2 = create(:item, user: merchant)
+          item_3 = create(:item, user: merchant)
+
+          order_1 = create(:order, status: 2, user: user_1)
+          order_2 = create(:order, status: 2, user: user_2)
+          order_3 = create(:order, status: 2, user: user_3)
+
+            oi_1 = create(:order_item, order: order_1, item: item_1, price: 5, quantity: 7000, fulfilled: true)
+            oi_3 = create(:order_item, order: order_2, item: item_2, price: 3, quantity: 400, fulfilled: true)
+            oi_2 = create(:order_item, order: order_3, item: item_3, price: 2, quantity: 300, fulfilled: true)
+
+            allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+            visit merchant_dashboard_path
+
+        within("#top-user-items") do
+          expect(page).to have_content("Joe")
+          expect(page).to have_content(7000)
+        end
+      end
+      it "top 3 users by amount spent" do
+        merchant = create(:merchant)
+
+
+        user_1 = create(:user, name: "Joe")
+        user_2 = create(:user, name: "Melvin")
+        user_3 = create(:user, name: "Todd")
+
+          item_1 = create(:item, user: merchant)
+          item_2 = create(:item, user: merchant)
+          item_3 = create(:item, user: merchant)
+
+          order_1 = create(:shipped_order, user: user_1)
+          order_2 = create(:shipped_order, user: user_2)
+          order_3 = create(:shipped_order, user: user_3)
+
+            oi_1 = create(:order_item, order: order_1, item: item_1, price: 5, quantity: 7000)
+            oi_3 = create(:order_item, order: order_2, item: item_2, price: 3, quantity: 400)
+            oi_2 = create(:order_item, order: order_3, item: item_3, price: 2, quantity: 300)
+
+            allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+            visit merchant_dashboard_path
+
+        within("#top-3-users-amount-spent") do
+          expect(page.all("p")[0]).to have_content("Joe")
+          expect(page.all("p")[1]).to have_content(35000)
+          expect(page.all("p")[2]).to have_content("Melvin")
+          expect(page.all("p")[3]).to have_content(1200)
+          expect(page.all("p")[4]).to have_content("Todd")
+          expect(page.all("p")[5]).to have_content(600)
         end
       end
     end
