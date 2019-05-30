@@ -120,7 +120,15 @@ RSpec.describe "As a visitor on the merchants index page" do
 
     end
 
-    xit "top 3 biggest orders by quantity of items shipped in an order, plus their quantities" do
+    it "top 3 biggest orders by quantity of items shipped in an order, plus their quantities" do
+      visit merchants_path
+      expect(page).to have_content("Top 3 Biggest Orders:")
+      within("#top3orders") do
+        expect(page).to have_content("Order ID: #{@o7.id}, quantity: 10")
+        expect(page).to have_content("Order ID: #{@o4.id}, quantity: 10")
+        expect(page).to have_content("Order ID: #{@o3.id}, quantity: 3")
+      end
+
     end
   end
 end

@@ -212,5 +212,9 @@ RSpec.describe User, type: :model do
       expect(User.topthreecities.map(& :city)).to eq([@buyer1.city, @buyer3.city, @buyer4.city])
       expect(User.topthreecities.map(& :state)).to eq([@buyer1.state, @buyer3.state, @buyer4.state])
     end
+
+    it '.topthreeorders' do
+      expect(User.topthreeorders.map(& :id)).to match_array([@o3.id, @o4.id, @o7.id])
+    end
   end
 end

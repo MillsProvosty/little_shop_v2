@@ -107,6 +107,7 @@ class User < ApplicationRecord
     .where("orders.status = 2")
     .select("users.state, COUNT(users.id) as order_count")
     .group("users.id, users.state")
+    .limit(3)
   end
 
   def self.topthreecities
@@ -114,6 +115,17 @@ class User < ApplicationRecord
     .where("orders.status = 2")
     .select("users.city, users.state, COUNT(users.id) as order_count")
     .group("users.id, users.state, users.city")
+    .limit(3)
+  end
+
+  def self.topthreeorders
+    Order.joins(:items)
+    .select("SUM(order_items.quantity) AS total_quantity, orders.*")
+    .where("orders.status = 2")
+    .where("order_items.fulfilled = true")
+    .group(:id)
+    .order(total_quantity: :desc)
+    .limit(3)
   end
 
 end

@@ -6,6 +6,7 @@ class MerchantsController < ApplicationController
       @worstthreetimes = User.worstthreetimes
       @topthreestates = User.topthreestates
       @topthreecities = User.topthreecities
+      @topthreeorders = User.topthreeorders
 
   end
 end
