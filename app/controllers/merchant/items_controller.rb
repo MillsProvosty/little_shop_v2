@@ -35,9 +35,6 @@ class Merchant::ItemsController < Merchant::BaseController
     elsif item_params[:inventory].to_i <= 0
       flash[:message] = "Inventory amount must be greater than zero"
       render :new
-    else
-      flash[:message] = "Cannot Create item Without Image"
-      render :new
     end
   end
 

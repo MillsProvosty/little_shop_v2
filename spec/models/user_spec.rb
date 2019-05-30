@@ -104,7 +104,7 @@ RSpec.describe User, type: :model do
       expect(User.active_merchants).to eq([merchant, m1,m2])
     end
 
-     it "reg_users" do
+     it "#reg_users" do
        user_4 = create(:user)
        user_5 = create(:user)
        user_6 = create(:user)
@@ -151,6 +151,30 @@ RSpec.describe User, type: :model do
 
       expect(merchant.top_three_states.map(& :state)).to eq(["Louisiana", "Colorado", "Florida"])
     end
+
+    it '.top_three_citites' do
+       merchant = create(:merchant)
+       user_1 = create(:user, city: "Springfield", state: "Tennessee")
+       user_2 = create(:user, city: "Springfield", state: "Virgina")
+       user_3 = create(:user, city: "Springfield", state: "California")
+       user_4 = create(:user, city: "Dallas", state: "Texas")
+
+       o1 = create(:order, user: user_1, status: "shipped")
+       o2 = create(:order, user: user_2, status: "shipped")
+       o3 = create(:order, user: user_3, status: "shipped")
+       o4 = create(:order, user: user_4, status: "shipped")
+
+       i1 = create(:item, user: merchant)
+
+       oi1 = create(:order_item, item: i1, quantity: 50, fulfilled: true, order: o2)
+       oi1 = create(:order_item, item: i1, quantity: 25, fulfilled: true, order: o3)
+       oi1 = create(:order_item, item: i1, quantity: 100, fulfilled: true, order: o1)
+       oi1 = create(:order_item, item: i1, quantity: 3, fulfilled: true, order: o4)
+
+
+       expect(merchant.top_three_cities.map {|c| "#{c.city}, #{c.state}"}).to eq(["Springfield, Tennessee", "Springfield, Virgina", "Springfield, California"])
+     end
+
     it ".disable_items" do
       merchant = create(:merchant)
         item_1 = create(:item, user: merchant)

@@ -571,24 +571,6 @@ RSpec.describe "As a merchant, when I visit my items page" do
 
           expect(page).to have_content("Could not create item without an inventory value")
         end
-
-        it "Cannot create item without an image" do
-
-          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-
-          visit edit_merchant_item_path(@item_2)
-
-          fill_in "Name", with: "Item new"
-          fill_in "Price", with: 200
-          fill_in "Description", with: "Cool Thing"
-          fill_in "Image", with: "             "
-          fill_in "Inventory", with: 3
-          click_on "Update Item"
-
-          @item_2.reload
-
-          expect(page).to have_content("Cannot Create item Without Image")
-        end
       end
     end
   end
