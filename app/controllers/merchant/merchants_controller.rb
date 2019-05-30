@@ -4,4 +4,5 @@ class Merchant::MerchantsController < Merchant::BaseController
     @top_five_items = current_user.top_items_for_merchant
     @merchant = current_user
   end
+
 end

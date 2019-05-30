@@ -86,4 +86,65 @@ class User < ApplicationRecord
       item.update_column(:active, false)
     end
   end
+
+  def self.topthreesellers
+    User.where(role: :merchant)
+    .joins(:items)
+    .joins("join order_items on items.id = order_items.item_id")
+    .select("distinct(users.name) AS name, SUM(order_items.price * order_items.quantity) AS revenue")
+    .where("order_items.fulfilled = true")
+    .group(:name)
+    .limit(3)
+    .reverse
+  end
+
+  def self.topthreetimes
+   User.where(role: :merchant)
+   .joins(:items)
+   .joins("join order_items on items.id = order_items.item_id")
+   .where("order_items.fulfilled = true")
+   .select("AVG(order_items.updated_at - order_items.created_at) as time, users.id, users.name")
+   .order(:time)
+   .group(:id)
+   .limit(3)
+  end
+
+  def self.worstthreetimes
+    User.where(role: :merchant)
+    .joins(:items)
+    .joins("join order_items on items.id = order_items.item_id")
+    .where("order_items.fulfilled = true")
+    .select("AVG(order_items.updated_at - order_items.created_at) as time, users.id, users.name")
+    .order(:time)
+    .group(:id)
+    .limit(3)
+    .reverse
+  end
+
+  def self.topthreestates
+    User.joins(:orders)
+    .where("orders.status = 2")
+    .select("users.state, COUNT(users.id) as order_count")
+    .group("users.id, users.state")
+    .limit(3)
+  end
+
+  def self.topthreecities
+    User.joins(:orders)
+    .where("orders.status = 2")
+    .select("users.city, users.state, COUNT(users.id) as order_count")
+    .group("users.id, users.state, users.city")
+    .limit(3)
+  end
+
+  def self.topthreeorders
+    Order.joins(:items)
+    .select("SUM(order_items.quantity) AS total_quantity, orders.*")
+    .where("orders.status = 2")
+    .where("order_items.fulfilled = true")
+    .group(:id)
+    .order(total_quantity: :desc)
+    .limit(3)
+  end
+
 end
