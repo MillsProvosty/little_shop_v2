@@ -388,7 +388,9 @@ RSpec.describe "As a merchant, when I visit my items page" do
           visit edit_merchant_item_path(@item_1)
 
           expect(find_field("Name").value).to eq(@item_1.name)
-          expect(find_field("Price").value).to eq("#{@item_1.price}")
+
+          expect(find_field("Price").value.to_f).to eq(@item_1.price.to_f)
+
           expect(find_field("Description").value).to eq(@item_1.description)
           expect(find_field("Image").value).to eq(@item_1.image)
           expect(find_field("Inventory").value).to eq("#{@item_1.inventory}")

@@ -2,6 +2,11 @@ class Admin::MerchantsController < Admin::BaseController
 
 
   def show
+    user = User.find(params[:id])
+    if user.role == "user"
+      redirect_to admin_user_path(user)
+    end
+    
     @merchant = User.find(params[:id])
     @top_five_items = current_user.top_items_for_merchant
   end
