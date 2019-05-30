@@ -17,12 +17,12 @@
       <%= link_to "My Profile", user_path %>
     <% end %>
 
-    <% if current_user %>
-      <%= link_to "Logout", logout_path %>
-    <%end%>
-
     <%= link_to "Items for Sale", items_path %>
     <%= link_to "Merchants", merchants_path %>
+
+    <% unless current_merchant? or current_admin? %>
+    <%= link_to "My Cart", cart_path %>
+    <% end%>
 
     <% if current_merchant? %>
       <%= link_to "Dashboard", merchant_dashboard_path %>
@@ -35,9 +35,6 @@
     </div>
     <% end %>
 
-    <% unless current_merchant? or current_admin? %>
-      <%= link_to "My Cart", cart_path %>
-    <% end%>
 
     <% if current_user == nil %>
       <%= link_to "User Log In", login_path %>
@@ -47,6 +44,11 @@
     <% unless current_merchant? || current_admin? %>
       <p class="nav-cart">Cart: <%= cart.total_count %></p>
     <% end %>
+
+    <% if current_user %>
+      <%= link_to "Logout", logout_path %>
+      <p>Logged In As <%= current_user.name %></p>
+    <%end%>
 
     <% flash.each do |key, value| %>
       <%= value %>

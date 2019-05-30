@@ -3,7 +3,7 @@
   <% unless current_user   %>
 <p>You must <%= link_to "register", new_user_path %> or <%= link_to "log in", login_path %> to checkout.</p>
   <% else %>
-  <%= link_to "Checkout", user_orders_path, method: :post %>
+    <%= link_to "Checkout", user_orders_path, method: :post %>
   <% end %>
 
   <% if cart.contents != {} %>
