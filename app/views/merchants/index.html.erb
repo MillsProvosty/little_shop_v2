@@ -45,11 +45,9 @@
 
   <%@merchants.each do |merchant| %>
     <div id="merchant-<%= merchant.id %>">
-      <% if !current_admin? %>
         <h1><p>Name: <%= merchant.name %> </p></h1>
         <p>State: <%= merchant.state %></p>
         <p>City: <%= merchant.city %></p>
         <p>Registered: <%= merchant.date_registered %></p>
-      <% end %>
   <% end %>
 </div>
