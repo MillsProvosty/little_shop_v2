@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2019_05_20_233230) do
     t.index ["item_id"], name: "index_order_items_on_item_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
- 
+
   create_table "orders", force: :cascade do |t|
     t.integer "status"
     t.bigint "user_id"

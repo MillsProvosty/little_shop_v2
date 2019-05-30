@@ -355,7 +355,7 @@ RSpec.describe 'as a visitor or a registered user', type: :feature do
         describe "I click the button to checkout and an order is created with 'pending' status" do
           it "I visit profile/orders path and see a flash message saying order was created and I see a new order list, cart is empty " do
             visit cart_path
-
+save_and_open_page
             click_on "Checkout"
             expect(current_path).to eq(user_orders_path)
 

@@ -2,24 +2,25 @@
 
 <div id="order-<%= order.id %>">
   <h1>Order: <%= order.id %></h1>
-  <p><%= order.status %></p>
-  <p><%= order.created_at %></p>
-  <p><%= order.updated_at %></p>
+  <p>Status: <%= order.status %></p>
+  <p>Created at: <%= order.created_at %></p>
+  <p>Updated at:<%= order.updated_at %></p>
   <p>Quantity: <%= order.item_quantity %></p>
-  <p><%= number_to_currency(order.items_total_value) %></p>
+
 
   <% if order.status == "pending" %>
     <p><%= button_to "Cancel Order", user_cancel_order_path(order.id), method: :delete %></p>
   <% end %>
 
   <% order.items.each do |item| %>
-  <%= item.name %>
-  <%= item.description %>
-  <%= item.image %>
-  <%= item.quantity_bought %>
-  <%= item.price %>
-  <%= item.item_subtotal %>
+  <p><img src="<%= item.image %>"></p>
+  <h3><%= item.name %></h3>
+  <p>Description: <%= item.description %></p>
+  <p>Quantity Bought: <%= item.quantity_bought %></p>
+  <p>Item Price: $<%= item.price %></p>
+  <p>Item Subtotal: $<%= item.item_subtotal %></p>
   <% end %>
 
+  <p>Order Items Total Value: <%= number_to_currency(order.items_total_value) %></p>
 </div>
 <% end %>

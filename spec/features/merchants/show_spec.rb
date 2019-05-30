@@ -85,7 +85,7 @@ RSpec.describe 'Merchant Show page' do
       end
     end
 
-    xscenario 'I can view details of an order as it pertains to me' do
+    scenario 'I can view details of an order as it pertains to me' do
      click_link "Order# #{@o1.id}"
      expect(current_path).to eq(merchant_order_path(@o1))
      customer = @o1.user
@@ -100,22 +100,22 @@ RSpec.describe 'Merchant Show page' do
        within "#item-#{@i1.id}" do
          expect(page).to have_content(@i1.name)
          expect(find("img")[:src]).to eq(@i1.image)
-         expect(page).to have_content("Quantity on Order: 5")
-         expect(page).to have_content("Price: $3.00")
+         expect(page).to have_content("Quantity on Order: 1")
+         expect(page).to have_content("Price: $1.00")
        end
 
        within "#item-#{@i2.id}" do
          expect(page).to have_content(@i2.name)
          expect(find("img")[:src]).to eq(@i2.image)
-         expect(page).to have_content("Quantity on Order: 6")
-         expect(page).to have_content("Price: $4.50")
+         expect(page).to have_content("Quantity on Order: 2")
+         expect(page).to have_content("Price: $1.00")
        end
 
        within "#item-#{@i3.id}" do
          expect(page).to have_content(@i3.name)
          expect(find("img")[:src]).to eq(@i3.image)
-         expect(page).to have_content("Quantity on Order: 4")
-         expect(page).to have_content("Price: $6.00")
+         expect(page).to have_content("Quantity on Order: 3")
+         expect(page).to have_content("Price: $1.00")
        end
    end
 
@@ -226,7 +226,6 @@ RSpec.describe 'Merchant Show page' do
         visit merchant_order_path(@o20)
 
         within("#item-#{@i20.id}") do
-          save_and_open_page
           expect(page).to_not have_content("Fulfill Item")
         end
       end
