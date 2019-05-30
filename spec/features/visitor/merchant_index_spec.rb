@@ -70,14 +70,15 @@ RSpec.describe "As a visitor on the merchants index page" do
           expect(page).to have_content(@merch2.name)
           expect(page).to have_content(@merch1.name)
           expect(page).to_not have_content(@merch4.name)
-          expect(page).to have_content("7 days")
-          expect(page).to have_content("14 days")
-          expect(page).to have_content("2 days")
+          expect(page).to have_content("9 days")
+          expect(page).to have_content("19 days")
+          expect(page).to have_content("34 days")
         end
 
     end
 
-    xit "worst 3 merchants who were slowest at fulfilling items in an order, and their times" do
+    it "worst 3 merchants who were slowest at fulfilling items in an order, and their times" do
+      
     end
 
     xit "top 3 states where any orders were shipped (by number of orders), and count of orders" do

@@ -9,7 +9,7 @@
   <section id="top3times">
     <h2>Top 3 Merchants to fulfill their orders on time!</h2>
         <% @topthreetimes.each do |merchant| %>
-      <p><%= merchant.name %>, Times: <% merchant.time %></p>
+      <p><%= merchant.name %>, Times: <%= merchant.time.to_i %> days.</p>
         <% end %>
   </section>
 
