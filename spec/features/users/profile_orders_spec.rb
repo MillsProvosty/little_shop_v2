@@ -105,7 +105,7 @@ describe "when I visit an orders show page " do
     within("#order-#{@order_2.id}") do
       expect(page).to_not have_button("Cancel Order")
     end
-  
+
     within("#order-#{@order_3.id}") do
       expect(page).to_not have_button("Cancel Order")
     end
@@ -147,7 +147,6 @@ describe "when I visit an orders show page " do
       within("#order-#{order_1.id}") do
         expect(page).to have_content(item_1.name)
         expect(page).to have_content(item_1.description)
-        expect(page).to have_content(item_1.image)
         expect(page).to have_content(item_1.quantity_bought)
         expect(page).to have_content(item_1.price)
         expect(page).to have_content(item_3.item_subtotal)
