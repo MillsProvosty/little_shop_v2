@@ -175,25 +175,30 @@ RSpec.describe User, type: :model do
     @i2 = create(:item, price: 50, user: @merch2)
     @i3 = create(:item, price: 20, user: @merch3)
 
-    @oi = create(:order_item, price: 100, quantity: 2, order: @o1, fulfilled: true, item: @i1)
-    @oi = create(:order_item, price: 100, quantity: 1, order: @o2, fulfilled: true, item: @i1)
-    @oi = create(:order_item, price: 300, quantity: 3, order: @o3, fulfilled: true, item: @i1)
-    @oi = create(:order_item, price: 400, quantity: 10, order: @o4, fulfilled: true, item: @i2)
-    @oi = create(:order_item, price: 500, quantity: 2, order: @o5, fulfilled: true, item: @i2)
-    @oi = create(:order_item, price: 600, quantity: 3, order: @o6, fulfilled: true, item: @i2)
-    @oi = create(:order_item, price: 700, quantity: 10, order: @o7, fulfilled: true, item: @i3)
-    @oi = create(:order_item, price: 800, quantity: 1, order: @o8, fulfilled: true, item: @i3)
-    @oi = create(:order_item, price: 900, quantity: 5, order: @o9, fulfilled: true, item: @i3)
-    @oi = create(:order_item, price: 100, quantity: 1, order: @o2, fulfilled: false, item: @i1)
-    @oi = create(:order_item, price: 1900, quantity: 5, order: @o3, fulfilled: false, item: @i1)
-    @oi = create(:order_item, price: 400, quantity: 4, order: @o4, fulfilled: false, item: @i2)
-    @oi = create(:order_item, price: 700, quantity: 7, order: @o5, fulfilled: false, item: @i2)
-    @oi = create(:order_item, price: 800, quantity: 2, order: @o6, fulfilled: false, item: @i3)
-    @oi = create(:order_item, price: 100000, quantity: 1 , order: @o7, fulfilled: false, item: @i3)
+    @oi1 = create(:order_item, price: 100, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 2, order: @o1, fulfilled: true, item: @i1)
+    @oi2 = create(:order_item, price: 100, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 1, order: @o2, fulfilled: true, item: @i1)
+    @oi3 = create(:order_item, price: 300, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 3, order: @o3, fulfilled: true, item: @i1)
+    @oi4 = create(:order_item, price: 400, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 10, order: @o4, fulfilled: true, item: @i2)
+    @oi5 = create(:order_item, price: 500, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 2, order: @o5, fulfilled: true, item: @i2)
+    @oi6 = create(:order_item, price: 600, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 3, order: @o6, fulfilled: true, item: @i2)
+    @oi7 = create(:order_item, price: 700, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 10, order: @o7, fulfilled: true, item: @i3)
+    @oi8 = create(:order_item, price: 800, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 1, order: @o8, fulfilled: true, item: @i3)
+    @oi9 = create(:order_item, price: 900, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 5, order: @o9, fulfilled: true, item: @i3)
+    @oi10 = create(:order_item, price: 100, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 1, order: @o2, fulfilled: false, item: @i1)
+    @oi11 = create(:order_item, price: 1900, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 5, order: @o3, fulfilled: false, item: @i1)
+    @oi12 = create(:order_item, price: 400, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 4, order: @o4, fulfilled: false, item: @i2)
+    @oi13 = create(:order_item, price: 700, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 7, order: @o5, fulfilled: false, item: @i2)
+    @oi14 = create(:order_item, price: 800, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 2, order: @o6, fulfilled: false, item: @i3)
+    @oi = create(:order_item, price: 100000, created_at: 40.days.ago, updated_at: 3.hours.ago, quantity: 1 , order: @o7, fulfilled: false, item: @i3)
   end
 
     it '.topthreesellers' do
       expect(User.topthreesellers.map(& :name)).to eq([@merch3.name, @merch2.name, @merch1.name])
+    end
+
+    it '.topthreetimes' do
+      # binding.pry
+      expect(User.topthreetimes.map(& :name)).to eq([@merch2.name, @merch3.name, @merch1.name])
     end
   end
 end

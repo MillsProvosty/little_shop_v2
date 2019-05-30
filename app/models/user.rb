@@ -78,4 +78,15 @@ class User < ApplicationRecord
     .limit(3)
     .reverse
   end
+
+  def self.topthreetimes
+   User.where(role: :merchant)
+   .joins(:items)
+   .joins("join order_items on items.id = order_items.item_id")
+   .where("order_items.fulfilled = true")
+   .select("AVG(order_items.updated_at - order_items.created_at) as time, users.id, users.name")
+   .order(:time)
+   .group(:id)
+   .limit(3)
+  end
 end
