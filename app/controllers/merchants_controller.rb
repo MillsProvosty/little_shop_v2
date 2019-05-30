@@ -7,6 +7,5 @@ class MerchantsController < ApplicationController
       @topthreestates = User.topthreestates
       @topthreecities = User.topthreecities
       @topthreeorders = User.topthreeorders
-
   end
 end
