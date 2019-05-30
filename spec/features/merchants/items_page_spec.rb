@@ -117,7 +117,7 @@ RSpec.describe "As a merchant, when I visit my items page" do
     order_1 = create(:order)
       item_1 = create(:item, user: merchant, active: true)
       item_2 = create(:item, user: merchant, active: false)
-      item_3 = create(:item, user: merchant, active: true)
+      item_3 = create(:item, user: merchant, active: true, inventory: 100000)
         oi_1 = create(:order_item, order: order_1, item: item_1)
         oi_2 = create(:order_item, order: order_1, item: item_2)
         oi_3 = create(:order_item, order: order_1, item: item_2)
@@ -552,7 +552,9 @@ RSpec.describe "As a merchant, when I visit my items page" do
 
           expect(page).to have_content("Could not create item without a description")
         end
-        it "When I submit the form with missing Inventory i get a flash and redirect back to form" do
+
+
+        it "Inventory value cannot be empty for editing an item" do
 
           allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
 
@@ -567,8 +569,25 @@ RSpec.describe "As a merchant, when I visit my items page" do
 
           @item_2.reload
 
+          expect(page).to have_content("Could not create item without an inventory value")
+        end
 
-          expect(page).to have_content("Inventory amount must be greater than zero")
+        it "Cannot create item without an image" do
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+          visit edit_merchant_item_path(@item_2)
+
+          fill_in "Name", with: "Item new"
+          fill_in "Price", with: 200
+          fill_in "Description", with: "Cool Thing"
+          fill_in "Image", with: "             "
+          fill_in "Inventory", with: 3
+          click_on "Update Item"
+
+          @item_2.reload
+
+          expect(page).to have_content("Cannot Create item Without Image")
         end
       end
     end
