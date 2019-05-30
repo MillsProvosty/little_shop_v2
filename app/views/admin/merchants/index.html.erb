@@ -6,6 +6,7 @@
     <p>City: <%= merchant.city %></p>
     <p>Active: <%= merchant.active %></p>
     <% if merchant.active %>
+      <p>The button should be here</p>
       <%= button_to "Disable Merchant", admin_update_merchant_path(merchant.id), method: :update %>
     <% elsif !merchant.active %>
       <%= button_to "Enable Merchant", admin_update_merchant_path(merchant.id), method: :update %>
